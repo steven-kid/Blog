@@ -48,7 +48,7 @@
   /*End of Initial Variables*/
   </script>
   <script type="text/javascript">
-  var bg = "https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(3).jpg.webp,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(9).jpg.webp,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(10).jpg.webp".split(",");
+  var bg = "https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(9).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(10).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(11).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(12).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(13).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(14).jpeg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(15).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(16).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(18).jpg".split(",");
   var bgindex = Math.floor(Math.random()*bg.length);
   if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
     alert('朋友，IE浏览器未适配哦~');
@@ -323,7 +323,7 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://s2.loli.net/2022/06/27/Ftcw7QfnKhCTxk3.png);" src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.0/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://s2.loli.net/2022/06/27/Ftcw7QfnKhCTxk3.png">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://s2.loli.net/2022/06/27/Ftcw7QfnKhCTxk3.png);" src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://s2.loli.net/2022/06/27/Ftcw7QfnKhCTxk3.png">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
@@ -510,7 +510,7 @@ int main()
           
             <a href="/2021/06/25/%E6%B5%B7%E8%BE%B9/" rel="prev">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.0/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://i.loli.net/2021/04/20/Dz3V9qUO4E5sXP8.png" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://i.loli.net/2021/04/20/Dz3V9qUO4E5sXP8.png">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://i.loli.net/2021/04/20/Dz3V9qUO4E5sXP8.png" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://i.loli.net/2021/04/20/Dz3V9qUO4E5sXP8.png">
               </div>
               <span class="label">
               Previous Post</span>
@@ -528,7 +528,7 @@ int main()
           
             <a href="/2021/05/21/%E6%95%B0%E8%AE%BA1/" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.0/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://s2.loli.net/2022/06/27/5NtIVQXjObh4Rad.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://s2.loli.net/2022/06/27/5NtIVQXjObh4Rad.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://s2.loli.net/2022/06/27/3xAltGSCQ2N8YLP.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://s2.loli.net/2022/06/27/3xAltGSCQ2N8YLP.jpg">
               </div>
               <span class="label">
               Next Post</span>
@@ -542,20 +542,6 @@ int main()
         
       </section>
       
-<div id="vcomments"></div>
-<script>
-  window.onload = function(){
-      var valine = new Valine();
-      valine.init({
-        el: '#vcomments',
-        appId: "GyC3NzMvd0hT9Yyd2hYIC0MN-gzGzoHsz",
-        appKey: "mgOpfzbkHYqU92CV4IDlAUHQ",
-        path: window.location.pathname,
-        placeholder: "你是我一生只会遇见一次的惊喜 ..."
-      })
-  }
-</script>
-
 
 
     <script src="//cdn.jsdelivr.net/npm/@waline/client"></script>
@@ -569,7 +555,7 @@ int main()
     <script>
         Waline({
               el: '#waline',
-              serverURL: 'https://steven-kid.github.io/#服务端地址',
+              serverURL: '',
               pageSize: '10',
               lang: 'en',
               requiredFields: ['nick','mail'], //设置必填项
@@ -683,9 +669,9 @@ int main()
 <script type="text/javascript">
 /* <![CDATA[ */
 if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
-  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4","name":"NBA.mp4","live":"close"},"windowheight":"fixed","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/NBA.mp4","name":"NBA.mp4","live":"close"},"windowheight":"fixed","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
 } else {
-  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4","name":"NBA.mp4","live":"open"},"windowheight":"auto","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/NBA.mp4","name":"NBA.mp4","live":"open"},"windowheight":"auto","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
 }
 /* ]]> */
 

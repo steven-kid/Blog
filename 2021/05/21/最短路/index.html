@@ -48,7 +48,7 @@
   /*End of Initial Variables*/
   </script>
   <script type="text/javascript">
-  var bg = "https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(3).jpg.webp,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(9).jpg.webp,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(10).jpg.webp".split(",");
+  var bg = "https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(9).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(10).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(11).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(12).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(13).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(14).jpeg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(15).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(16).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(18).jpg".split(",");
   var bgindex = Math.floor(Math.random()*bg.length);
   if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
     alert('朋友，IE浏览器未适配哦~');
@@ -323,7 +323,7 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://s2.loli.net/2022/06/27/9KxMTj2YpdHmFDb.jpg);" src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.0/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://s2.loli.net/2022/06/27/9KxMTj2YpdHmFDb.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://s2.loli.net/2022/06/27/9KxMTj2YpdHmFDb.jpg);" src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://s2.loli.net/2022/06/27/9KxMTj2YpdHmFDb.jpg">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
@@ -356,38 +356,314 @@
           <h1 id="最短路">最短路</h1>
 <hr />
 <p>声明：n个点，m条边 稠密图用邻接矩阵，稀疏图用邻接表</p>
-<figure>
-<img src="https://s2.loli.net/2022/03/24/UQgtY4E9yblsL75.png"
-alt="image-20220324230226577" />
-<figcaption aria-hidden="true">image-20220324230226577</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2022/03/24/UQgtY4E9yblsL75.png" /></p>
 <h3 id="dijkstra算法">dijkstra算法</h3>
 <p>不适用于有负权边的情况，复杂度为 <span
 class="math inline">\(O(n^2)\)</span>/<span
 class="math inline">\(O(m\cdot logn)\)</span></p>
 <p>有朴素版本和堆(prioirty queue)优化版本</p>
-<h4 id="朴素版本">朴素版本：</h4>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">dijkstra</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(dist, <span class="number">0x3f</span>, <span class="built_in">sizeof</span>(dist));</span><br><span class="line">    dist[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt; n; i ++ )  <span class="comment">// 因为第一个点已经计算过了，所以循环n-1次即可</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> t = <span class="number">-1</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; j ++ )</span><br><span class="line">        	<span class="keyword">if</span>(!st[j] &amp;&amp; (t == <span class="number">-1</span> || dist[j] &lt; dist[t]))</span><br><span class="line">                	t = j;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; j ++ )</span><br><span class="line">            dist[j] = <span class="built_in">min</span>(dist[j], dist[t] + g[t][j]); </span><br><span class="line">		st[t] = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(dist[n] == <span class="number">0x3f3f3f3f</span>)  <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> dist[n];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="朴素版本">朴素版本</h4>
+<pre class="language-c++" data-language="c++"><code class="language-c++">int dijkstra()
+&#123;
+    memset(dist, 0x3f, sizeof(dist));
+    dist[1] &#x3D; 0;
+    for(int i &#x3D; 1; i &lt; n; i ++ )  &#x2F;&#x2F; 因为第一个点已经计算过了，所以循环n-1次即可
+    &#123;
+        int t &#x3D; -1;
+        for(int j &#x3D; 1; j &lt;&#x3D; n; j ++ )
+            if(!st[j] &amp;&amp; (t &#x3D;&#x3D; -1 || dist[j] &lt; dist[t]))
+                    t &#x3D; j;
+
+        for(int j &#x3D; 1; j &lt;&#x3D; n; j ++ )
+            dist[j] &#x3D; min(dist[j], dist[t] + g[t][j]); 
+        st[t] &#x3D; true;
+    &#125;
+    if(dist[n] &#x3D;&#x3D; 0x3f3f3f3f)  return -1;
+    else return dist[n];
+&#125;</code></pre>
 <h4 id="堆优化版本">堆优化版本</h4>
 <p>(优化的是找出距离最近的点这一步)</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b, <span class="type">int</span> c)</span>  <span class="comment">// 邻接表存边</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    e[idx] = b, w[idx] = c, ne[idx] = h[a], h[a] = idx ++ ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">dijkstra</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(dist, <span class="number">0x3f</span>, <span class="built_in">sizeof</span>(dist));  <span class="comment">//  初始化距离为正无穷</span></span><br><span class="line">    priority_queue&lt;PII, vector&lt;PII&gt;, greater&lt;PII&gt; &gt; heap;  <span class="comment">// 元素种类为PII的小根堆</span></span><br><span class="line">    dist[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">    heap.<span class="built_in">push</span>(<span class="built_in">make_pair</span>(<span class="number">0</span>, <span class="number">1</span>));  <span class="comment">//  由于小根堆中的pair会默认按第一个元素排序，所以这里将距离存到前面</span></span><br><span class="line">    <span class="keyword">while</span>(heap.<span class="built_in">size</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">auto</span> t = heap.<span class="built_in">top</span>();</span><br><span class="line">        heap.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="type">int</span> distance = t.first, ver = t.second;</span><br><span class="line">        <span class="keyword">if</span>(st[ver]) <span class="keyword">continue</span>;</span><br><span class="line">        st[ver]  = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = h[ver]; i != <span class="number">-1</span>; i = ne[i] )  <span class="comment">//  注意i初始化ver的头指针h[ver]</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> j = e[i];  <span class="comment">// 取点</span></span><br><span class="line">            <span class="keyword">if</span>(distance + w[i] &lt; dist[j]) </span><br><span class="line">            &#123;</span><br><span class="line">                dist[j] = distance + w[i];</span><br><span class="line">            	heap.<span class="built_in">push</span>(<span class="built_in">make_pair</span>(dist[j], j));</span><br><span class="line">            &#125;</span><br><span class="line">       	&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(dist[n] == <span class="number">0x3f3f3f3f</span>)  <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> dist[n];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="language-c++" data-language="c++"><code class="language-c++">void add(int a, int b, int c)  &#x2F;&#x2F; 邻接表存边
+&#123;
+    e[idx] &#x3D; b, w[idx] &#x3D; c, ne[idx] &#x3D; h[a], h[a] &#x3D; idx ++ ;
+&#125;
+
+int dijkstra()
+&#123;
+    memset(dist, 0x3f, sizeof(dist));  &#x2F;&#x2F;  初始化距离为正无穷
+    priority_queue&lt;PII, vector&lt;PII&gt;, greater&lt;PII&gt; &gt; heap;  &#x2F;&#x2F; 元素种类为PII的小根堆
+    dist[1] &#x3D; 0;
+    heap.push(make_pair(0, 1));  &#x2F;&#x2F;  由于小根堆中的pair会默认按第一个元素排序，所以这里将距离存到前面
+    while(heap.size())
+    &#123;
+        auto t &#x3D; heap.top();
+        heap.pop();
+        int distance &#x3D; t.first, ver &#x3D; t.second;
+        if(st[ver]) continue;
+        st[ver]  &#x3D; true;
+        for(int i &#x3D; h[ver]; i !&#x3D; -1; i &#x3D; ne[i] )  &#x2F;&#x2F;  注意i初始化ver的头指针h[ver]
+        &#123;
+            int j &#x3D; e[i];  &#x2F;&#x2F; 取点
+            if(distance + w[i] &lt; dist[j]) 
+            &#123;
+                dist[j] &#x3D; distance + w[i];
+            	heap.push(make_pair(dist[j], j));
+            &#125;
+       	&#125;
+    &#125;
+    if(dist[n] &#x3D;&#x3D; 0x3f3f3f3f)  return -1;
+    else return dist[n];
+&#125;</code></pre>
 <h4 id="vector存图">vector存图</h4>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> debug(x) cout &lt;&lt; #x &lt;&lt; <span class="string">&quot; = &quot;</span> &lt;&lt; x &lt;&lt; endl</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> xx first</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> yy second</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt; PII;</span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> LL;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">1e6</span> + <span class="number">5</span>, mod = <span class="number">1e9</span> + <span class="number">7</span>;</span><br><span class="line"><span class="comment">//const double esp = 1e-6;</span></span><br><span class="line"><span class="type">int</span> dist[N];</span><br><span class="line"><span class="type">bool</span> st[N];</span><br><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">    vector&lt;vector&lt;PII&gt;&gt; <span class="built_in">g</span>(n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m; i ++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> a, b, c;</span><br><span class="line">        cin &gt;&gt; a &gt;&gt; b &gt;&gt; c;</span><br><span class="line">        a --, b --;</span><br><span class="line">        g[a].<span class="built_in">push_back</span>(&#123;b, c&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">auto</span> dijkstra = [&amp;]()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">memset</span>(dist, <span class="number">0x3f</span>, <span class="keyword">sizeof</span> dist);</span><br><span class="line">        <span class="built_in">memset</span>(st, <span class="literal">false</span>, <span class="keyword">sizeof</span> st);</span><br><span class="line">        priority_queue&lt;PII, vector&lt;PII&gt;, greater&lt;PII&gt; &gt; q;</span><br><span class="line">        dist[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        q.<span class="built_in">push</span>(&#123;<span class="number">0</span>, <span class="number">0</span>&#125;);</span><br><span class="line">        <span class="keyword">while</span>(q.<span class="built_in">size</span>())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">auto</span> t = q.<span class="built_in">top</span>();</span><br><span class="line">            q.<span class="built_in">pop</span>();</span><br><span class="line">            <span class="keyword">if</span>(st[t.yy]) <span class="keyword">continue</span>;</span><br><span class="line">            st[t.yy] = <span class="literal">true</span>; </span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">auto</span> [u, v] : g[t.yy])</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(dist[u] &gt; t.xx + v)</span><br><span class="line">                &#123;</span><br><span class="line">                    dist[u] = t.xx + v;</span><br><span class="line">                    q.<span class="built_in">push</span>(&#123;dist[u], u&#125;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="built_in">dijkstra</span>();</span><br><span class="line">    <span class="keyword">if</span>(dist[n - <span class="number">1</span>] == <span class="number">0x3f3f3f3f</span>) cout &lt;&lt; <span class="string">&quot;-1&quot;</span>;</span><br><span class="line">    <span class="keyword">else</span> cout &lt;&lt; dist[n - <span class="number">1</span>] &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;bits&#x2F;stdc++.h&gt;
+#define debug(x) cout &lt;&lt; #x &lt;&lt; &quot; &#x3D; &quot; &lt;&lt; x &lt;&lt; endl
+#define xx first
+#define yy second
+using namespace std;
+
+typedef pair&lt;int, int&gt; PII;
+typedef long long LL;
+
+const int N &#x3D; 1e6 + 5, mod &#x3D; 1e9 + 7;
+&#x2F;&#x2F;const double esp &#x3D; 1e-6;
+int dist[N];
+bool st[N];
+int n, m;
+int main()
+&#123;
+    cin &gt;&gt; n &gt;&gt; m;
+    vector&lt;vector&lt;PII&gt;&gt; g(n);
+    for(int i &#x3D; 1; i &lt;&#x3D; m; i ++)
+    &#123;
+        int a, b, c;
+        cin &gt;&gt; a &gt;&gt; b &gt;&gt; c;
+        a --, b --;
+        g[a].push_back(&#123;b, c&#125;);
+    &#125;
+    auto dijkstra &#x3D; [&amp;]()
+    &#123;
+        memset(dist, 0x3f, sizeof dist);
+        memset(st, false, sizeof st);
+        priority_queue&lt;PII, vector&lt;PII&gt;, greater&lt;PII&gt; &gt; q;
+        dist[0] &#x3D; 0;
+        q.push(&#123;0, 0&#125;);
+        while(q.size())
+        &#123;
+            auto t &#x3D; q.top();
+            q.pop();
+            if(st[t.yy]) continue;
+            st[t.yy] &#x3D; true; 
+            for(auto [u, v] : g[t.yy])
+            &#123;
+                if(dist[u] &gt; t.xx + v)
+                &#123;
+                    dist[u] &#x3D; t.xx + v;
+                    q.push(&#123;dist[u], u&#125;);
+                &#125;
+            &#125;
+        &#125;
+    &#125;;
+    dijkstra();
+    if(dist[n - 1] &#x3D;&#x3D; 0x3f3f3f3f) cout &lt;&lt; &quot;-1&quot;;
+    else cout &lt;&lt; dist[n - 1] &lt;&lt; &#39;\n&#39;;
+    return 0;
+&#125;
+</code></pre>
 <h4 id="邮递员送信">邮递员送信</h4>
 <p>邮递员去送信然后要求送信后再返回（有向边）</p>
 <p>解法：</p>
 <p>反向建边+跑两次dijkstra 正着走过去的时候用一遍dijkstra。
 返回时就建个返图跑一遍dijkstra。
 反图可以把所有结点的编号+n建在原图的体系中。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> LL;</span><br><span class="line"><span class="keyword">typedef</span> pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt; PII;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">2e5</span> + <span class="number">5</span>;  <span class="comment">//  数组记得开够</span></span><br><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="type">int</span> h[N], ne[N], w[N], e[N], idx;</span><br><span class="line"><span class="type">int</span> dist[N];</span><br><span class="line"><span class="type">bool</span> st[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b, <span class="type">int</span> c)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    e[idx] = b, w[idx] = c, ne[idx] = h[a], h[a] = idx ++ ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dijkstra</span><span class="params">(<span class="type">int</span> fir)</span></span></span><br><span class="line"><span class="function"></span>&#123;   </span><br><span class="line">    <span class="built_in">memset</span>(dist, <span class="number">0x3f</span>, <span class="built_in">sizeof</span>(dist));</span><br><span class="line">    priority_queue&lt;PII, vector&lt;PII&gt;, greater&lt;PII&gt; &gt;heap;</span><br><span class="line">    dist[fir] = <span class="number">0</span>;</span><br><span class="line">    heap.<span class="built_in">push</span>(<span class="built_in">make_pair</span>(<span class="number">0</span>, fir));</span><br><span class="line">    <span class="keyword">while</span>(heap.<span class="built_in">size</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        PII t = heap.<span class="built_in">top</span>();</span><br><span class="line">        heap.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="type">int</span> distance = t.first, ver = t.second;</span><br><span class="line">        <span class="keyword">if</span>(st[ver])  <span class="keyword">continue</span>;</span><br><span class="line">        st[ver] = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = h[ver]; i != <span class="number">-1</span>; i = ne[i])</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> j = e[i];</span><br><span class="line">            <span class="keyword">if</span>(dist[j] &gt; distance + w[i])</span><br><span class="line">            &#123;</span><br><span class="line">                dist[j] = distance + w[i];</span><br><span class="line">                heap.<span class="built_in">push</span>(<span class="built_in">make_pair</span>(dist[j], j));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">    <span class="built_in">memset</span>(h, <span class="number">-1</span>, <span class="built_in">sizeof</span>(h));</span><br><span class="line">    <span class="keyword">while</span>(m -- )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> a, b, c;</span><br><span class="line">        cin &gt;&gt; a &gt;&gt; b &gt;&gt; c;</span><br><span class="line">        <span class="built_in">add</span>(a, b, c);</span><br><span class="line">        <span class="built_in">add</span>(b + n, a + n, c);  <span class="comment">//  建一个反图</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">dijkstra</span>(<span class="number">1</span>);</span><br><span class="line">    LL res = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++ )</span><br><span class="line">    &#123;</span><br><span class="line">        res += dist[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">dijkstra</span>(<span class="number">1</span> + n);  <span class="comment">//  反向跑一次dijkstra</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span> + n; i &lt;= <span class="number">2</span> * n; i ++ )</span><br><span class="line">    &#123;</span><br><span class="line">        res += dist[i];</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; res;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+#include &lt;queue&gt;
+
+using namespace std;
+
+typedef long long LL;
+typedef pair&lt;int, int&gt; PII;
+const int N &#x3D; 2e5 + 5;  &#x2F;&#x2F;  数组记得开够
+int n, m;
+int h[N], ne[N], w[N], e[N], idx;
+int dist[N];
+bool st[N];
+
+void add(int a, int b, int c)
+&#123;
+    e[idx] &#x3D; b, w[idx] &#x3D; c, ne[idx] &#x3D; h[a], h[a] &#x3D; idx ++ ;
+&#125;
+
+void dijkstra(int fir)
+&#123;   
+    memset(dist, 0x3f, sizeof(dist));
+    priority_queue&lt;PII, vector&lt;PII&gt;, greater&lt;PII&gt; &gt;heap;
+    dist[fir] &#x3D; 0;
+    heap.push(make_pair(0, fir));
+    while(heap.size())
+    &#123;
+        PII t &#x3D; heap.top();
+        heap.pop();
+        int distance &#x3D; t.first, ver &#x3D; t.second;
+        if(st[ver])  continue;
+        st[ver] &#x3D; true;
+        for(int i &#x3D; h[ver]; i !&#x3D; -1; i &#x3D; ne[i])
+        &#123;
+            int j &#x3D; e[i];
+            if(dist[j] &gt; distance + w[i])
+            &#123;
+                dist[j] &#x3D; distance + w[i];
+                heap.push(make_pair(dist[j], j));
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+int main()
+&#123;
+    cin &gt;&gt; n &gt;&gt; m;
+    memset(h, -1, sizeof(h));
+    while(m -- )
+    &#123;
+        int a, b, c;
+        cin &gt;&gt; a &gt;&gt; b &gt;&gt; c;
+        add(a, b, c);
+        add(b + n, a + n, c);  &#x2F;&#x2F;  建一个反图
+    &#125;
+    dijkstra(1);
+    LL res &#x3D; 0;
+    for(int i &#x3D; 1; i &lt;&#x3D; n; i ++ )
+    &#123;
+        res +&#x3D; dist[i];
+    &#125;
+    dijkstra(1 + n);  &#x2F;&#x2F;  反向跑一次dijkstra
+    for(int i &#x3D; 1 + n; i &lt;&#x3D; 2 * n; i ++ )
+    &#123;
+        res +&#x3D; dist[i];
+    &#125;
+    cout &lt;&lt; res;
+    return 0;
+&#125;</code></pre>
 <h4 id="最短路计数">最短路计数</h4>
 <p>增加一个num数组进行计数</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">long</span> <span class="type">long</span> LL;</span><br><span class="line"><span class="keyword">typedef</span> pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt; PII;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">2e6</span> + <span class="number">5</span>, mod = <span class="number">100003</span>;</span><br><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="type">int</span> h[N], ne[N], w[N], e[N], idx;</span><br><span class="line"><span class="type">int</span> dist[N], num[N];</span><br><span class="line"><span class="type">bool</span> st[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b, <span class="type">int</span> c)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    e[idx] = b, w[idx] = c, ne[idx] = h[a], h[a] = idx ++ ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">dijkstra</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(dist, <span class="number">0x3f</span>, <span class="built_in">sizeof</span>(dist));</span><br><span class="line">    dist[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">    num[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    priority_queue&lt;PII, vector&lt;PII&gt;, greater&lt;PII&gt; &gt; heap;</span><br><span class="line">    heap.<span class="built_in">push</span>(<span class="built_in">make_pair</span>(<span class="number">0</span>, <span class="number">1</span>));</span><br><span class="line">    <span class="keyword">while</span>(heap.<span class="built_in">size</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        PII t = heap.<span class="built_in">top</span>();</span><br><span class="line">        heap.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="type">int</span> distance = t.first, ver = t.second;</span><br><span class="line">        <span class="keyword">if</span>(st[ver]) <span class="keyword">continue</span>;</span><br><span class="line">        st[ver] = <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = h[ver]; i != <span class="number">-1</span>; i = ne[i])</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> j = e[i];</span><br><span class="line">            <span class="keyword">if</span>(dist[j] == distance + w[i])</span><br><span class="line">            &#123;</span><br><span class="line">                num[j] = (num[j] + num[ver]) % mod;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(dist[j] &gt; distance + w[i])</span><br><span class="line">            &#123;</span><br><span class="line">                dist[j] = distance + w[i];</span><br><span class="line">                num[j] = num[ver];</span><br><span class="line">                heap.<span class="built_in">push</span>(<span class="built_in">make_pair</span>(dist[j], j));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">    <span class="built_in">memset</span>(h, <span class="number">-1</span>, <span class="built_in">sizeof</span>(h));</span><br><span class="line">    <span class="keyword">while</span>(m -- )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> a, b;</span><br><span class="line">        cin &gt;&gt; a &gt;&gt; b;</span><br><span class="line">        <span class="keyword">if</span>(a == b) <span class="keyword">continue</span>;</span><br><span class="line">        <span class="built_in">add</span>(a, b, <span class="number">1</span>);</span><br><span class="line">        <span class="built_in">add</span>(b, a, <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">dijkstra</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++ )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, num[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+#include &lt;queue&gt;
+
+using namespace std;
+
+typedef long long LL;
+typedef pair&lt;int, int&gt; PII;
+const int N &#x3D; 2e6 + 5, mod &#x3D; 100003;
+int n, m;
+int h[N], ne[N], w[N], e[N], idx;
+int dist[N], num[N];
+bool st[N];
+
+void add(int a, int b, int c)
+&#123;
+    e[idx] &#x3D; b, w[idx] &#x3D; c, ne[idx] &#x3D; h[a], h[a] &#x3D; idx ++ ;
+&#125;
+
+void dijkstra()
+&#123;
+    memset(dist, 0x3f, sizeof(dist));
+    dist[1] &#x3D; 0;
+    num[1] &#x3D; 1;
+    priority_queue&lt;PII, vector&lt;PII&gt;, greater&lt;PII&gt; &gt; heap;
+    heap.push(make_pair(0, 1));
+    while(heap.size())
+    &#123;
+        PII t &#x3D; heap.top();
+        heap.pop();
+        int distance &#x3D; t.first, ver &#x3D; t.second;
+        if(st[ver]) continue;
+        st[ver] &#x3D; true;
+        for(int i &#x3D; h[ver]; i !&#x3D; -1; i &#x3D; ne[i])
+        &#123;
+            int j &#x3D; e[i];
+            if(dist[j] &#x3D;&#x3D; distance + w[i])
+            &#123;
+                num[j] &#x3D; (num[j] + num[ver]) % mod;
+            &#125;
+            if(dist[j] &gt; distance + w[i])
+            &#123;
+                dist[j] &#x3D; distance + w[i];
+                num[j] &#x3D; num[ver];
+                heap.push(make_pair(dist[j], j));
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+int main()
+&#123;
+    cin &gt;&gt; n &gt;&gt; m;
+    memset(h, -1, sizeof(h));
+    while(m -- )
+    &#123;
+        int a, b;
+        cin &gt;&gt; a &gt;&gt; b;
+        if(a &#x3D;&#x3D; b) continue;
+        add(a, b, 1);
+        add(b, a, 1);
+    &#125;
+    dijkstra();
+    for(int i &#x3D; 1; i &lt;&#x3D; n; i ++ )
+    &#123;
+        printf(&quot;%d\n&quot;, num[i]);
+    &#125;
+    return 0;
+&#125;</code></pre>
 <h3 id="bellman-ford算法">bellman-ford算法</h3>
 <p>适用于有负权边的情况</p>
 <p><span class="math inline">\(O(n \cdot m)\)</span></p>
 <p>如果有负环，或限制最多走k次时可以用，大多数时候用SPFA完全替代</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">510</span>, M = <span class="number">10010</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, m, k;  <span class="comment">//  n个点，m条边，走不超过k次</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Edge</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> a, b, c;</span><br><span class="line">&#125;edge[M];</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> dist[N], backup[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Bellman_ford</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(dist, <span class="number">0x3f</span>, <span class="built_in">sizeof</span>(dist));</span><br><span class="line">    dist[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= k; i ++ )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">memcpy</span>(backup, dist, <span class="built_in">sizeof</span>(dist));</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">1</span>; j &lt;= m; j ++ )</span><br><span class="line">        &#123;</span><br><span class="line">            Edge e = edge[j];</span><br><span class="line">            dist[e.b] = <span class="built_in">min</span>(dist[e.b], backup[e.a] + e.c);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; m &gt;&gt; k;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= m; i ++ )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> a, b, c;</span><br><span class="line">        cin &gt;&gt; a &gt;&gt; b &gt;&gt; c;</span><br><span class="line">        edge[i].a = a, edge[i].b = b, edge[i].c = c;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">Bellman_ford</span>();</span><br><span class="line">    <span class="keyword">if</span>(dist[n] &gt; <span class="number">0x3f3f3f3f</span> / <span class="number">2</span>)  <span class="built_in">printf</span>(<span class="string">&quot;impossible\n&quot;</span>);</span><br><span class="line">    <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, dist[n]);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+
+using namespace std;
+
+const int N &#x3D; 510, M &#x3D; 10010;
+
+int n, m, k;  &#x2F;&#x2F;  n个点，m条边，走不超过k次
+
+struct Edge
+&#123;
+    int a, b, c;
+&#125;edge[M];
+
+int dist[N], backup[N];
+
+void Bellman_ford()
+&#123;
+    memset(dist, 0x3f, sizeof(dist));
+    dist[1] &#x3D; 0;
+    for(int i &#x3D; 1; i &lt;&#x3D; k; i ++ )
+    &#123;
+        memcpy(backup, dist, sizeof(dist));
+        for(int j &#x3D; 1; j &lt;&#x3D; m; j ++ )
+        &#123;
+            Edge e &#x3D; edge[j];
+            dist[e.b] &#x3D; min(dist[e.b], backup[e.a] + e.c);
+        &#125;
+    &#125;
+&#125;
+
+int main()
+&#123;
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; k;
+    for(int i &#x3D; 1; i &lt;&#x3D; m; i ++ )
+    &#123;
+        int a, b, c;
+        cin &gt;&gt; a &gt;&gt; b &gt;&gt; c;
+        edge[i].a &#x3D; a, edge[i].b &#x3D; b, edge[i].c &#x3D; c;
+    &#125;
+    Bellman_ford();
+    if(dist[n] &gt; 0x3f3f3f3f &#x2F; 2)  printf(&quot;impossible\n&quot;);
+    else printf(&quot;%d\n&quot;, dist[n]);
+    return 0;
+&#125;</code></pre>
 <h3 id="spfa算法">SPFA算法</h3>
 <p>利用宽搜BFS进行优化</p>
 <p>适用于有负权边的情况</p>
@@ -395,15 +671,209 @@ class="math inline">\(O(m\cdot logn)\)</span></p>
 <p><span class="math inline">\(O(m)\)</span>，最坏情况<span
 class="math inline">\(O(n\cdot m)\)</span></p>
 <h4 id="朴素版本-1">朴素版本</h4>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">100010</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="type">int</span> e[N], w[N], ne[N], h[N], idx;</span><br><span class="line"><span class="type">int</span> dist[N];</span><br><span class="line"><span class="type">bool</span> st[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b, <span class="type">int</span> c)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    e[idx] = b, w[idx] = c, ne[idx] = h[a], h[a] = idx ++ ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">spfa</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(dist, <span class="number">0x3f</span>, <span class="built_in">sizeof</span>(dist));</span><br><span class="line">    dist[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    queue&lt;<span class="type">int</span>&gt; q;</span><br><span class="line">    q.<span class="built_in">push</span>(<span class="number">1</span>);</span><br><span class="line">    st[<span class="number">1</span>] = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(q.<span class="built_in">size</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> t = q.<span class="built_in">front</span>();</span><br><span class="line">        q.<span class="built_in">pop</span>();</span><br><span class="line">        st[t] = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = h[t]; i != <span class="number">-1</span>; i = ne[i])  <span class="comment">// i = h[t]忘记写h了易错！！！</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> j = e[i];</span><br><span class="line">            <span class="keyword">if</span>(dist[j] &gt; dist[t] + w[i])</span><br><span class="line">            &#123;</span><br><span class="line">                dist[j] = dist[t] + w[i];</span><br><span class="line">                <span class="keyword">if</span>(!st[j])</span><br><span class="line">                &#123;</span><br><span class="line">                    q.<span class="built_in">push</span>(j);  <span class="comment">//  记得推进队列之中去</span></span><br><span class="line">                    st[j] = <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dist[n];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">    <span class="built_in">memset</span>(h, <span class="number">-1</span>, <span class="keyword">sizeof</span> h);</span><br><span class="line">    <span class="keyword">while</span>(m -- )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> a, b, c;</span><br><span class="line">        cin &gt;&gt; a &gt;&gt; b &gt;&gt; c;</span><br><span class="line">        <span class="built_in">add</span>(a, b, c);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> t = <span class="built_in">spfa</span>();</span><br><span class="line">    <span class="keyword">if</span>(t == <span class="number">0x3f3f3f3f</span>)  <span class="built_in">printf</span>(<span class="string">&quot;impossible\n&quot;</span>);</span><br><span class="line">    <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, t);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+#include &lt;queue&gt;
+
+using namespace std;
+
+const int N &#x3D; 100010;
+
+int n, m;
+int e[N], w[N], ne[N], h[N], idx;
+int dist[N];
+bool st[N];
+
+void add(int a, int b, int c)
+&#123;
+    e[idx] &#x3D; b, w[idx] &#x3D; c, ne[idx] &#x3D; h[a], h[a] &#x3D; idx ++ ;
+&#125;
+
+int spfa()
+&#123;
+    memset(dist, 0x3f, sizeof(dist));
+    dist[1] &#x3D; 0;
+
+    queue&lt;int&gt; q;
+    q.push(1);
+    st[1] &#x3D; true;
+
+    while(q.size())
+    &#123;
+        int t &#x3D; q.front();
+        q.pop();
+        st[t] &#x3D; false;
+        for(int i &#x3D; h[t]; i !&#x3D; -1; i &#x3D; ne[i])  &#x2F;&#x2F; i &#x3D; h[t]忘记写h了易错！！！
+        &#123;
+            int j &#x3D; e[i];
+            if(dist[j] &gt; dist[t] + w[i])
+            &#123;
+                dist[j] &#x3D; dist[t] + w[i];
+                if(!st[j])
+                &#123;
+                    q.push(j);  &#x2F;&#x2F;  记得推进队列之中去
+                    st[j] &#x3D; true;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+    return dist[n];
+&#125;
+
+int main()
+&#123;
+    cin &gt;&gt; n &gt;&gt; m;
+    memset(h, -1, sizeof h);
+    while(m -- )
+    &#123;
+        int a, b, c;
+        cin &gt;&gt; a &gt;&gt; b &gt;&gt; c;
+        add(a, b, c);
+    &#125;
+    int t &#x3D; spfa();
+    if(t &#x3D;&#x3D; 0x3f3f3f3f)  printf(&quot;impossible\n&quot;);
+    else printf(&quot;%d\n&quot;, t);
+    return 0;
+&#125;
+</code></pre>
 <h4 id="spfa判断负环">SPFA判断负环</h4>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">1e5</span> + <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> n, m;</span><br><span class="line"><span class="type">int</span> h[N], e[N], ne[N], w[N], idx;</span><br><span class="line"><span class="type">int</span> dist[N];</span><br><span class="line"><span class="type">int</span> cnt[N];</span><br><span class="line"><span class="type">bool</span> st[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b, <span class="type">int</span> c)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    e[idx] = b, w[idx] = c, ne[idx] = h[a], h[a] = idx ++ ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">spfa</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(dist, <span class="number">0x3f</span>, <span class="built_in">sizeof</span>(dist));</span><br><span class="line">    <span class="built_in">memset</span>(cnt, <span class="number">0</span>, <span class="built_in">sizeof</span>(cnt));</span><br><span class="line">    queue &lt;<span class="type">int</span>&gt; q;</span><br><span class="line">    dist[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//  如果题目说存在负环，那么需要循环一次将所有的点都加入队列之中</span></span><br><span class="line">    <span class="comment">//  如果是求是否存在从1开始的负环，那么只将1加入队列之中就可以了</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++ )</span><br><span class="line">    &#123;</span><br><span class="line">        q.<span class="built_in">push</span>(i);   </span><br><span class="line">        st[i] = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(q.<span class="built_in">size</span>())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> t = q.<span class="built_in">front</span>();</span><br><span class="line">        q.<span class="built_in">pop</span>();</span><br><span class="line">        st[t] = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = h[t]; i != <span class="number">-1</span>; i = ne[i])</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> j = e[i];</span><br><span class="line">            <span class="keyword">if</span>(dist[j] &gt; dist[t] + w[i])</span><br><span class="line">            &#123;</span><br><span class="line">                dist[j] = dist[t] + w[i];</span><br><span class="line">                cnt[j] = cnt[t] + <span class="number">1</span>; </span><br><span class="line">                <span class="keyword">if</span>(cnt[j] &gt;= n)  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">                <span class="keyword">if</span>(!st[j])</span><br><span class="line">                &#123;</span><br><span class="line">                    q.<span class="built_in">push</span>(j); </span><br><span class="line">                    st[j] = <span class="literal">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> t;</span><br><span class="line">    cin &gt;&gt; t;</span><br><span class="line">    <span class="keyword">while</span>(t -- )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">memset</span>(h, <span class="number">-1</span>, <span class="built_in">sizeof</span>(h));</span><br><span class="line">        <span class="built_in">memset</span>(e, <span class="number">0</span>, <span class="built_in">sizeof</span>(e));</span><br><span class="line">        <span class="built_in">memset</span>(ne, <span class="number">0</span>, <span class="built_in">sizeof</span>(ne));</span><br><span class="line">        <span class="built_in">memset</span>(w, <span class="number">0</span>, <span class="built_in">sizeof</span>(w));</span><br><span class="line">        <span class="built_in">memset</span>(st, <span class="number">0</span>, <span class="built_in">sizeof</span>(st));</span><br><span class="line">        idx = <span class="number">0</span>;</span><br><span class="line">        cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">        <span class="keyword">while</span>(m -- )</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> a, b, w;</span><br><span class="line">            cin &gt;&gt; a &gt;&gt; b &gt;&gt; w;</span><br><span class="line">            <span class="keyword">if</span>(w &gt;= <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">add</span>(a, b, w);</span><br><span class="line">                <span class="built_in">add</span>(b, a, w);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>  <span class="built_in">add</span>(a, b, w); </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">spfa</span>())  <span class="built_in">printf</span>(<span class="string">&quot;YES\n&quot;</span>);</span><br><span class="line">        <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">&quot;NO\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;queue&gt;
+#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+
+using namespace std;
+
+const int N &#x3D; 1e5 + 10;
+
+int n, m;
+int h[N], e[N], ne[N], w[N], idx;
+int dist[N];
+int cnt[N];
+bool st[N];
+
+void add(int a, int b, int c)
+&#123;
+    e[idx] &#x3D; b, w[idx] &#x3D; c, ne[idx] &#x3D; h[a], h[a] &#x3D; idx ++ ;
+&#125;
+
+bool spfa()
+&#123;
+    memset(dist, 0x3f, sizeof(dist));
+    memset(cnt, 0, sizeof(cnt));
+    queue &lt;int&gt; q;
+    dist[1] &#x3D; 0;
+    &#x2F;&#x2F;  如果题目说存在负环，那么需要循环一次将所有的点都加入队列之中
+    &#x2F;&#x2F;  如果是求是否存在从1开始的负环，那么只将1加入队列之中就可以了
+    for(int i &#x3D; 1; i &lt;&#x3D; n; i ++ )
+    &#123;
+        q.push(i);   
+        st[i] &#x3D; true;
+    &#125;
+    while(q.size())
+    &#123;
+        int t &#x3D; q.front();
+        q.pop();
+        st[t] &#x3D; false;
+        for(int i &#x3D; h[t]; i !&#x3D; -1; i &#x3D; ne[i])
+        &#123;
+            int j &#x3D; e[i];
+            if(dist[j] &gt; dist[t] + w[i])
+            &#123;
+                dist[j] &#x3D; dist[t] + w[i];
+                cnt[j] &#x3D; cnt[t] + 1; 
+                if(cnt[j] &gt;&#x3D; n)  return true;
+                if(!st[j])
+                &#123;
+                    q.push(j); 
+                    st[j] &#x3D; true;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+    return false;
+&#125;
+
+int main()
+&#123;
+    int t;
+    cin &gt;&gt; t;
+    while(t -- )
+    &#123;
+        memset(h, -1, sizeof(h));
+        memset(e, 0, sizeof(e));
+        memset(ne, 0, sizeof(ne));
+        memset(w, 0, sizeof(w));
+        memset(st, 0, sizeof(st));
+        idx &#x3D; 0;
+        cin &gt;&gt; n &gt;&gt; m;
+        while(m -- )
+        &#123;
+            int a, b, w;
+            cin &gt;&gt; a &gt;&gt; b &gt;&gt; w;
+            if(w &gt;&#x3D; 0)
+            &#123;
+                add(a, b, w);
+                add(b, a, w);
+            &#125;
+            else  add(a, b, w); 
+        &#125;
+        if(spfa())  printf(&quot;YES\n&quot;);
+        else printf(&quot;NO\n&quot;);
+    &#125;
+    return 0;
+&#125;</code></pre>
 <p>用cnt[]数组进行判断，如果cnt[j]大于n说明存在负环使得求最短路时不断循环</p>
 <p>时间复杂度 一般：<span class="math inline">\(O(m)\)</span>
 最坏：<span class="math inline">\(O(nm)\)</span></p>
 <h3 id="多源汇最短路floyd算法">多源汇最短路Floyd算法</h3>
 <p>时间复杂度 <span class="math inline">\(O(n^3)\)</span></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">300</span>;</span><br><span class="line"><span class="type">int</span> n, m, k;</span><br><span class="line"><span class="type">int</span> dist[N][N];  <span class="comment">//  注意只需要dist数组，无需g数组</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">floyd</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> k = <span class="number">1</span>; k &lt;= n; k ++ )  <span class="comment">// k写在最前面</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++ )</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; j ++ )</span><br><span class="line">                dist[i][j] = <span class="built_in">min</span>(dist[i][j], dist[i][k] + dist[k][j]);  </span><br><span class="line">    <span class="comment">// 注意是dist[i][k]+dist[k][j]</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; m &gt;&gt; k;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i ++ )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; j ++ )</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(i == j)  dist[i][j] = <span class="number">0</span>;  <span class="comment">//  不用memset进行初始化</span></span><br><span class="line">            <span class="comment">//  手动初始化使得dist[i][i] = 0</span></span><br><span class="line">            <span class="keyword">else</span> dist[i][j] = <span class="number">0x3f3f3f3f</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(m -- )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> a, b, c;</span><br><span class="line">        cin &gt;&gt; a &gt;&gt; b &gt;&gt; c;</span><br><span class="line">        dist[a][b] = <span class="built_in">min</span>(dist[a][b], c);  <span class="comment">// 重边最小化操作</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">floyd</span>(); </span><br><span class="line">    <span class="keyword">while</span>(k -- )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> a, b;</span><br><span class="line">        cin &gt;&gt; a &gt;&gt; b;</span><br><span class="line">        <span class="keyword">if</span>(dist[a][b] &gt; <span class="number">0x3f3f3f3f</span> / <span class="number">2</span>)  <span class="built_in">printf</span>(<span class="string">&quot;impossible\n&quot;</span>);</span><br><span class="line">        <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, dist[a][b]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+
+using namespace std;
+
+const int N &#x3D; 300;
+int n, m, k;
+int dist[N][N];  &#x2F;&#x2F;  注意只需要dist数组，无需g数组
+
+void floyd()
+&#123;
+    for(int k &#x3D; 1; k &lt;&#x3D; n; k ++ )  &#x2F;&#x2F; k写在最前面
+        for(int i &#x3D; 1; i &lt;&#x3D; n; i ++ )
+            for(int j &#x3D; 1; j &lt;&#x3D; n; j ++ )
+                dist[i][j] &#x3D; min(dist[i][j], dist[i][k] + dist[k][j]);  
+    &#x2F;&#x2F; 注意是dist[i][k]+dist[k][j]
+&#125;
+
+int main()
+&#123;
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; k;
+    for(int i &#x3D; 1; i &lt;&#x3D; n; i ++ )
+    &#123;
+        for(int j &#x3D; 1; j &lt;&#x3D; n; j ++ )
+        &#123;
+            if(i &#x3D;&#x3D; j)  dist[i][j] &#x3D; 0;  &#x2F;&#x2F;  不用memset进行初始化
+            &#x2F;&#x2F;  手动初始化使得dist[i][i] &#x3D; 0
+            else dist[i][j] &#x3D; 0x3f3f3f3f;
+        &#125;
+    &#125;
+    while(m -- )
+    &#123;
+        int a, b, c;
+        cin &gt;&gt; a &gt;&gt; b &gt;&gt; c;
+        dist[a][b] &#x3D; min(dist[a][b], c);  &#x2F;&#x2F; 重边最小化操作
+    &#125;
+    floyd(); 
+    while(k -- )
+    &#123;
+        int a, b;
+        cin &gt;&gt; a &gt;&gt; b;
+        if(dist[a][b] &gt; 0x3f3f3f3f &#x2F; 2)  printf(&quot;impossible\n&quot;);
+        else printf(&quot;%d\n&quot;, dist[a][b]);
+    &#125;
+    return 0;
+&#125;</code></pre>
 
         </div>
         <!-- .entry-content -->
@@ -437,7 +907,7 @@ class="math inline">\(O(n\cdot m)\)</span></p>
           
             <a href="/2021/05/21/%E6%95%B0%E8%AE%BA2/" rel="prev">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.0/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://s2.loli.net/2022/06/27/5NtIVQXjObh4Rad.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://s2.loli.net/2022/06/27/5NtIVQXjObh4Rad.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://s2.loli.net/2022/06/27/3xAltGSCQ2N8YLP.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://s2.loli.net/2022/06/27/3xAltGSCQ2N8YLP.jpg">
               </div>
               <span class="label">
               Previous Post</span>
@@ -455,7 +925,7 @@ class="math inline">\(O(n\cdot m)\)</span></p>
           
             <a href="/2021/04/25/2019/" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.0/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://i.loli.net/2021/04/20/Dz3V9qUO4E5sXP8.png" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://i.loli.net/2021/04/20/Dz3V9qUO4E5sXP8.png">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://i.loli.net/2021/04/20/Dz3V9qUO4E5sXP8.png" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://i.loli.net/2021/04/20/Dz3V9qUO4E5sXP8.png">
               </div>
               <span class="label">
               Next Post</span>
@@ -469,20 +939,6 @@ class="math inline">\(O(n\cdot m)\)</span></p>
         
       </section>
       
-<div id="vcomments"></div>
-<script>
-  window.onload = function(){
-      var valine = new Valine();
-      valine.init({
-        el: '#vcomments',
-        appId: "GyC3NzMvd0hT9Yyd2hYIC0MN-gzGzoHsz",
-        appKey: "mgOpfzbkHYqU92CV4IDlAUHQ",
-        path: window.location.pathname,
-        placeholder: "你是我一生只会遇见一次的惊喜 ..."
-      })
-  }
-</script>
-
 
 
     <script src="//cdn.jsdelivr.net/npm/@waline/client"></script>
@@ -496,7 +952,7 @@ class="math inline">\(O(n\cdot m)\)</span></p>
     <script>
         Waline({
               el: '#waline',
-              serverURL: 'https://steven-kid.github.io/#服务端地址',
+              serverURL: '',
               pageSize: '10',
               lang: 'en',
               requiredFields: ['nick','mail'], //设置必填项
@@ -610,9 +1066,9 @@ class="math inline">\(O(n\cdot m)\)</span></p>
 <script type="text/javascript">
 /* <![CDATA[ */
 if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
-  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4","name":"NBA.mp4","live":"close"},"windowheight":"fixed","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/NBA.mp4","name":"NBA.mp4","live":"close"},"windowheight":"fixed","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
 } else {
-  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4","name":"NBA.mp4","live":"open"},"windowheight":"auto","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/NBA.mp4","name":"NBA.mp4","live":"open"},"windowheight":"auto","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
 }
 /* ]]> */
 
