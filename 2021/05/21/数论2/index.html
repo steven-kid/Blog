@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">contact | Steven&#39;s blog</title>
+  <title itemprop="name">数论2 | Steven&#39;s blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -317,18 +317,743 @@
   </div>
 </header>
 
-        <div class="pattern-center-blank"></div>
-  
-  <div id="content" class="site-content">
-    <article class="post-item post-301 page type-page status-publish has-post-thumbnail hentry">
-      <center>
-<h2>
-+v看蟹黄堡秘方
-</h2>
-</center>
-<p><img src="https://s2.loli.net/2022/06/27/nhDRKVSNiYmGxek.jpg" /></p>
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<div class="pattern-center-blank"></div>
 
-      <!-- .entry-content -->
+  <div class="pattern-center single-center">
+    <!-- 有配图默认渲染第一张 -->
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://s2.loli.net/2022/06/27/5NtIVQXjObh4Rad.jpg);" src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.0/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://s2.loli.net/2022/06/27/5NtIVQXjObh4Rad.jpg">
+    </div>
+    <header class="pattern-header single-header">
+      <h1 class="entry-title">
+      数论2</h1>
+      <p class="entry-census">
+        <span>
+          <a target="_blank" rel="noopener" href="https://github.com/steven-kid">
+            <img src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.2/img/custom/avatar.jpg">
+          </a>
+        </span>
+        <span>
+          <a target="_blank" rel="noopener" href="https://github.com/steven-kid">steven</a>
+        </span>
+        <span class="bull">
+        ·</span>
+        2021-5-21<span class="bull">
+        ·</span>
+      <span id="busuanzi_value_page_pv"></span>次阅读</p>
+    </header>
+  </div>
+
+<div id="content" class="site-content">
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+        <div class="entry-content">
+          <h2 id="数论2">数论2</h2>
+<hr />
+<h3 id="中国剩余定理">中国剩余定理</h3>
+<p><span class="math display">\[
+\left\{\begin{array}{l}
+x \equiv a_{1}\left(\bmod m_{1}\right) \\
+x \equiv a_{2}\left(\bmod m_{2}\right) \\
+\cdots \\
+x \equiv a_{n}\left(\bmod m_{n}\right)
+\end{array}\right.
+\]</span></p>
+<p>则求 <span class="math inline">\(N=\prod_{i=1}^{n} m_{i}\)</span></p>
+<p>得到这个数为</p>
+<p><span class="math display">\[
+x \equiv \sum_{i=1}^{n} a_{i} \times \frac{N}{m_{i}}
+\times\left[\left(\frac{N}{m_{i}}\right)^{-1}\right]_{m_{i}} \quad(\bmod
+N)
+\]</span></p>
+<p>c++解法</p>
+<pre class="language-C++" data-language="C++"><code class="language-C++">#pragma GCC diagnostic error &quot;-std&#x3D;c++11&quot;
+#include &lt;bits&#x2F;stdc++.h&gt;
+#define debug(x) cout &lt;&lt; #x &lt;&lt; &quot; &#x3D; &quot; &lt;&lt; x &lt;&lt; endl
+
+using namespace std;
+
+typedef pair&lt;int, int&gt; PII;
+typedef long long LL;
+
+const int N &#x3D; 1e6 + 5;
+&#x2F;&#x2F;const double eps &#x3D; 1e-6;
+&#x2F;&#x2F;int dx[] &#x3D; &#123;1, 0, -1, 0&#125;, dy[] &#x3D; &#123;0, -1, 0, 1&#125;;
+&#x2F;&#x2F; int dx[8] &#x3D; &#123;-1, -1, -1, 0, 1, 1, 1, 0&#125;;
+&#x2F;&#x2F; int dy[8] &#x3D; &#123;-1, 0, 1, 1, 1, 0, -1, -1&#125;;
+
+LL exgcd(LL a, LL b, LL &amp;x, LL &amp;y)
+&#123;
+    if (b &#x3D;&#x3D; 0)
+    &#123;
+        x &#x3D; 1, y &#x3D; 0;
+        return a;
+    &#125;
+    LL  d &#x3D; exgcd(b, a % b, y, x);
+    y -&#x3D; a &#x2F; b * x;
+    return d;
+&#125;
+
+LL inline mod(LL a, LL b)
+&#123;
+    return ((a % b) + b) % b;
+&#125;
+
+int main()
+&#123;
+    int n;
+    cin &gt;&gt; n;
+    LL a1, m1;
+    cin &gt;&gt; a1 &gt;&gt; m1;
+    for (int i &#x3D; 1; i &lt; n; i ++ )
+    &#123;
+        LL a2, m2, k1, k2;
+        cin &gt;&gt; a2 &gt;&gt; m2;
+        LL d &#x3D; exgcd(a1, -a2, k1, k2);
+        if((m2 - m1) % d)
+        &#123;
+            puts(&quot;-1&quot;);
+            return 0;
+        &#125;
+        k1 &#x3D; mod(k1 * (m2 - m1) &#x2F; d, abs(a2 &#x2F; d));
+        m1 &#x3D; k1 * a1 + m1;
+        a1 &#x3D; abs(a1 &#x2F; d * a2);
+    &#125;
+    cout &lt;&lt; m1;
+    return 0;
+&#125;</code></pre>
+<p>python解法</p>
+<pre class="language-python" data-language="python"><code class="language-python">def exgcd(a,b,x,y):
+    if not b:
+        x,y &#x3D; 1,0
+        return a,x,y
+
+    d,x,y &#x3D; exgcd(b, a % b, y, x)
+    temp &#x3D; y
+    y &#x3D; x - a &#x2F;&#x2F; b * y
+    x &#x3D; temp
+    return d,x,y
+
+if __name__ &#x3D;&#x3D; &quot;__main__&quot;:
+    n &#x3D; int(input())
+    a1,m1 &#x3D; map(int,input().split())
+
+    for i in range(n-1):
+        a2,m2 &#x3D; map(int,input().split())
+
+        k1,k2 &#x3D; 0,0
+
+        d,k1,k2 &#x3D; exgcd(a1,a2,k1,k2)
+
+        if (m2-m1) % d:
+            print(-1)
+            exit()
+
+        k1 *&#x3D; (m2-m1) &#x2F;&#x2F; d
+        t &#x3D; a2 &#x2F;&#x2F; d
+        k1 &#x3D; k1 % t
+        m1 &#x3D; a1 * k1 + m1
+        a1 &#x3D; abs(a1 &#x2F;&#x2F; d * a2)
+
+    print(m1 % a1)</code></pre>
+<h3 id="求组合数">求组合数</h3>
+<h4 id="求-cb_a递推">Ⅰ求 <span
+class="math inline">\(C^b_a\)</span>(递推)</h4>
+<p>a, b范围是2000，询问<span class="math inline">\(10^5\)</span>次</p>
+<p><span class="math inline">\(C^b_a = C^b_{a - 1} + C^{b - 1}_{a -
+1}\)</span></p>
+<p>通过递推进行处理</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+
+const int N &#x3D; 2010, mod &#x3D; 1e9 + 7;
+
+int c[N][N];
+void init()
+&#123;
+	for(int i &#x3D; 0; i &lt; N; i ++ )
+	&#123;
+		for(int j &#x3D; 0; j &lt;&#x3D; i; j ++ )
+		&#123;
+			if(!j)  c[i][j] &#x3D; 1;
+			else c[i][j] &#x3D; (c[i - 1][j] + c[i - 1][j - 1]) % mod;
+		&#125;
+	&#125;
+&#125;
+
+int main()
+&#123;
+    init();
+    int n;
+    scanf(&quot;%d&quot;, &amp;n);
+    while(n -- )
+    &#123;
+        int a, b;
+        scanf(&quot;%d%d&quot;, &amp;a, &amp;b);
+        printf(&quot;%d\n&quot;, c[a][b]);
+    &#125;
+    return 0;
+&#125;</code></pre>
+<h4 id="求-cb_a-预处理逆元">Ⅱ求 <span
+class="math inline">\(C^b_a\)</span> (预处理逆元)</h4>
+<p>a, b范围是 <span class="math inline">\(10^5\)</span>，询问<span
+class="math inline">\(10^4\)</span>次</p>
+<p>预处理出来阶乘和阶乘的逆元，利用该公式进行计算即可</p>
+<p><span class="math inline">\(C^b_a = \frac{a!}{b!(a - b)!}=
+a!*b!^{-1}*(a - b)!^{-1}\)</span></p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+
+using namespace std;
+
+const int N &#x3D; 1e5 + 10, mod &#x3D; 1e9 + 7;
+typedef long long LL;
+
+int fact[N], infact[N];  &#x2F;&#x2F;  预处理的阶乘及逆元
+
+int q_pow(int a, int k, int mod)
+&#123;
+    int res &#x3D; 1;
+    while(k)
+    &#123;
+        if(k&amp;1)  res &#x3D; (LL)res * a % mod;
+        a &#x3D; (LL)a * a % mod;
+        k &gt;&gt;&#x3D; 1;
+    &#125;
+    return res;
+&#125;
+
+int main()
+&#123;
+    int n;
+    cin &gt;&gt; n;
+    fact[0] &#x3D; infact[0] &#x3D; 1;
+    for(int i &#x3D; 1; i &lt;&#x3D; N; i ++ )
+    &#123;
+        fact[i] &#x3D; (LL) fact[i - 1] * i % mod;
+        infact[i] &#x3D; (LL)infact[i - 1] * q_pow(i, mod - 2, mod) % mod;
+    &#125;
+    while (n -- )
+    &#123;
+        int a, b;
+        cin &gt;&gt; a &gt;&gt; b;
+        cout &lt;&lt; (LL)fact[a] * infact[b] % mod * infact[a - b] % mod &lt;&lt; endl;
+    &#125;
+
+    return 0;
+&#125;</code></pre>
+<h4 id="求-cb_a-lucas定理">Ⅲ 求 <span
+class="math inline">\(C^b_a\)</span> (Lucas定理)</h4>
+<p>a, b范围是 <span class="math inline">\(10^{18}\)</span>，询问<span
+class="math inline">\(20\)</span>次</p>
+<p>利用Lucas定理 <span class="math display">\[
+\left(\begin{array}{c}
+n \\
+m
+\end{array}\right) \bmod p=\left(\begin{array}{c}
+\lfloor n / p\rfloor \\
+\lfloor m / p\rfloor
+\end{array}\right) \cdot\left(\begin{array}{c}
+n \bmod p \\
+m \bmod p
+\end{array}\right) \bmod p
+\]</span> Lucas 定理用于求解大组合数取模的问题，其中模数必须为素数</p>
+<p>其中<span class="math inline">\(C_{a}^{b}\)</span>的求法推导如下
+<span class="math display">\[
+\begin{aligned}
+C_{a}^{b} &amp;= \frac{a !}{(a-b) ! * b !}\\
+&amp;=\frac{a *(a-1) *(a-2) * \ldots *(a-b+1) *(a-b) * \ldots * 1}{(a-b)
+*(a-b-1) * \ldots * 1 * b !} \\
+&amp;=\frac{a *(a-1) *(a-2) * \ldots(a-b+1)}{b !}
+\end{aligned}
+\]</span></p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#pragma GCC diagnostic error &quot;-std&#x3D;c++11&quot;
+#include &lt;bits&#x2F;stdc++.h&gt;
+#define debug(x) cout &lt;&lt; #x &lt;&lt; &quot; &#x3D; &quot; &lt;&lt; x &lt;&lt; endl
+
+using namespace std;
+
+typedef pair&lt;int, int&gt; PII;
+typedef long long LL;
+
+const int N &#x3D; 1e6 + 5, mod &#x3D; 1e9 + 7;
+&#x2F;&#x2F;const double eps &#x3D; 1e-6;
+&#x2F;&#x2F;int dx[] &#x3D; &#123;1, 0, -1, 0&#125;, dy[] &#x3D; &#123;0, -1, 0, 1&#125;;
+&#x2F;&#x2F; int dx[8] &#x3D; &#123;-1, -1, -1, 0, 1, 1, 1, 0&#125;;
+&#x2F;&#x2F; int dy[8] &#x3D; &#123;-1, 0, 1, 1, 1, 0, -1, -1&#125;;
+
+int q_pow(int a, int k, int p)
+&#123;
+    int res &#x3D; 1;
+    while(k)
+    &#123;
+        if(k &amp; 1)  res &#x3D; (LL)res * a % p;
+        a &#x3D; (LL)a * a % p;
+        k &gt;&gt;&#x3D; 1;
+    &#125;
+    return res;
+&#125;
+
+int C(int a, int b, int p)
+&#123;
+    if(b &gt; a)  return 0;
+    int res &#x3D; 1;
+    for (int i &#x3D; 1, j &#x3D; a; i &lt;&#x3D; b; i ++ ,j -- )
+    &#123;
+        res &#x3D; (LL)res * j % p;
+        res &#x3D; (LL)res * q_pow(i, p - 2, p) % p;
+    &#125;
+    return res;
+&#125;
+
+int lucas(LL a, LL b, int p)
+&#123;
+    if (a &lt; p &amp;&amp; b &lt; p)  return C(a, b, p);
+    else return (LL)C(a % p, b % p, p) * lucas(a &#x2F; p, b &#x2F; p, p) % p;
+&#125;
+
+int main()
+&#123;
+    int n;
+    cin &gt;&gt; n;
+    while(n -- )
+    &#123;
+        LL a, b; 
+        int p;
+        cin &gt;&gt; a &gt;&gt; b &gt;&gt; p;
+        cout &lt;&lt; lucas(a, b, p) &lt;&lt; endl;
+    &#125;
+    return 0;
+&#125;</code></pre>
+<h4 id="求c_ab高精度">Ⅳ 求<span
+class="math inline">\(C_a^b\)</span>(高精度)</h4>
+<p>a, b的范围是5000，求1次，但是要求计算出来所以要用高精度</p>
+<p>c++版本</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+#include &lt;algorithm&gt;
+
+using namespace std;
+
+const int N &#x3D; 5010;
+
+int primes[N], cnt;
+int sum[N];
+bool st[N];
+
+void get_primes(int n)
+&#123;
+    for (int i &#x3D; 2; i &lt;&#x3D; n; i ++ )
+    &#123;
+        if(!st[i])  primes[cnt ++ ] &#x3D; i;
+        for (int j &#x3D; 0; primes[j] &lt;&#x3D; n &#x2F; i; j ++ )
+        &#123;
+            st[primes[j] * i] &#x3D; true;
+            if(i % primes[j] &#x3D;&#x3D; 0) break;
+        &#125;
+    &#125;
+&#125;
+
+int get(int n, int p)
+&#123;
+    int res &#x3D; 0;
+    while (n)&#123;
+        res +&#x3D; n &#x2F; p;
+        n &#x2F;&#x3D; p;
+    &#125;
+    return res;
+&#125;
+
+vector&lt;int&gt; mul(vector&lt;int&gt; a, int b)
+&#123;
+    vector&lt;int&gt; c;
+    int t &#x3D; 0;
+    for (int i &#x3D; 0; i &lt; a.size(); i ++ )
+    &#123;
+        t +&#x3D; a[i] * b;
+        c.push_back(t % 10);
+        t &#x2F;&#x3D; 10;
+    &#125;
+    while(t)
+    &#123;
+        c.push_back(t % 10);
+        t &#x2F;&#x3D; 10;
+    &#125;
+    return c;
+&#125;
+
+int main()
+&#123;
+    int a, b;
+    cin &gt;&gt; a &gt;&gt; b;
+    get_primes(a);
+    for (int i &#x3D; 0; i &lt; cnt; i ++ )
+    &#123;
+        int p &#x3D; primes[i];
+        sum[i] &#x3D; get(a, p) - get(a - b, p) - get(b, p);
+    &#125;
+    
+    vector&lt;int&gt; res;
+    res.push_back(1);
+    for (int i &#x3D; 0; i &lt; cnt; i ++ )
+        for (int j &#x3D; 0; j &lt; sum[i]; j ++ )
+            res &#x3D; mul(res, primes[i]);
+            
+    for (int i &#x3D; res.size() - 1; i &gt;&#x3D; 0; i -- )
+        printf(&quot;%d&quot;, res[i]);
+    
+    
+    return 0;
+&#125;</code></pre>
+<p>python版本</p>
+<p>利用定义，但是跑起来比c++略慢</p>
+<pre class="language-python" data-language="python"><code class="language-python">a, b &#x3D; map(int, input().split())
+up &#x3D; 1
+down &#x3D; 1
+for i in range(a - b + 1, a + 1):
+    up *&#x3D; i
+for i in range(1, b + 1):
+    down *&#x3D; i
+print(up &#x2F;&#x2F; down)</code></pre>
+<h4 id="卡特兰数">卡特兰数</h4>
+<p>求满足条件的01序列</p>
+<p>给定n个1，n个0，求它们能排列成的所有序列中，能够满足任意前缀序列中0的个数都不少于1的个数的序列有多少个</p>
+<p>下图中，表示从<span class="math inline">\((0,0)\)</span>走到<span
+class="math inline">\((n,n)\)</span>的路径，在绿线及以下表示合法，若触碰红线即不合法</p>
+<p>结果： <span class="math display">\[
+ans = C^{n}_{2n} - C^{n - 1}_{2n} = \frac{C^n_{2n}}{n+1}
+\]</span> 求组合数和逆元即可，注意除以n+1时也要用逆元</p>
+<figure>
+<img
+src="https://cdn.acwing.com/media/article/image/2020/02/22/6828_9476d97655-Catalan.png"
+alt="img" />
+<figcaption aria-hidden="true">img</figcaption>
+</figure>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+#include &lt;algorithm&gt;
+
+using namespace std;
+
+typedef long long LL;
+
+const int mod &#x3D; 1e9 + 7;
+
+LL q_pow(LL a, LL k)
+&#123;
+    LL ret &#x3D; 1;
+    while(k)
+    &#123;
+        if(k&amp;1) ret &#x3D; ret * a % mod;
+        a &#x3D; a * a % mod;
+        k &gt;&gt;&#x3D; 1;
+    &#125;
+    return ret;
+&#125;
+
+int main()
+&#123;
+    int n;
+    cin &gt;&gt; n;
+    LL ans &#x3D; 1;
+    &#x2F;&#x2F; z
+    for(int i &#x3D; 2 * n; i &gt; n; i -- ) ans &#x3D; ans * i % mod;
+    for(int i &#x3D; n; i &gt; 0; i -- )  ans &#x3D; ans * q_pow(i, mod - 2) % mod;
+    
+    ans &#x3D; ans * q_pow(n + 1, mod - 2) % mod;
+    
+    cout &lt;&lt; ans &lt;&lt; endl;
+    return 0;
+&#125;</code></pre>
+<h4 id="斯特林数">斯特林数</h4>
+<h4 id="错排问题">错排问题</h4>
+<p>n封信，n个信封，求完全放错的方案数?</p>
+<p>记方案数为f[n],可以递推来求</p>
+<p>f[1] = 0, f[2] = 1</p>
+<p>f[i] = (i-1) * (f[i-1] + f[i-2])</p>
+<p>推导逻辑：</p>
+<p>假设第一封信a占据了b的位置，那么此时b放在哪个信封分两种情况，b放在a位置，或b不放在a位置；</p>
+<ul>
+<li><p>第一类：第一种情况是放在a位置，此时b放在a位置，剩下n-2封信进行错排，方案数是f(n-2)</p></li>
+<li><p>第二类：第二种情况是b没有去a的位置，那么b可能出现在除α之外的任何位置，b有n-2个位置可以去，不能去a,b位置，其余所有元素都有n-2个位置可以去（a，b位置不能去），这种情况下相当于除a之外的其它元素的错排问题，即n-1个元素的错排问题，方案数是f(n-1)</p></li>
+<li><p>加法法则：汇总上述分类计数原理，使用加法法则，计算结果是f(n-1)+f(n-2)</p></li>
+<li><p>乘法法则：对于每一封信都如此，当有n-1封信已经错排时，已经完全错排了</p>
+<p>即f[i] = (i-1) * (f[i - 1] + f[i - 2])</p></li>
+</ul>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#pragma GCC diagnostic error &quot;-std&#x3D;c++11&quot;
+#include &lt;algorithm&gt;
+#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+
+using namespace std;
+
+typedef long long LL;
+const int N &#x3D; 1e6 + 5, mod &#x3D; 1e9 + 7;
+
+LL f[N];
+
+int main()
+&#123;
+    int n;
+    cin &gt;&gt; n;
+    f[1] &#x3D; 0;
+    f[2] &#x3D; 1;
+    for (int i &#x3D; 3; i &lt;&#x3D; n; i ++ )
+        f[i] &#x3D; (i - 1) * (f[i - 1] + f[i - 2]);
+    cout &lt;&lt; f[n] &lt;&lt; endl;
+    return 0;
+&#125;</code></pre>
+<h3 id="高斯消元">高斯消元</h3>
+<h4 id="解线性方程组">解线性方程组</h4>
+<p>高斯消元是一种可以可以将增广矩阵化成阶梯型矩阵的算法</p>
+<p>适用于求解包含n个方程，n个未知数的多元线性方程组</p>
+<p><span class="math display">\[\left\{\begin{array}{llll}
+a_{11} x_{1}+ &amp; a_{12} x_{2}+\ldots+ &amp; a_{1 n} x_{n}= &amp;
+b_{1} \\
+a_{21} x_{1}+ &amp; a_{22} x_{2}+\ldots+ &amp; a_{2 n} x_{n}= &amp;
+b_{2} \\
+\vdots &amp; \vdots &amp; \vdots &amp; \vdots \\
+a_{n 1} x_{1}+ &amp; a_{n 2} x_{2}+\ldots+ &amp; a_{n n} x_{n}= &amp;
+b_{n}
+\end{array}\right.\]</span></p>
+<p>算法步骤：</p>
+<ul>
+<li>找到当前列绝对值最大的一行</li>
+<li>将这一行移到最上面</li>
+<li>乘以相应的系数将改行的第一个数变成1</li>
+<li>相减相消让下面所有的行的当前列变成0</li>
+</ul>
+<p><span class="math display">\[\left(\begin{array}{ccccc}
+a_{11} &amp; a_{12} &amp; \cdots &amp; a_{1 n} &amp; b_{1} \\
+a_{21} &amp; a_{22} &amp; \cdots &amp; a_{2 n} &amp; b_{2} \\
+\vdots &amp; \vdots &amp; \vdots &amp; \vdots &amp; \vdots \\
+a_{n 1} &amp; a_{n 2} &amp; \cdots &amp; a_{n n} &amp; b_{n}
+\end{array}\right) \rightarrow \left(\begin{array}{ccccc}
+a_{11} &amp; a_{12} &amp; \cdots &amp; a_{1 n} &amp; b_{1} \\
+&amp; a_{2 i} &amp; a_{2(i+1)} &amp; a_{2 n} &amp; b_{2} \\
+&amp; &amp; \ddots &amp; \vdots &amp; \vdots \\
+&amp; &amp; &amp; a_{n n} &amp; b_{n}
+\end{array}\right)\]</span></p>
+<ul>
+<li>最后再把阶梯型矩阵从下到上回代到第一层即可得到方程的解</li>
+</ul>
+<p>复杂度<span class="math inline">\(O(n^3)\)</span></p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#pragma GCC diagnostic error &quot;-std&#x3D;c++11&quot;
+#include &lt;bits&#x2F;stdc++.h&gt;
+#define debug(x) cout &lt;&lt; #x &lt;&lt; &quot; &#x3D; &quot; &lt;&lt; x &lt;&lt; endl
+
+using namespace std;
+
+typedef pair&lt;int, int&gt; PII;
+typedef long long LL;
+
+const int N &#x3D; 1e3 + 5, mod &#x3D; 1e9 + 7;
+const double eps &#x3D; 1e-6;  &#x2F;&#x2F; 用eps来判断是否为0
+&#x2F;&#x2F;int dx[] &#x3D; &#123;1, 0, -1, 0&#125;, dy[] &#x3D; &#123;0, -1, 0, 1&#125;;
+
+int n;
+double a[N][N];
+
+int  gauss()
+&#123;
+    int c, r;  &#x2F;&#x2F; c代表列col, r代表行row
+    for (c &#x3D; 0, r &#x3D; 0; c &lt; n; c++)
+    &#123;
+        int t &#x3D; r;  
+        &#x2F;&#x2F;  第一步，找到绝对值最大的数所在的行号
+        for (int i &#x3D; r; i &lt; n; i ++ )
+            if (fabs(a[i][c]) &gt; fabs(a[t][c]))
+                t &#x3D; i;
+        if (fabs(a[t][c]) &lt; eps)  continue;
+        &#x2F;&#x2F; 如果绝对值最大的是0，那么这一行全是0
+
+        for (int i &#x3D; c; i &lt; n + 1; i ++ )  
+            swap(a[t][i], a[r][i]);  
+        &#x2F;&#x2F; 第二步，把当前这一行换到最上面
+        for (int i &#x3D; n; i &gt;&#x3D; c; i -- )  
+            a[r][i] &#x2F;&#x3D; a[r][c];  
+        &#x2F;&#x2F; 第三步，把当前这一行的第一个数变成1，方程两边同时除以第一个系数
+        &#x2F;&#x2F; 必须要从后往前，不然第一个数会直接变为1，然后不修改其他系数
+        for (int i &#x3D; r + 1; i &lt; n; i ++ )
+            if (fabs(a[i][c]) &gt; eps)  &#x2F;&#x2F; 非零
+                for (int j &#x3D; n; j &gt;&#x3D; c; j -- )
+                    a[i][j] -&#x3D; a[r][j] * a[i][c];
+                    &#x2F;&#x2F;  第四步，把第r+1行~n行的第c列元素都消除为0
+                    &#x2F;&#x2F;  用最上面一行和这行做差除去这一行
+       r ++ ;
+    &#125;
+
+    if (r &lt; n)
+    &#123;
+        for (int i &#x3D; r; i &lt; n; i ++ )
+            if(fabs(a[i][n]) &gt; eps)
+                return 2;  &#x2F;&#x2F; 无解
+        return 1;  &#x2F;&#x2F; 无数解
+    &#125;
+    for (int i &#x3D; n - 1; i &gt;&#x3D; 0; i -- )
+        for (int j &#x3D; i + 1; j &lt; n; j ++ )
+            a[i][n] -&#x3D; a[j][n] * a[i][j];
+    return 0;
+&#125;
+
+int main()
+&#123;
+    cin &gt;&gt; n;
+    for (int i &#x3D; 0; i &lt; n; i ++ )
+        for (int j &#x3D; 0; j &lt; n + 1; j ++ )
+            cin &gt;&gt; a[i][j];
+    int t &#x3D; gauss();
+    if (t &#x3D;&#x3D; 0)
+    &#123;
+        for (int i &#x3D; 0; i &lt; n; i ++ )
+        if(fabs(a[i][n]) &lt; eps) puts(&quot;0.00&quot;);
+        else printf(&quot;%.2lf\n&quot;, a[i][n]);
+    &#125;
+    else if (t &#x3D;&#x3D; 1)  puts(&quot;Infinite group solutions&quot;);
+    else puts(&quot;No solution&quot;);
+    return 0;
+&#125;</code></pre>
+<h4 id="高斯消元解异或方程组">高斯消元解异或方程组</h4>
+<p>异或=&gt;不进位加法</p>
+<pre class="language-c++" data-language="c++"><code class="language-c++">#pragma GCC diagnostic error &quot;-std&#x3D;c++11&quot;
+#include &lt;algorithm&gt;
+#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+
+using namespace std;
+
+typedef pair&lt;int, int&gt; PII;
+typedef long long LL;
+
+const int N &#x3D; 110, mod &#x3D; 1e9 + 7;
+
+int n;
+int a[N][N];
+
+int gauss()
+&#123;
+    int c, r;
+    for (c &#x3D; 0, r &#x3D; 0; c &lt; n; c ++ )
+    &#123;
+        int t &#x3D; r;
+        for (int i &#x3D; r; i &lt; n; i ++ )
+        &#123;
+            if(a[i][c])
+                t &#x3D; i;
+        &#125;
+        if (!a[t][c])  continue;
+
+        for (int i &#x3D; c; i &lt;&#x3D; n; i ++ )
+            swap(a[r][i], a[t][i]);
+        for (int i &#x3D; r + 1; i &lt; n; i ++ )
+            if(a[i][c])
+                for (int j &#x3D; n; j &gt;&#x3D; c; j -- )
+                    a[i][j] ^&#x3D; a[r][j];
+        r ++ ;
+    &#125;
+    if(r &lt; n)
+    &#123;
+        for (int i &#x3D; r; i &lt; n; i ++ )
+            if(a[i][n])
+                return 2;
+        return 1;
+    &#125;
+    for (int i &#x3D; n - 1; i &gt;&#x3D; 0; i -- )
+        for (int j &#x3D; i + 1; j &lt; n; j ++ )
+            a[i][n] ^&#x3D; a[i][j] * a[j][n];
+    return 0;
+&#125;
+
+int main()
+&#123;
+    cin &gt;&gt; n;
+    for (int i &#x3D; 0; i &lt; n; i ++ )
+    &#123;
+        for (int j &#x3D; 0; j &lt; n + 1; j ++ )
+        &#123;
+            cin &gt;&gt; a[i][j];
+        &#125;
+    &#125;
+
+    int t &#x3D; gauss();
+
+    if(t &#x3D;&#x3D; 0)
+    &#123;
+        for (int i &#x3D; 0; i &lt; n; i ++ )
+            cout &lt;&lt; a[i][n] &lt;&lt; endl;
+    &#125;
+    else if(t &#x3D;&#x3D; 1) puts(&quot;Multiple sets of solutions&quot;);
+    else puts(&quot;No solution&quot;);
+    return 0;
+&#125;</code></pre>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏
+            <div class="reward-main">
+              <ul class="reward-row">
+                <!-- <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/custom/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/custom/donate/WeChanQR.jpg"></li> -->
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2021/05/21/%E6%95%B0%E8%AE%BA1/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.0/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://s2.loli.net/2022/06/27/5NtIVQXjObh4Rad.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://s2.loli.net/2022/06/27/5NtIVQXjObh4Rad.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                数论1</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2021/05/21/%E6%9C%80%E7%9F%AD%E8%B7%AF/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.0/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://s2.loli.net/2022/06/27/9KxMTj2YpdHmFDb.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://s2.loli.net/2022/06/27/9KxMTj2YpdHmFDb.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                最短路算法</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
       
 <div id="vcomments"></div>
 <script>
@@ -374,41 +1099,30 @@
     </script>
 
 
-      <div class="single-reward">
-        <div class="reward-open">赏
-          <div class="reward-main">
-            <ul class="reward-row">
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
-      <footer class="post-footer">
-        <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
-        <div class="post-tags">
-        </div>
-        <div class="post-share">
-          <div class="social-share sharehidden share-component"></div>
-          <i class="iconfont show-share icon-forward"></i>
-        </div>
-      </footer><!-- .entry-footer -->
-    </article>
-      <!-- #post-## -->
       <section class="author-profile">
         <div class="info" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
-          <a href="/about/" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/custom/avatar.jpg" itemprop="image" alt="Blog" height="70" width="70"></a>
+          <a target="_blank" rel="noopener" href="https://github.com/steven-kid" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.2/img/custom/avatar.jpg" itemprop="image" alt="steven" height="70" width="70"></a>
           <div class="meta">
             <span class="title">Author</span>
             <h3 itemprop="name">
-            <a target="_blank" href="https://steven-kid.github.io/" itemprop="url" rel="author noopener">Blog</a>
+            <a target="_blank" href="https://github.com/steven-kid" itemprop="url" rel="author noopener">steven</a>
             </h3>
           </div>
         </div>
         <hr>
-        <p><i class="iconfont icon-write"></i>You meet those you've met.</p>
+        <p><i class="iconfont icon-write"></i>成为更好的自己</p>
       </section>
+    </main><!-- #main -->
   </div><!-- #primary -->
 </div>
+
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+  </script>
+
+
     </div>    
     <div class="ins-search">
     <div class="ins-search-mask"></div>
