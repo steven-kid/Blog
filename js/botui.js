@@ -51,7 +51,7 @@ function bot_ui_ini() {
     var sure = function () {
             botui.message.add({
                 delay: 600,
-                content: "😘"
+                content: "😪"
             }).then(function () {
                 secondpart()
             })
@@ -63,7 +63,7 @@ function bot_ui_ini() {
             }).then(function(){
                 botui.message.add({
                     delay: 1000,
-                    content: "告辞👋"
+                    content: "告辞😴"
                 })
             })
         },
@@ -101,7 +101,7 @@ function bot_ui_ini() {
         thirdpart = function () {
             botui.message.add({
                 delay: 1E3,
-                content: "steven是小时候补习班的英文名哈哈哈"
+                content: "steven是用了很久的英文名哈哈哈"
             }).then(function () {
                 botui.action.button({
                     delay: 1500,
