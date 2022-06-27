@@ -38,7 +38,7 @@
   mashiro_option.site_url = "https://steven-kid.github.io/";
   mashiro_option.v_appId = "GyC3NzMvd0hT9Yyd2hYIC0MN-gzGzoHsz";
   mashiro_option.v_appKey = "mgOpfzbkHYqU92CV4IDlAUHQ";
-  mashiro_option.mathjax = "";
+  mashiro_option.mathjax = "1";
   mashiro_option.qq_api_url = "https://api.mashiro.top/qqinfo/"; 
   mashiro_option.qq_avatar_api_url = "https://api.mashiro.top/qqinfo/";
 
@@ -48,7 +48,7 @@
   /*End of Initial Variables*/
   </script>
   <script type="text/javascript">
-  var bg = "https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(9).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(10).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(11).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(12).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(13).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(14).jpeg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(15).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(16).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(18).jpg".split(",");
+  var bg = "https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(9).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(10).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(11).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(12).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(13).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(14).jpeg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(18).jpg".split(",");
   var bgindex = Math.floor(Math.random()*bg.length);
   if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
     alert('朋友，IE浏览器未适配哦~');
@@ -60,7 +60,7 @@
   <style type="text/css">.site-top .lower nav{display:block !important;}.author-profile i,.post-like a,.post-share .show-share,.sub-text,.we-info a,span.sitename,.post-more i:hover,#pagination a:hover,.post-content a:hover,.float-content i:hover{color:#FE9600}.feature i,.download,.navigator i:hover,.links ul li:before,.ar-time i,span.ar-circle,.object,.comment .comment-reply-link,.siren-checkbox-radio:checked + .siren-checkbox-radioInput:after{background:#FE9600}::-webkit-scrollbar-thumb{background:#FE9600}.download,.navigator i:hover,.link-title,.links ul li:hover,#pagination a:hover,.comment-respond input[type='submit']:hover{border-color:#FE9600}.entry-content a:hover,.site-info a:hover,.comment h4 a,#comments-navi a.prev,#comments-navi a.next,.comment h4 a:hover,.site-top ul li a:hover,.entry-title a:hover,#archives-temp h3,span.page-numbers.current,.sorry li a:hover,.site-title a:hover,i.iconfont.js-toggle-search.iconsearch:hover,.comment-respond input[type='submit']:hover{color:#FE9600}.comments .comments-main{display:block !important;}.comments .comments-hidden{display:none !important;}background-position:center center;background-attachment:inherit;}
   </style>
 <meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Steven's blog" type="application/atom+xml">
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+</head>
 
 
 <body class="page-template page-template-user page-template-page-analytics page-template-userpage-analytics-php page page-id-1297 chinese-font serif isWebKit">
@@ -323,7 +323,7 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://s2.loli.net/2022/06/27/3xAltGSCQ2N8YLP.jpg);" src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://s2.loli.net/2022/06/27/3xAltGSCQ2N8YLP.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://s2.loli.net/2022/06/27/3xAltGSCQ2N8YLP.jpg);" src="https://cdn.jsdelivr.net/gh/Zranshi/CDN@1.0/img/loader/loading.jpg" data-src="https://s2.loli.net/2022/06/27/3xAltGSCQ2N8YLP.jpg">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
@@ -354,7 +354,6 @@
         
         <div class="entry-content">
           <h1 id="数论1">数论1</h1>
-<hr />
 <h3 id="质数">质数</h3>
 <p>定义：针对大于一的整数，如果只包含1和他本身这两个约数，就被称为质数(素数)</p>
 <h4 id="质数的判定试除法">质数的判定：试除法</h4>
@@ -363,118 +362,121 @@
 i\)</span>较好</p>
 <h4 id="分解质因数试除法">分解质因数：试除法</h4>
 <p><span class="math inline">\(O(\sqrt{n})\)</span></p>
-<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
-#include &lt;cstring&gt;
-using namespace std;
-
-const int N &#x3D; 1e6 + 5;
-
-int num[N];
-
-int main()
-&#123;
-    int t;
-    cin &gt;&gt; t;
-    while (t--)
-    &#123;
-        int n;
-        cin &gt;&gt; n;
-        memset(num, 0, sizeof(num));
-        for (int i &#x3D; 2; i &lt;&#x3D; n &#x2F; i; i ++ )
-        &#123;
-            &#x2F;&#x2F;  每一个合数都可以用比它小的质数表示
-            int s &#x3D; 0;
-            while(n % i &#x3D;&#x3D; 0)   &#x2F;&#x2F;  所以第一次找到的一定是一个质数
-            &#123;
-                n &#x2F;&#x3D; i;
-                s ++ ;
-            &#125;
-            if (s) printf(&quot;%d %d\n&quot;, i, s); &#x2F;&#x2F; i一定是质数，s为其出现的次数
-        &#125;
-        if (n &gt; 1) printf(&quot;%d 1\n&quot;, n);
-        &#x2F;&#x2F; 优化利用性质：n中最多只有一个大于sqrt(n)的质因子
-        &#x2F;&#x2F; 如果还有数那么一定只有这一个未被除过的，直接输出就好
-        printf(&quot;\n&quot;);
-    &#125;
-    return 0;
-&#125;</code></pre>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cstring&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="fl">1e6</span> <span class="op">+</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> num<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> t<span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> t<span class="op">;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>t<span class="op">--)</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> n<span class="op">;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> n<span class="op">;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        memset<span class="op">(</span>num<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>num<span class="op">));</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> i <span class="op">&lt;=</span> n <span class="op">/</span> i<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>            <span class="co">//  每一个合数都可以用比它小的质数表示</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>            <span class="dt">int</span> s <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span><span class="op">(</span>n <span class="op">%</span> i <span class="op">==</span> <span class="dv">0</span><span class="op">)</span>   <span class="co">//  所以第一次找到的一定是一个质数</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#123;</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>                n <span class="op">/=</span> i<span class="op">;</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>                s <span class="op">++</span> <span class="op">;</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#125;</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>s<span class="op">)</span> printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st"> </span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> i<span class="op">,</span> s<span class="op">);</span> <span class="co">// i一定是质数，s为其出现的次数</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>n <span class="op">&gt;</span> <span class="dv">1</span><span class="op">)</span> printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st"> 1</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">,</span> n<span class="op">);</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 优化利用性质：n中最多只有一个大于sqrt(n)的质因子</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 如果还有数那么一定只有这一个未被除过的，直接输出就好</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
 <h4 id="质数筛">质数筛</h4>
 <p><span class="math inline">\(O(n\cdot log(logn))\)</span></p>
 <p>埃式线性筛</p>
-<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
-
-using namespace std;
-
-const int N &#x3D; 1e6 + 5;
-
-int primes[N];
-int cnt;
-bool st[N];
-
-int main()
-&#123;
-    int n;
-    cin &gt;&gt; n;
-    for (int i &#x3D; 2; i &lt;&#x3D; n; i ++ )
-    &#123;
-        if(!st[i]) primes[cnt ++ ] &#x3D; i;
-        
-        for (int j &#x3D; 0; primes[j] &lt;&#x3D; n &#x2F; i; j ++ )
-        &#123;
-            st[primes[j] * i] &#x3D; true;  &#x2F;&#x2F;  标记该质数的倍数都是合数
-            if (i % primes[j] &#x3D;&#x3D; 0) break;  &#x2F;&#x2F; prime[j]一定是i的最小质因子
-        &#125;
-    &#125;
-    printf(&quot;%d&quot;, cnt);
-    return 0;
-&#125;</code></pre>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="fl">1e6</span> <span class="op">+</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> primes<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> cnt<span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> st<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n<span class="op">;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n<span class="op">;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(!</span>st<span class="op">[</span>i<span class="op">])</span> primes<span class="op">[</span>cnt <span class="op">++</span> <span class="op">]</span> <span class="op">=</span> i<span class="op">;</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> primes<span class="op">[</span>j<span class="op">]</span> <span class="op">&lt;=</span> n <span class="op">/</span> i<span class="op">;</span> j <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>            st<span class="op">[</span>primes<span class="op">[</span>j<span class="op">]</span> <span class="op">*</span> i<span class="op">]</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span>  <span class="co">//  标记该质数的倍数都是合数</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>i <span class="op">%</span> primes<span class="op">[</span>j<span class="op">]</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="cf">break</span><span class="op">;</span>  <span class="co">// prime[j]一定是i的最小质因子</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> cnt<span class="op">);</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
 <h3 id="约数">约数</h3>
 <h4 id="求所有约数试除法">求所有约数:试除法</h4>
-<pre class="language-c++" data-language="c++"><code class="language-c++">#pragma GCC diagnostic error &quot;-std&#x3D;c++11&quot; 
-#include &lt;iostream&gt;
-#include &lt;cstring&gt;
-#include &lt;cmath&gt;
-#include &lt;vector&gt;
-#include &lt;map&gt;
-#include &lt;queue&gt;
-#include &lt;stack&gt;
-#include &lt;algorithm&gt;
-#define debug(x) cout &lt;&lt; #x &lt;&lt; &quot; &#x3D; &quot; &lt;&lt; x &lt;&lt; endl;
-
-using namespace std;
-
-typedef pair&lt;int, int&gt; PII;
-typedef long long LL;
-
-const int N &#x3D; 1e6 + 5, mod &#x3D; 1e9 + 7;
-const double esp &#x3D; 1e-6;
-
-int main()
-&#123;
-    int t;
-    cin &gt;&gt; t;
-    vector&lt;int&gt; res;
-    while (t--) &#123;
-        int n;
-        cin &gt;&gt; n;
-        res.clear();
-        for (int i &#x3D; 1; i &lt;&#x3D; n &#x2F; i; i ++ )
-        &#123;
-            if (n % i &#x3D;&#x3D; 0)
-            &#123;
-                res.push_back(i);
-                if(i !&#x3D; n &#x2F; i)  res.push_back(n &#x2F; i);
-            &#125;
-        &#125;
-        sort(res.begin(), res.end()); &#x2F;&#x2F;  排序保证输出的是有序的
-        for (auto x:res)
-        &#123;
-            printf(&quot;%d &quot;, x);
-        &#125;
-        printf(&quot;\n&quot;);
-    &#125;
-    return 0;
-&#125;</code></pre>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#pragma GCC diagnostic error &quot;-std=c++11&quot; </span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cstring&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cmath&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;map&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;queue&gt;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stack&gt;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="pp">#define debug</span><span class="op">(</span>x<span class="op">)</span><span class="pp"> </span>cout<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> #</span>x<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span><span class="st">&quot; = &quot;</span><span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span>x<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span>endl<span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> pair<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> PII<span class="op">;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="dt">long</span> <span class="dt">long</span> LL<span class="op">;</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="fl">1e6</span> <span class="op">+</span> <span class="dv">5</span><span class="op">,</span> mod <span class="op">=</span> <span class="fl">1e9</span> <span class="op">+</span> <span class="dv">7</span><span class="op">;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">double</span> esp <span class="op">=</span> <span class="fl">1e-6</span><span class="op">;</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> t<span class="op">;</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> t<span class="op">;</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> res<span class="op">;</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>t<span class="op">--)</span> <span class="op">&#123;</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> n<span class="op">;</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> n<span class="op">;</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        res<span class="op">.</span>clear<span class="op">();</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n <span class="op">/</span> i<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>n <span class="op">%</span> i <span class="op">==</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#123;</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>                res<span class="op">.</span>push_back<span class="op">(</span>i<span class="op">);</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span><span class="op">(</span>i <span class="op">!=</span> n <span class="op">/</span> i<span class="op">)</span>  res<span class="op">.</span>push_back<span class="op">(</span>n <span class="op">/</span> i<span class="op">);</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#125;</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>        sort<span class="op">(</span>res<span class="op">.</span>begin<span class="op">(),</span> res<span class="op">.</span>end<span class="op">());</span> <span class="co">//  排序保证输出的是有序的</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> x<span class="op">:</span>res<span class="op">)</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>            printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st"> &quot;</span><span class="op">,</span> x<span class="op">);</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
 <h4 id="约数个数">约数个数</h4>
 <p>如果 <span class="math inline">\(N=p_{1}^{\alpha_{1}}\cdot
 p_{2}^{\alpha_{2}} \cdots p_{k}^{\alpha_{k}}\)</span> p为质数</p>
@@ -483,42 +485,43 @@ p_{2}^{\alpha_{2}} \cdots p_{k}^{\alpha_{k}}\)</span> p为质数</p>
 <p>其中所有约数对应了任一个质数可以选择 <span
 class="math inline">\(0\thicksim \alpha\)</span> 次的幂的情况</p>
 <p>int范围内约数个数最多的大约有1500个</p>
-<pre class="language-c++" data-language="c++"><code class="language-c++">#pragma GCC diagnostic error &quot;-std&#x3D;c++11&quot;
-#include &lt;bits&#x2F;stdc++.h&gt;
-
-#define debug(x) cout &lt;&lt; #x &lt;&lt; &quot; &#x3D; &quot; &lt;&lt; x &lt;&lt; endl
-
-using namespace std;
-
-typedef pair&lt;int, int&gt; PII;
-typedef long long LL;
-
-const int N &#x3D; 1e6 + 5, mod &#x3D; 1e9 + 7;
-&#x2F;&#x2F;const double esp &#x3D; 1e-6;
-
-int main()
-&#123;
-    int t;
-    cin &gt;&gt; t;
-    map&lt;int, int&gt; primes;
-    while (t--) &#123;
-        int n;
-        cin &gt;&gt; n;
-        for(int i &#x3D; 2; i &lt;&#x3D; n &#x2F; i; i ++ )
-        &#123;
-            while (n % i &#x3D;&#x3D; 0) 
-            &#123;
-                n &#x2F;&#x3D; i;
-                primes[i] ++ ;
-            &#125;
-        &#125;
-        if(n &gt; 1) primes[n] ++ ;
-    &#125;
-    LL res &#x3D; 1;
-    for (auto prime : primes)  res &#x3D; res * (prime.second + 1) % mod;
-    printf(&quot;%lld\n&quot;, res);
-    return 0;
-&#125;</code></pre>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#pragma GCC diagnostic error &quot;-std=c++11&quot;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;bits/stdc++.h&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#define debug</span><span class="op">(</span>x<span class="op">)</span><span class="pp"> </span>cout<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> #</span>x<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span><span class="st">&quot; = &quot;</span><span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span>x<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span>endl</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> pair<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> PII<span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="dt">long</span> <span class="dt">long</span> LL<span class="op">;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="fl">1e6</span> <span class="op">+</span> <span class="dv">5</span><span class="op">,</span> mod <span class="op">=</span> <span class="fl">1e9</span> <span class="op">+</span> <span class="dv">7</span><span class="op">;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">//const double esp = 1e-6;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> t<span class="op">;</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> t<span class="op">;</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    map<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> primes<span class="op">;</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>t<span class="op">--)</span> <span class="op">&#123;</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> n<span class="op">;</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> n<span class="op">;</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> i <span class="op">&lt;=</span> n <span class="op">/</span> i<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> <span class="op">(</span>n <span class="op">%</span> i <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> </span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#123;</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>                n <span class="op">/=</span> i<span class="op">;</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>                primes<span class="op">[</span>i<span class="op">]</span> <span class="op">++</span> <span class="op">;</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#125;</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>n <span class="op">&gt;</span> <span class="dv">1</span><span class="op">)</span> primes<span class="op">[</span>n<span class="op">]</span> <span class="op">++</span> <span class="op">;</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    LL res <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> prime <span class="op">:</span> primes<span class="op">)</span>  res <span class="op">=</span> res <span class="op">*</span> <span class="op">(</span>prime<span class="op">.</span>second <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">%</span> mod<span class="op">;</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%lld\n</span><span class="st">&quot;</span><span class="op">,</span> res<span class="op">);</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
 <h4 id="约数之和">约数之和</h4>
 <p>如果 <span class="math inline">\(N=p_{1}^{\alpha_{1}}\cdot
 p_{2}^{\alpha_{2}} \cdots p_{k}^{\alpha_{k}}\)</span></p>
@@ -527,58 +530,60 @@ p_{2}^{\alpha_{2}} \cdots p_{k}^{\alpha_{k}}\)</span></p>
 p_{1}^{\alpha_{1}})\cdot (p_{2}^{0} + p_{2}^{1} + \cdots +
 p_{2}^{\alpha_{2}})\cdot\cdots \cdot (p_{k}^{0} + p_{k}^{1} + \cdots +
 p_{k}^{\alpha_{k}})\]</span></p>
-<pre class="language-c++" data-language="c++"><code class="language-c++">#pragma GCC diagnostic error &quot;-std&#x3D;c++11&quot;
-#include &lt;bits&#x2F;stdc++.h&gt;
-#define debug(x) cout &lt;&lt; #x &lt;&lt; &quot; &#x3D; &quot; &lt;&lt; x &lt;&lt; endl
-
-using namespace std;
-
-typedef pair&lt;int, int&gt; PII;
-typedef long long LL;
-
-const int N &#x3D; 1e6 + 5, mod &#x3D; 1e9 + 7;
-&#x2F;&#x2F;const double esp &#x3D; 1e-6;
-map&lt;int, int&gt; primes;
-int main()
-&#123;
-    int t;
-    cin &gt;&gt; t;
-    while (t -- )
-    &#123;
-        int n;
-        cin &gt;&gt; n;
-        for (int i &#x3D; 2; i &lt;&#x3D; n &#x2F; i; i ++)
-        &#123;
-            while (n % i &#x3D;&#x3D; 0)
-            &#123;
-                primes[i] ++ ;
-                n &#x2F;&#x3D; i;
-            &#125;
-        &#125;
-        if (n &gt; 1)  primes[n] ++ ;
-    &#125;
-    LL res &#x3D; 1;
-    for (auto p : primes)  &#x2F;&#x2F; 按照求和的公式进行计算
-    &#123;
-        LL a &#x3D; p.first, b &#x3D; p.second;
-        &#x2F;&#x2F;  a是底数，b是指数
-        LL t &#x3D; 1;
-        while (b -- ) t &#x3D; (t * a + 1) % mod;
-        &#x2F;&#x2F;  利用秦九韶算法, 每次乘以加一---复杂度O(n)
-        res &#x3D; res * t % mod;
-    &#125;
-    cout &lt;&lt; res &lt;&lt; endl;
-    return 0;
-&#125;</code></pre>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#pragma GCC diagnostic error &quot;-std=c++11&quot;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;bits/stdc++.h&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#define debug</span><span class="op">(</span>x<span class="op">)</span><span class="pp"> </span>cout<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> #</span>x<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span><span class="st">&quot; = &quot;</span><span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span>x<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span>endl</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> pair<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> PII<span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="dt">long</span> <span class="dt">long</span> LL<span class="op">;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="fl">1e6</span> <span class="op">+</span> <span class="dv">5</span><span class="op">,</span> mod <span class="op">=</span> <span class="fl">1e9</span> <span class="op">+</span> <span class="dv">7</span><span class="op">;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">//const double esp = 1e-6;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>map<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> primes<span class="op">;</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> t<span class="op">;</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> t<span class="op">;</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>t <span class="op">--</span> <span class="op">)</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> n<span class="op">;</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> n<span class="op">;</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> i <span class="op">&lt;=</span> n <span class="op">/</span> i<span class="op">;</span> i <span class="op">++)</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> <span class="op">(</span>n <span class="op">%</span> i <span class="op">==</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#123;</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>                primes<span class="op">[</span>i<span class="op">]</span> <span class="op">++</span> <span class="op">;</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>                n <span class="op">/=</span> i<span class="op">;</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#125;</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>n <span class="op">&gt;</span> <span class="dv">1</span><span class="op">)</span>  primes<span class="op">[</span>n<span class="op">]</span> <span class="op">++</span> <span class="op">;</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    LL res <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> p <span class="op">:</span> primes<span class="op">)</span>  <span class="co">// 按照求和的公式进行计算</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>        LL a <span class="op">=</span> p<span class="op">.</span>first<span class="op">,</span> b <span class="op">=</span> p<span class="op">.</span>second<span class="op">;</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>        <span class="co">//  a是底数，b是指数</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>        LL t <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span>b <span class="op">--</span> <span class="op">)</span> t <span class="op">=</span> <span class="op">(</span>t <span class="op">*</span> a <span class="op">+</span> <span class="dv">1</span><span class="op">)</span> <span class="op">%</span> mod<span class="op">;</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>        <span class="co">//  利用秦九韶算法, 每次乘以加一---复杂度O(n)</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>        res <span class="op">=</span> res <span class="op">*</span> t <span class="op">%</span> mod<span class="op">;</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> res <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
 <h4 id="最大公约数">最大公约数</h4>
 <p>欧几里得算法(辗转相除法)</p>
 <p>时间复杂度：<span class="math inline">\(O(logn)\)</span></p>
 <p>核心原理：<span class="math inline">\(gcd(a, b)=gcd(b,a \%
 b)\)</span></p>
-<pre class="language-c++" data-language="c++"><code class="language-c++">int gcd(int a, int b)
-&#123;
-	return b ? gcd(b, a % b) : a;
-&#125;</code></pre>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> gcd<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> b <span class="op">?</span> gcd<span class="op">(</span>b<span class="op">,</span> a <span class="op">%</span> b<span class="op">)</span> <span class="op">:</span> a<span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
 <h3 id="欧拉函数">欧拉函数</h3>
 <p><span class="math inline">\(\varphi(n)\)</span>指<span
 class="math inline">\(1\sim n\)</span>中与<span
@@ -596,112 +601,115 @@ p_{2}^{\alpha_{2}} \cdots p_{k}^{\alpha_{k}}\)</span></p>
 <p>时间复杂度：<span class="math inline">\(O(\sqrt {n})\)</span>
 由分解质因数决定</p>
 <h4 id="分解法">分解法</h4>
-<pre class="language-c++" data-language="c++"><code class="language-c++">#pragma GCC diagnostic error &quot;-std&#x3D;c++11&quot;
-#include &lt;bits&#x2F;stdc++.h&gt;
-#define debug(x) cout &lt;&lt; #x &lt;&lt; &quot; &#x3D; &quot; &lt;&lt; x &lt;&lt; endl
-
-using namespace std;
-
-typedef pair&lt;int, int&gt; PII;
-typedef long long LL;
-
-&#x2F;&#x2F;const int N &#x3D; 1e6 + 5, mod &#x3D; 1e9 + 7;
-&#x2F;&#x2F;const double esp &#x3D; 1e-6;
-
-int Eular(int a)&#123;
-    int res &#x3D; a;
-    for (int i &#x3D; 2;  i &lt;&#x3D; a &#x2F; i; i ++ )
-    &#123;
-        if(a % i &#x3D;&#x3D; 0)
-        &#123;
-            res &#x3D; res &#x2F; i * (i - 1);
-            while (a % i &#x3D;&#x3D; 0) a &#x2F;&#x3D; i; 
-        &#125;
-    &#125;
-    if (a &gt; 1)  res &#x3D; res &#x2F; a * (a - 1);
-    return res;
-&#125;
-
-int main()
-&#123;
-    int t;
-    cin &gt;&gt; t;
-    while (t -- )
-    &#123;
-        int a;
-        cin &gt;&gt; a;
-        printf(&quot;%d\n&quot;, Eular(a));
-    &#125;
-    return 0;
-&#125;</code></pre>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#pragma GCC diagnostic error &quot;-std=c++11&quot;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;bits/stdc++.h&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#define debug</span><span class="op">(</span>x<span class="op">)</span><span class="pp"> </span>cout<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> #</span>x<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span><span class="st">&quot; = &quot;</span><span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span>x<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span>endl</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> pair<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> PII<span class="op">;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="dt">long</span> <span class="dt">long</span> LL<span class="op">;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">//const int N = 1e6 + 5, mod = 1e9 + 7;</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">//const double esp = 1e-6;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> Eular<span class="op">(</span><span class="dt">int</span> a<span class="op">)&#123;</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> res <span class="op">=</span> a<span class="op">;</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">2</span><span class="op">;</span>  i <span class="op">&lt;=</span> a <span class="op">/</span> i<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>a <span class="op">%</span> i <span class="op">==</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>            res <span class="op">=</span> res <span class="op">/</span> i <span class="op">*</span> <span class="op">(</span>i <span class="op">-</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> <span class="op">(</span>a <span class="op">%</span> i <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> a <span class="op">/=</span> i<span class="op">;</span> </span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>a <span class="op">&gt;</span> <span class="dv">1</span><span class="op">)</span>  res <span class="op">=</span> res <span class="op">/</span> a <span class="op">*</span> <span class="op">(</span>a <span class="op">-</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> res<span class="op">;</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> t<span class="op">;</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> t<span class="op">;</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>t <span class="op">--</span> <span class="op">)</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> a<span class="op">;</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> a<span class="op">;</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> Eular<span class="op">(</span>a<span class="op">));</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
 <h4 id="线性筛法">线性筛法</h4>
-<pre class="language-c++" data-language="c++"><code class="language-c++">#pragma GCC diagnostic error &quot;-std&#x3D;c++11&quot;
-#include &lt;algorithm&gt;
-#include &lt;iostream&gt;
-#include &lt;cstring&gt;
-#include &lt;vector&gt;
-
-using namespace std;
-
-typedef pair&lt;int, int&gt; PII;
-typedef long long LL;
-
-const int N &#x3D; 1e6 + 5, mod &#x3D; 1e9 + 7;
-
-int primes[N], cnt;
-int phi[N];
-bool st[N];
-
-void get_eulers(int n)
-&#123;
-    phi[1] &#x3D; 1;
-    for (int i &#x3D; 2; i &lt;&#x3D; n; i ++ )
-    &#123;
-        if (!st[i])
-        &#123;
-            primes[cnt ++ ] &#x3D; i;
-            phi[i] &#x3D; i - 1;  &#x2F;&#x2F;  i是质数
-        &#125;
-        for (int j &#x3D; 0; primes[j] &lt;&#x3D; n &#x2F; i; j ++ )
-        &#123;
-            st[primes[j] * i] &#x3D; true;
-            if (i % primes[j] &#x3D;&#x3D; 0)
-            &#123;
-                phi[primes[j] * i] &#x3D; phi[i] * primes[j];
-                break;
-            &#125;
-            phi[primes[j] * i] &#x3D; phi[i] * (primes[j] - 1);
-        &#125;
-    &#125;
-&#125;
-
-int main()
-&#123;
-    int n;
-    cin &gt;&gt; n;
-    get_eulers(n);
-    LL res &#x3D; 0;
-    for (int i &#x3D; 1; i &lt;&#x3D; n; i ++ )
-        res +&#x3D; phi[i];
-    cout &lt;&lt; res &lt;&lt; endl;
-    return 0;
-&#125;</code></pre>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#pragma GCC diagnostic error &quot;-std=c++11&quot;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cstring&gt;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> pair<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> PII<span class="op">;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="dt">long</span> <span class="dt">long</span> LL<span class="op">;</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="fl">1e6</span> <span class="op">+</span> <span class="dv">5</span><span class="op">,</span> mod <span class="op">=</span> <span class="fl">1e9</span> <span class="op">+</span> <span class="dv">7</span><span class="op">;</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> primes<span class="op">[</span>N<span class="op">],</span> cnt<span class="op">;</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> phi<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> st<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> get_eulers<span class="op">(</span><span class="dt">int</span> n<span class="op">)</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    phi<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(!</span>st<span class="op">[</span>i<span class="op">])</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>            primes<span class="op">[</span>cnt <span class="op">++</span> <span class="op">]</span> <span class="op">=</span> i<span class="op">;</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>            phi<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> i <span class="op">-</span> <span class="dv">1</span><span class="op">;</span>  <span class="co">//  i是质数</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> primes<span class="op">[</span>j<span class="op">]</span> <span class="op">&lt;=</span> n <span class="op">/</span> i<span class="op">;</span> j <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>            st<span class="op">[</span>primes<span class="op">[</span>j<span class="op">]</span> <span class="op">*</span> i<span class="op">]</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>i <span class="op">%</span> primes<span class="op">[</span>j<span class="op">]</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#123;</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>                phi<span class="op">[</span>primes<span class="op">[</span>j<span class="op">]</span> <span class="op">*</span> i<span class="op">]</span> <span class="op">=</span> phi<span class="op">[</span>i<span class="op">]</span> <span class="op">*</span> primes<span class="op">[</span>j<span class="op">];</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#125;</span></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>            phi<span class="op">[</span>primes<span class="op">[</span>j<span class="op">]</span> <span class="op">*</span> i<span class="op">]</span> <span class="op">=</span> phi<span class="op">[</span>i<span class="op">]</span> <span class="op">*</span> <span class="op">(</span>primes<span class="op">[</span>j<span class="op">]</span> <span class="op">-</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n<span class="op">;</span></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n<span class="op">;</span></span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>    get_eulers<span class="op">(</span>n<span class="op">);</span></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>    LL res <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>        res <span class="op">+=</span> phi<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> res <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
 <h3 id="快速幂">快速幂</h3>
 <h4 id="模板">模板</h4>
 <p>求<span class="math inline">\(a^{k}\%p\)</span></p>
 <p>优化原理：将指数用二进制预处理</p>
 <p>复杂度<span class="math inline">\(O(logn)\)</span></p>
-<pre class="language-c++" data-language="c++"><code class="language-c++">LL q_pow(LL a, LL k, LL mod)
-&#123;
-    LL res &#x3D; 1;
-    while (k)
-    &#123;
-        if (k&amp;1)  res &#x3D; res * a % mod;
-        a &#x3D; a * a % mod;
-        k &gt;&gt;&#x3D; 1;
-    &#125;
-    return res;
-&#125;</code></pre>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>LL q_pow<span class="op">(</span>LL a<span class="op">,</span> LL k<span class="op">,</span> LL mod<span class="op">)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    LL res <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>k<span class="op">)</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>k<span class="op">&amp;</span><span class="dv">1</span><span class="op">)</span>  res <span class="op">=</span> res <span class="op">*</span> a <span class="op">%</span> mod<span class="op">;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        a <span class="op">=</span> a <span class="op">*</span> a <span class="op">%</span> mod<span class="op">;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        k <span class="op">&gt;&gt;=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> res<span class="op">;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
 <h4 id="快速幂求乘法逆元">快速幂求乘法逆元</h4>
 <p>乘法逆元的定义</p>
 <blockquote>
@@ -735,130 +743,134 @@ class="math inline">\(ax+by=gcd(a,b)\)</span></p>
 </blockquote>
 <p>请求出一组 <span class="math inline">\(x, y\)</span> 满足 <span
 class="math inline">\(ax + by = gcd(a, b)\)</span></p>
-<pre class="language-c++" data-language="c++"><code class="language-c++">int exgcd(int a, int b, int &amp;x, int &amp;y)
-&#123;
-    if (!b)
-    &#123;
-        x &#x3D; 1, y &#x3D; 0;
-        return a;
-    &#125;
-    int d &#x3D; exgcd(b, a % b, y, x);
-    y -&#x3D; a &#x2F; b * x;
-    return d;
-&#125;</code></pre>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> exgcd<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">,</span> <span class="dt">int</span> <span class="op">&amp;</span>x<span class="op">,</span> <span class="dt">int</span> <span class="op">&amp;</span>y<span class="op">)</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(!</span>b<span class="op">)</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> y <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> a<span class="op">;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> d <span class="op">=</span> exgcd<span class="op">(</span>b<span class="op">,</span> a <span class="op">%</span> b<span class="op">,</span> y<span class="op">,</span> x<span class="op">);</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    y <span class="op">-=</span> a <span class="op">/</span> b <span class="op">*</span> x<span class="op">;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> d<span class="op">;</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
 <h4 id="解线性同余方程组">解线性同余方程组</h4>
 <p><span class="math inline">\(a_i×x_i≡b_i(mod\ m_i)\)</span></p>
 <p>求出一个满足上式的<span class="math inline">\(x_i\)</span></p>
 <p>上式等价于<span class="math inline">\(a∗x+m∗y=b\)</span></p>
-<pre class="language-c++" data-language="c++"><code class="language-c++">#pragma GCC diagnostic error &quot;-std&#x3D;c++11&quot;
-#include &lt;bits&#x2F;stdc++.h&gt;
-#define debug(x) cout &lt;&lt; #x &lt;&lt; &quot; &#x3D; &quot; &lt;&lt; x &lt;&lt; endl
-
-using namespace std;
-
-typedef pair&lt;int, int&gt; PII;
-typedef long long LL;
-
-&#x2F;&#x2F;const int N &#x3D; 1e6 + 5, mod &#x3D; 1e9 + 7;
-&#x2F;&#x2F;const double esp &#x3D; 1e-6;
-
-int exgcd(int a, int b, int &amp;x, int &amp;y)
-&#123;
-    if(!b)
-    &#123;
-        x &#x3D; 1, y &#x3D; 0;
-        return a;
-    &#125;    
-    int d &#x3D; exgcd(b, a % b, y, x);
-    y -&#x3D; a &#x2F; b * x;
-    return d;
-&#125;
-
-int main()
-&#123;
-    int t;
-    cin &gt;&gt; t;
-    while (t--)
-    &#123;
-        int a, b, m, x, y;
-        cin &gt;&gt; a &gt;&gt; b &gt;&gt; m;
-        int d &#x3D; exgcd(a, m, x, y);
-        if(b % d) printf(&quot;impossible\n&quot;);
-        else
-        &#123;
-            x &#x3D; (LL)x * b &#x2F; d % m;
-            cout &lt;&lt; x &lt;&lt; endl;
-        &#125;
-    &#125;
-    return 0;
-&#125;</code></pre>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#pragma GCC diagnostic error &quot;-std=c++11&quot;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;bits/stdc++.h&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#define debug</span><span class="op">(</span>x<span class="op">)</span><span class="pp"> </span>cout<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> #</span>x<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span><span class="st">&quot; = &quot;</span><span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span>x<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span>endl</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> pair<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> PII<span class="op">;</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="dt">long</span> <span class="dt">long</span> LL<span class="op">;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co">//const int N = 1e6 + 5, mod = 1e9 + 7;</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">//const double esp = 1e-6;</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> exgcd<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">,</span> <span class="dt">int</span> <span class="op">&amp;</span>x<span class="op">,</span> <span class="dt">int</span> <span class="op">&amp;</span>y<span class="op">)</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span><span class="op">(!</span>b<span class="op">)</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> y <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> a<span class="op">;</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span>    </span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> d <span class="op">=</span> exgcd<span class="op">(</span>b<span class="op">,</span> a <span class="op">%</span> b<span class="op">,</span> y<span class="op">,</span> x<span class="op">);</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    y <span class="op">-=</span> a <span class="op">/</span> b <span class="op">*</span> x<span class="op">;</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> d<span class="op">;</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> t<span class="op">;</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> t<span class="op">;</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>t<span class="op">--)</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> a<span class="op">,</span> b<span class="op">,</span> m<span class="op">,</span> x<span class="op">,</span> y<span class="op">;</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> a <span class="op">&gt;&gt;</span> b <span class="op">&gt;&gt;</span> m<span class="op">;</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> d <span class="op">=</span> exgcd<span class="op">(</span>a<span class="op">,</span> m<span class="op">,</span> x<span class="op">,</span> y<span class="op">);</span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>b <span class="op">%</span> d<span class="op">)</span> printf<span class="op">(</span><span class="st">&quot;impossible</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>            x <span class="op">=</span> <span class="op">(</span>LL<span class="op">)</span>x <span class="op">*</span> b <span class="op">/</span> d <span class="op">%</span> m<span class="op">;</span></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>            cout <span class="op">&lt;&lt;</span> x <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
 <h4 id="求逆元">求逆元</h4>
 <p>逆元<span class="math inline">\(x\)</span>为满足<span
 class="math inline">\(a*x≡1(mod\ p)\)</span></p>
 <p>等价于$a * x + k * p = 1 $</p>
-<pre class="language-c++" data-language="c++"><code class="language-c++">#pragma GCC diagnostic error &quot;-std&#x3D;c++11&quot;
-#include &lt;bits&#x2F;stdc++.h&gt;
-#define debug(x) cout &lt;&lt; #x &lt;&lt; &quot; &#x3D; &quot; &lt;&lt; x &lt;&lt; endl
-
-using namespace std;
-
-typedef pair&lt;int, int&gt; PII;
-typedef long long LL;
-
-&#x2F;&#x2F;const int N &#x3D; 1e6 + 5, mod &#x3D; 1e9 + 7;
-&#x2F;&#x2F;const double esp &#x3D; 1e-6;
-
-LL exgcd(LL a, LL b, LL &amp;x, LL &amp;y)
-&#123;
-    if(!b)
-    &#123;
-        x &#x3D; 1, y &#x3D; 0;
-        return a;
-    &#125;    
-    int d &#x3D; exgcd(b, a % b, y, x);
-    y -&#x3D; a &#x2F; b * x;
-    return d;
-&#125;
-
-int main()
-&#123;
-    LL t;
-    cin &gt;&gt; t;
-    while (t--)
-    &#123;
-        LL a, p, x, y;
-        cin &gt;&gt; a &gt;&gt; p;
-        LL d &#x3D; exgcd(a, p, x, y);
-        if(d !&#x3D; 1) printf(&quot;impossible\n&quot;);
-        else
-        &#123;
-            cout &lt;&lt; (x + p) % p &lt;&lt; endl; &#x2F;&#x2F; 防止出现负数
-        &#125;
-    &#125;
-    return 0;
-&#125;</code></pre>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#pragma GCC diagnostic error &quot;-std=c++11&quot;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;bits/stdc++.h&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#define debug</span><span class="op">(</span>x<span class="op">)</span><span class="pp"> </span>cout<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> #</span>x<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span><span class="st">&quot; = &quot;</span><span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span>x<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span>endl</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> pair<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> PII<span class="op">;</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="dt">long</span> <span class="dt">long</span> LL<span class="op">;</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">//const int N = 1e6 + 5, mod = 1e9 + 7;</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">//const double esp = 1e-6;</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>LL exgcd<span class="op">(</span>LL a<span class="op">,</span> LL b<span class="op">,</span> LL <span class="op">&amp;</span>x<span class="op">,</span> LL <span class="op">&amp;</span>y<span class="op">)</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span><span class="op">(!</span>b<span class="op">)</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="dv">1</span><span class="op">,</span> y <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> a<span class="op">;</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span>    </span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> d <span class="op">=</span> exgcd<span class="op">(</span>b<span class="op">,</span> a <span class="op">%</span> b<span class="op">,</span> y<span class="op">,</span> x<span class="op">);</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    y <span class="op">-=</span> a <span class="op">/</span> b <span class="op">*</span> x<span class="op">;</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> d<span class="op">;</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    LL t<span class="op">;</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> t<span class="op">;</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>t<span class="op">--)</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>        LL a<span class="op">,</span> p<span class="op">,</span> x<span class="op">,</span> y<span class="op">;</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> a <span class="op">&gt;&gt;</span> p<span class="op">;</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>        LL d <span class="op">=</span> exgcd<span class="op">(</span>a<span class="op">,</span> p<span class="op">,</span> x<span class="op">,</span> y<span class="op">);</span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>d <span class="op">!=</span> <span class="dv">1</span><span class="op">)</span> printf<span class="op">(</span><span class="st">&quot;impossible</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>            cout <span class="op">&lt;&lt;</span> <span class="op">(</span>x <span class="op">+</span> p<span class="op">)</span> <span class="op">%</span> p <span class="op">&lt;&lt;</span> endl<span class="op">;</span> <span class="co">// 防止出现负数</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
 <h3 id="线性求逆元">线性求逆元</h3>
 <p>通过递推式来求</p>
-<pre class="language-c++" data-language="c++"><code class="language-c++">#include &lt;iostream&gt;
-
-using namespace std;
-
-const int N &#x3D; 3e6 + 5;
-
-typedef long long LL;
-LL inv[N];
-
-int main()
-&#123;
-    LL n, mod;
-    cin &gt;&gt; n &gt;&gt; mod;
-    inv[1] &#x3D; 1;
-    for (int i &#x3D; 2; i &lt;&#x3D; n; i ++ )
-        inv[i] &#x3D; (mod - mod &#x2F; i) * inv[mod % i] % mod;
-    for (int i &#x3D; 1; i &lt;&#x3D; n; i ++ )
-        printf(&quot;%ld\n&quot;, inv[i]);
-    return 0;
-&#125;</code></pre>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode c++"><code class="sourceCode cpp"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="fl">3e6</span> <span class="op">+</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="dt">long</span> <span class="dt">long</span> LL<span class="op">;</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>LL inv<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    LL n<span class="op">,</span> mod<span class="op">;</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n <span class="op">&gt;&gt;</span> mod<span class="op">;</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    inv<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>        inv<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="op">(</span>mod <span class="op">-</span> mod <span class="op">/</span> i<span class="op">)</span> <span class="op">*</span> inv<span class="op">[</span>mod <span class="op">%</span> i<span class="op">]</span> <span class="op">%</span> mod<span class="op">;</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%ld\n</span><span class="st">&quot;</span><span class="op">,</span> inv<span class="op">[</span>i<span class="op">]);</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
 
         </div>
         <!-- .entry-content -->
@@ -892,7 +904,7 @@ int main()
           
             <a href="/2021/05/22/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/" rel="prev">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://s2.loli.net/2022/06/27/Ftcw7QfnKhCTxk3.png" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://s2.loli.net/2022/06/27/Ftcw7QfnKhCTxk3.png">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/Zranshi/CDN@1.0/img/loader/loading.jpg" data-src="https://s2.loli.net/2022/06/27/Ftcw7QfnKhCTxk3.png" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://s2.loli.net/2022/06/27/Ftcw7QfnKhCTxk3.png">
               </div>
               <span class="label">
               Previous Post</span>
@@ -910,7 +922,7 @@ int main()
           
             <a href="/2021/05/21/%E6%95%B0%E8%AE%BA2/" rel="next">
               <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://s2.loli.net/2022/06/27/3xAltGSCQ2N8YLP.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://s2.loli.net/2022/06/27/3xAltGSCQ2N8YLP.jpg">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/Zranshi/CDN@1.0/img/loader/loading.jpg" data-src="https://s2.loli.net/2022/06/27/3xAltGSCQ2N8YLP.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://s2.loli.net/2022/06/27/3xAltGSCQ2N8YLP.jpg">
               </div>
               <span class="label">
               Next Post</span>
@@ -939,7 +951,7 @@ int main()
               el: '#waline',
               serverURL: '',
               pageSize: '10',
-              lang: 'en',
+              lang: 'zh-CN',
               requiredFields: ['nick','mail'], //设置必填项
               placeholder: '祝开开心心！',
               visitor: 'true',
@@ -983,7 +995,7 @@ int main()
     <div class="ins-search-mask"></div>
     <div class="ins-search-container">
         <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="Type something..."/>
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
             <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="ins-section-wrapper">
@@ -992,20 +1004,21 @@ int main()
     </div>
 </div>
 <script>
-(function (window) {
-    var INSIGHT_CONFIG = {
-        TRANSLATION: {
-            POSTS: 'Posts',
-            // PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
-        },
-        ROOT_URL: '/',
-        CONTENT_URL: '/content.json',
-    };
-    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-})(window);
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                // PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+            },
+            ROOT_URL: '/',
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
 </script>
+
     <!-- <footer id="footer">
   
   <div class="outer">
@@ -1270,7 +1283,7 @@ $(document).ready(function() {
     line-height: 18px !important;
   }
   .aplayer .aplayer-lrc p.aplayer-lrc-current{
-    color: #FF1493;
+    color: #ffa500;
   }
   .aplayer.aplayer-narrow .aplayer-body{
     left: -66px !important;
