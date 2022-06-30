@@ -856,7 +856,7 @@ audio:not([controls]) {
 a {
     background-color: transparent;
     text-decoration: none;
-    cursor: url(https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cursor/ayuda.cur), auto
+    cursor: url(https://cdn.jsdelivr.net/gh/steven-kid/cdn@cursor/img/cursor/ayuda.cur), auto
 }
 
 a:active, a:hover {
@@ -864,7 +864,7 @@ a:active, a:hover {
 }
 
 a:active {
-    cursor: url(https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cursor/work.cur), alias
+    cursor: url(https://cdn.jsdelivr.net/gh/steven-kid/cdn@cursor/img/cursor/work.cur), alias
 }
 
 abbr[title] {
@@ -1019,7 +1019,7 @@ h1, h2, h3, h4, h5, h6 {
 
 p {
     margin-bottom: 1.5em;
-    cursor: url(https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cursor/texto.cur), auto
+    cursor: url(https://cdn.jsdelivr.net/gh/steven-kid/cdn@cursor/img/cursor/texto.cur), auto
 }
 
 dfn, cite, em, i {
@@ -1121,7 +1121,7 @@ html {
 body {
     background: #fff;
     background-attachment: fixed;
-    cursor: url(https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cursor/normal.cur), auto
+    cursor: url(https://cdn.jsdelivr.net/gh/steven-kid/cdn@charset/img/cursor/normal.cur), auto
 }
 
 blockquote:before, blockquote:after, q:before, q:after {
@@ -2668,11 +2668,11 @@ h1.page-title.mb- {
     z-index: 99;
     width: 70px;
     height: 900px;
-    background: url(https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/scroll.png) no-repeat center;
+    background: url(https://cdn.jsdelivr.net/gh/steven-kid/cdn@cursor/img/other/scroll.png) no-repeat center;
     background-size: contain;
     -webkit-transition: all .5s ease-in-out;
     transition: all .5s ease-in-out;
-    cursor: url(https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cursor/No_Disponible.cur), auto;
+    cursor: url(https://cdn.jsdelivr.net/gh/steven-kid/cdn@cursor/img/cursor/No_Disponible.cur), auto;
     opacity: 1
 }
 
@@ -4717,7 +4717,7 @@ li.feature-2 {
 
     .top-social_v2 li {
         margin-right: 0 !important;
-        cursor: url(https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cursor/ayuda.cur), auto !important;
+        cursor: url(https://cdn.jsdelivr.net/gh/steven-kid/cdn@cursor/img/cursor/ayuda.cur), auto !important;
     }
 }
 
@@ -6603,7 +6603,7 @@ i.iconfont.down {
     border: 0;
     color: #fff;
     line-height: 1;
-    cursor: url(https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cursor/No_Disponible.cur), auto;
+    cursor: url(https://cdn.jsdelivr.net/gh/steven-kid/cdn@cursor/img/cursor/No_Disponible.cur), auto;
     font-size: 14px;
     font-weight: 500;
     padding: 7px 15px;
@@ -6754,7 +6754,7 @@ button.botui-actions-buttons-button::-moz-focus-inner, input.botui-actions-text-
 }
 
 button.botui-actions-buttons-button {
-    cursor: url(https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cursor/No_Disponible.cur), auto;
+    cursor: url(https://cdn.jsdelivr.net/gh/steven-kid/cdn@cursor/img/cursor/No_Disponible.cur), auto;
     -webkit-appearance: button
 }
 
@@ -8188,7 +8188,7 @@ a.toc-link {
 }
 
 #emotion-toggle, .emotion-box, .on-hover, .emotion-item, .emoji-item, .tieba-container span {
-    cursor: url(https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cursor/No_Disponible.cur), auto
+    cursor: url(https://cdn.jsdelivr.net/gh/steven-kid/cdn@cursor/img/cursor/No_Disponible.cur), auto
 }
 
 .alignright {
@@ -8646,7 +8646,7 @@ a.toc-link {
     padding: 2px;
     text-shadow: none;
     border-radius: 0 0 5px 5px;
-    cursor: url(https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cursor/texto.cur), auto
+    cursor: url(https://cdn.jsdelivr.net/gh/steven-kid/cdn@cursor/img/cursor/texto.cur), auto
 }
 
 .highlight-wrap code[data-rel]:before {
