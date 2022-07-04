@@ -2683,4 +2683,865 @@ Vietnam”的模糊标签，帮助我们到达一个活生生的世界，那里�
         <tag>赛博劳工</tag>
       </tags>
   </entry>
+  <entry>
+    <title>背包问题</title>
+    <url>/2022/06/30/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="背包问题"><a class="markdownIt-Anchor" href="#背包问题"></a> 背包问题</h1>
+<p><img src="https://pic1.zhimg.com/v2-79a530037716def50178945a56d1cbb8_r.jpg" alt="preview" /></p>
+<h3 id="01背包"><a class="markdownIt-Anchor" href="#01背包"></a> 01背包</h3>
+<p>01背包是基础的背包问题，特点是：每种物品仅有一件，可以选择放或不放。<br />
+用子问题定义状态：</p>
+<p>即 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>v</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">f[i][v]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">]</span></span></span></span> 表示前 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span> 件物品恰放入一个容量为 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>v</mi></mrow><annotation encoding="application/x-tex">v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span></span></span></span> 的背包可以获得的最大价值</p>
+<p>状态转移方程：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>v</mi><mo stretchy="false">]</mo><mo>=</mo><mi>m</mi><mi>a</mi><mi>x</mi><mrow><mi>f</mi><mo stretchy="false">[</mo><mi>i</mi><mo>−</mo><mn>1</mn><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>v</mi><mo stretchy="false">]</mo><mo separator="true">,</mo><mi>f</mi><mo stretchy="false">[</mo><mi>i</mi><mo>−</mo><mn>1</mn><mo stretchy="false">]</mo><mo stretchy="false">[</mo><mi>v</mi><mo>−</mo><mi>c</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo stretchy="false">]</mo><mo>+</mo><mi>w</mi><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo></mrow></mrow><annotation encoding="application/x-tex">f[i][v]=max{f[i-1][v],f[i-1][v-c[i]]+w[i]}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault">x</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mclose">]</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord">1</span><span class="mclose">]</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault">c</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span></span></span></span></span></p>
+<p>可以通过倒着遍历进行转移，将第一维省去</p>
+<p>复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></p>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">1e5</span> + <span class="hljs-number">5</span>;
+
+<span class="hljs-keyword">int</span> f[N];
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-keyword">int</span> n, V;
+    <span class="hljs-built_in">cin</span> &gt;&gt; n &gt;&gt; V;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+    &#123;
+        <span class="hljs-keyword">int</span> v, w;
+        <span class="hljs-built_in">cin</span> &gt;&gt; v &gt;&gt; w;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = V; j &gt;= v; j -- )
+        &#123;
+            f[j] = <span class="hljs-built_in">max</span>(f[j], f[j - v] + w);
+        &#125;
+    &#125;
+    <span class="hljs-built_in">cout</span> &lt;&lt; f[V] &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<h4 id="装箱问题"><a class="markdownIt-Anchor" href="#装箱问题"></a> 装箱问题</h4>
+<p>给定n个物品，每个物品有一体积v，有一个总体积为V的箱子，求剩余体积最小为多少？</p>
+<p>用f[n]表示体积不超过n的情况下的最大体积，则剩余体积为V - f[V]</p>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">1e5</span> + <span class="hljs-number">5</span>;
+
+<span class="hljs-keyword">int</span> f[N]; <span class="hljs-comment">// f[i]表示体积不超过i的组合中最大能达到多少</span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-keyword">int</span> V, n;
+    <span class="hljs-built_in">cin</span> &gt;&gt; V &gt;&gt; n;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+    &#123;
+        <span class="hljs-keyword">int</span> v;
+        <span class="hljs-built_in">cin</span> &gt;&gt; v;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = V; j &gt;= v; j -- )
+        &#123;
+            f[j] = <span class="hljs-built_in">max</span>(f[j], f[j - v] + v);
+        &#125;
+    &#125;
+    <span class="hljs-built_in">cout</span> &lt;&lt; V - f[V] &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<h4 id="二维费用的背包问题"><a class="markdownIt-Anchor" href="#二维费用的背包问题"></a> 二维费用的背包问题</h4>
+<p>01 背包的动态转移方程是</p>
+<p>f[i][j] = max(f[i][j], f[i][j - v] + w);</p>
+<p>那么这个多了个重量，那么可以再开一维，变成三维</p>
+<p>f[i][j][k] = max(f[i][j][k], f[i][j - v][k - m] + w);</p>
+<p>同 01 背包，它也可以压缩亿下空间，于是变成了</p>
+<p>f[j][k] = max(f[j][k], f[j - v][k - m] + w);</p>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">105</span>;
+
+<span class="hljs-keyword">int</span> f[N][N];
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> 
+</span>&#123;
+    <span class="hljs-keyword">int</span> n, V, M;
+    <span class="hljs-built_in">cin</span> &gt;&gt; n &gt;&gt; V &gt;&gt; M;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+    &#123;
+        <span class="hljs-keyword">int</span> v, m, w;
+        <span class="hljs-built_in">cin</span> &gt;&gt; v &gt;&gt; m &gt;&gt; w;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = V; j &gt;= v; j -- )
+        &#123;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> k = M; k &gt;= m; k -- )
+            &#123;
+                f[j][k] = <span class="hljs-built_in">max</span>(f[j][k], f[j - v][k - m] + w);
+            &#125;
+        &#125;
+    &#125;
+    <span class="hljs-built_in">cout</span> &lt;&lt; f[V][M] &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<h4 id="宠物小精灵之收服"><a class="markdownIt-Anchor" href="#宠物小精灵之收服"></a> 宠物小精灵之收服</h4>
+<p>花费1：精灵球数量<br />
+花费2：皮卡丘体力值</p>
+<p>相当于同时处理两个01背包</p>
+<p>价值：小精灵的数量<br />
+状态表示：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo stretchy="false">[</mo><mi>i</mi><mo separator="true">,</mo><mi>j</mi><mo separator="true">,</mo><mi>k</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">f[i,j,k]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mclose">]</span></span></span></span> 表示所有只从前个物品中选，且花费1不差过j,花费2不超过k的选法的最大价值<br />
+状态计算：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo stretchy="false">[</mo><mi>i</mi><mo separator="true">,</mo><mi>j</mi><mo separator="true">,</mo><mi>k</mi><mo stretchy="false">]</mo><mo>=</mo><mi>m</mi><mi>a</mi><mi>x</mi><mo stretchy="false">(</mo><mi>f</mi><mo stretchy="false">[</mo><mi>i</mi><mo>−</mo><mn>1</mn><mo separator="true">,</mo><mi>j</mi><mo separator="true">,</mo><mi>k</mi><mo stretchy="false">]</mo><mo separator="true">,</mo><mi>f</mi><mo stretchy="false">[</mo><mi>i</mi><mo>−</mo><mn>1</mn><mo separator="true">,</mo><mi>j</mi><mo>−</mo><mi>v</mi><mn>1</mn><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo separator="true">,</mo><mi>k</mi><mo>−</mo><mi>v</mi><mn>2</mn><mo stretchy="false">[</mo><mi>i</mi><mo stretchy="false">]</mo><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f[i,j,k]=max(f[i-1,j,k],f[i-1,j-v1[i],k-v2[i]+1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault">x</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mclose">]</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord">1</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord">2</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span><br />
+最多收服的小精灵数量f[n,M,K-1]  最大体力为K-1(要求剩余体力大于1)</p>
+<p>最少耗费体力怎么计算呢？找到最小的一个k满足f[n,m,k] == f[n,M,K-1]</p>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">1005</span>;
+
+<span class="hljs-keyword">int</span> f[N][N]; <span class="hljs-comment">// f[i][j]表示精灵球用了i个，皮卡丘体力用了j后能够收服的最多的精灵</span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-keyword">int</span> n, M, K;
+    <span class="hljs-built_in">cin</span> &gt;&gt; M &gt;&gt; K &gt;&gt; n;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+    &#123;
+        <span class="hljs-keyword">int</span> m, k;
+        <span class="hljs-built_in">cin</span> &gt;&gt; m &gt;&gt; k;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = M; j &gt;= m; j -- )
+        &#123;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> t = K - <span class="hljs-number">1</span>; t &gt;= k; t -- )
+            &#123;
+                f[j][t] = <span class="hljs-built_in">max</span>(f[j][t], f[j - m][t - k] + <span class="hljs-number">1</span>);
+            &#125;
+        &#125;
+    &#125;
+    <span class="hljs-built_in">cout</span> &lt;&lt; f[M][K - <span class="hljs-number">1</span>] &lt;&lt; <span class="hljs-string">" "</span>; <span class="hljs-comment">// 用的体力不能超过K - 1，因为剩余的体力要大于1</span>
+    <span class="hljs-keyword">int</span> k = K - <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">while</span>(k &gt; <span class="hljs-number">0</span> &amp;&amp; f[M][k - <span class="hljs-number">1</span>] == f[M][K - <span class="hljs-number">1</span>]) k -- ;
+    <span class="hljs-comment">// 倒着找回去，找一下能够使得捕获精灵球最多的情况下，最小花费的体力</span>
+    <span class="hljs-built_in">cout</span> &lt;&lt; K - k &lt;&lt; <span class="hljs-built_in">endl</span>;  <span class="hljs-comment">// 求得是剩余的体力</span>
+&#125;
+</code></pre>
+<h4 id="潜水员"><a class="markdownIt-Anchor" href="#潜水员"></a> 潜水员</h4>
+<p>设所需氧气为A，所需氮气为B。</p>
+<p>题目的意思选择若干个气缸，可以使得 Sum(A)&gt;=A, Sum(B)&gt;=B 且重量尽量的轻。</p>
+<p>即我们选择的气缸的氧气加起来<strong>至少</strong>为 A，氮气加起来<strong>至少</strong>为 B。</p>
+<p>在 01 背包的时候， j&lt;v1 和 k&lt;v2 不能作为取值，因为我们背包的容量只有 j 和 k，放不下 v1 和 v2</p>
+<p>但是在这里，假设我们把 a[i] 和 b[i] 装进背包，并不会有什么问题，因为 氧气和氮气 超出背包容量依然能</p>
+<p>满足。如果不装来反而会漏更新状态， 所以可以通过一个取max的操作包含这一状态</p>
+<p>f[j][k] = min(f[j][k], f[max(0, j - v1)][max(0, k - v2)] + w);</p>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">22</span>, M = <span class="hljs-number">80</span>;
+
+<span class="hljs-keyword">int</span> f[N][M];  <span class="hljs-comment">// f[i][j] 表示费用1z至少是i, 费用2至少是j时, 重量的最低值</span>
+
+<span class="hljs-comment">// 集合表示中为恰好是当前值时, 0赋值为0, 其他赋值为正无穷(求最小值)</span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-keyword">int</span> n, m, K;
+    <span class="hljs-built_in">cin</span> &gt;&gt; n &gt;&gt; m &gt;&gt; K;
+    <span class="hljs-built_in">memset</span>(f, <span class="hljs-number">0x3f</span>, <span class="hljs-keyword">sizeof</span> f);
+    f[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>;
+    
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= K; i ++ )
+    &#123;
+        <span class="hljs-keyword">int</span> v1, v2, w;
+        <span class="hljs-built_in">cin</span> &gt;&gt; v1 &gt;&gt; v2 &gt;&gt; w;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = n; j &gt;= <span class="hljs-number">0</span>; j -- )
+        &#123;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> k = m; k &gt;= <span class="hljs-number">0</span>; k -- )
+            &#123;
+                f[j][k] = <span class="hljs-built_in">min</span>(f[j][k], f[<span class="hljs-built_in">max</span>(<span class="hljs-number">0</span>, j - v1)][<span class="hljs-built_in">max</span>(<span class="hljs-number">0</span>, k - v2)] + w);
+                <span class="hljs-comment">//  关键的一个取max然后转移的过程</span>
+            &#125;
+        &#125;
+    &#125;
+    <span class="hljs-built_in">cout</span> &lt;&lt; f[n][m] &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<h4 id="数字组合"><a class="markdownIt-Anchor" href="#数字组合"></a> 数字组合</h4>
+<p>(DP,01背包问题) <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(nm)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mord mathdefault">m</span><span class="mclose">)</span></span></span></span></p>
+<p>可以转化为01背包问题求方案数：</p>
+<p>将总和 M 看作背包容量；</p>
+<p>将每个数的值 Ai 看作体积；</p>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-comment">// 将M看成背包容量，将每个数看成一个物品，值看成体积</span>
+<span class="hljs-comment">// 目标：求出总体积恰好是M的方案数</span>
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">105</span>, M = <span class="hljs-number">100005</span>;
+
+<span class="hljs-keyword">int</span> f[M];
+<span class="hljs-comment">//  f[j]表示体积恰好是j的方案的集合</span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-keyword">int</span> n, m;
+    <span class="hljs-built_in">cin</span> &gt;&gt; n &gt;&gt; m;
+    f[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+    &#123;
+        <span class="hljs-keyword">int</span> v;
+        <span class="hljs-built_in">cin</span> &gt;&gt; v;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = m; j &gt;= v; j -- )
+            f[j] = f[j] + f[j - v];
+    &#125;
+    <span class="hljs-built_in">cout</span> &lt;&lt; f[m] &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<h3 id="完全背包"><a class="markdownIt-Anchor" href="#完全背包"></a> 完全背包</h3>
+<h4 id="模板"><a class="markdownIt-Anchor" href="#模板"></a> 模板</h4>
+<p>与01背包类比</p>
+<p>推导状态转移方程</p>
+<p>f[i, j]  = f[i-1, j] + f[i-1, j-v*1] + f[i-1] + [j-v*2] + … f[i-1,j-v*s]</p>
+<p>f[i,j-v] =             f[i-1, j-v*1] + f[i-1] + [j-v*2] + … f[i-1,j-v*s]</p>
+<p>故可以进行一个替换得到</p>
+<p>f[i,j] = f[i-1,j] + f[i, j-v];</p>
+<p>此时可以将复杂度优化掉一层</p>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">1005</span>;
+
+<span class="hljs-keyword">int</span> f[N];
+<span class="hljs-comment">// f[j], 总体积不超过j的最大价值</span>
+
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-keyword">int</span> n, V;
+    <span class="hljs-built_in">cin</span> &gt;&gt; n &gt;&gt; V;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+    &#123;
+        <span class="hljs-keyword">int</span> v, w;
+        <span class="hljs-built_in">cin</span> &gt;&gt; v &gt;&gt; w;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt;= V; j ++ )
+        &#123;
+            <span class="hljs-keyword">if</span>(j &gt;= v)  f[j] = <span class="hljs-built_in">max</span>(f[j], f[j - v] + w);
+        &#125;
+    &#125;
+    <span class="hljs-built_in">cout</span> &lt;&lt; f[V] &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<h4 id="买书"><a class="markdownIt-Anchor" href="#买书"></a> 买书</h4>
+<p>小明有 m 块钱，现有 10 元， 20 元， 50 元， 100 元 的书</p>
+<p>每本书可以购买多次，求小明有多少种买书方案？(要求花掉全部的钱)</p>
+<p>利用完全背包即可</p>
+<p>初始化：f[0] = 1；啥都不买-&gt;仅有一种方案</p>
+<p>复杂度</p>
+<ol>
+<li>最朴素的枚举是<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord mathdefault">m</span><span class="mclose">)</span></span></span></span></li>
+<li>优化后<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo>×</mo><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n×m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">m</span><span class="mclose">)</span></span></span></span></li>
+</ol>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">1005</span>;
+
+<span class="hljs-keyword">int</span> v[] = &#123;<span class="hljs-number">0</span>, <span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">50</span>, <span class="hljs-number">100</span>&#125;;
+<span class="hljs-keyword">int</span> f[N];
+<span class="hljs-comment">// f[j], 总体积恰好是j的方案的集合</span>
+
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-keyword">int</span> n;
+    <span class="hljs-built_in">cin</span> &gt;&gt; n;
+    f[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;  <span class="hljs-comment">// 记得初始化初值</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= <span class="hljs-number">4</span>; i ++ )
+    &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt;= n; j ++ )
+        &#123;
+            <span class="hljs-keyword">if</span>(j &gt;= v[i])  f[j] += f[j -v[i]];
+        &#125;
+    &#125;
+    <span class="hljs-built_in">cout</span> &lt;&lt; f[n] &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<h4 id="货币系统"><a class="markdownIt-Anchor" href="#货币系统"></a> 货币系统</h4>
+<p><img src="https://s2.loli.net/2022/07/01/JWTaIcXZlCfS4Kz.png" alt="" /></p>
+<p><img src="https://s2.loli.net/2022/07/01/oyAdaiIEDc5KT4z.png" alt="" /></p>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">110</span>, M = <span class="hljs-number">25010</span>;
+
+<span class="hljs-keyword">int</span> a[N], f[M];
+<span class="hljs-comment">// f[i]表示这个数能不能被其他数表示出来</span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-keyword">int</span> T;
+    <span class="hljs-built_in">cin</span> &gt;&gt; T;
+    <span class="hljs-keyword">while</span>(T -- )
+    &#123;
+        <span class="hljs-built_in">memset</span>(f, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> f);
+        <span class="hljs-keyword">int</span> n;
+        <span class="hljs-built_in">cin</span> &gt;&gt; n;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+            <span class="hljs-built_in">cin</span> &gt;&gt; a[i];
+        sort(a + <span class="hljs-number">1</span>, a + <span class="hljs-number">1</span> + n);  <span class="hljs-comment">// 排序保证从小到大递推(类似埃氏筛的思想)</span>
+        f[<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;  <span class="hljs-comment">// 一定要记得初始化</span>
+        <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>, m = a[n];
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+        &#123;
+            <span class="hljs-keyword">if</span>(!f[a[i]]) ans ++ ;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = a[i]; j &lt;= m; j ++ )
+            &#123;
+                f[j] |= f[j - a[i]];
+            &#125;
+        &#125;
+        <span class="hljs-built_in">cout</span> &lt;&lt; ans &lt;&lt; <span class="hljs-built_in">endl</span>;
+    &#125;
+
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<h3 id="多重背包"><a class="markdownIt-Anchor" href="#多重背包"></a> 多重背包</h3>
+<h4 id="有个数限制的背包模型"><a class="markdownIt-Anchor" href="#有个数限制的背包模型"></a> 有个数限制的背包模型</h4>
+<p>有个数限制的背包模型</p>
+<p>时间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo>×</mo><mi>m</mi><mo>×</mo><mi>s</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n×m×s)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">m</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">s</span><span class="mclose">)</span></span></span></span></p>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">6010</span>;
+
+<span class="hljs-keyword">int</span> f[N];
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-keyword">int</span> n, m;
+    <span class="hljs-built_in">cin</span> &gt;&gt; n &gt;&gt; m;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i ++ )
+    &#123;
+        <span class="hljs-keyword">int</span> v, w, s;
+        <span class="hljs-built_in">cin</span> &gt;&gt; v &gt;&gt; w &gt;&gt; s;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = m; j &gt;= <span class="hljs-number">0</span>; j -- )
+        &#123; <span class="hljs-comment">// 朴素的枚举选择多少个即可</span>
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> k = <span class="hljs-number">0</span>; k &lt;= s &amp;&amp; k * v &lt;= j; k ++ ) 
+            &#123;
+                f[j] = <span class="hljs-built_in">max</span>(f[j], f[j - k * v] + k * w);
+            &#125;
+        &#125;
+    &#125;
+    <span class="hljs-built_in">cout</span> &lt;&lt; f[m] &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<h4 id="二进制优化"><a class="markdownIt-Anchor" href="#二进制优化"></a> 二进制优化</h4>
+<p>问题Ⅱ是利用二进制进行优化</p>
+<p>将一个大的整数拆成二级制下多个小的数，对这些数的集合进行一次01背包即可</p>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;vector&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">2010</span>;
+
+<span class="hljs-keyword">int</span> f[N];
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-keyword">int</span> n, V;
+    <span class="hljs-built_in">cin</span> &gt;&gt; n &gt;&gt; V;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+    &#123;
+        <span class="hljs-keyword">int</span> v, w, s;
+        <span class="hljs-built_in">cin</span> &gt;&gt; v &gt;&gt; w &gt;&gt; s;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> k = <span class="hljs-number">1</span>; k &lt;= s; k *= <span class="hljs-number">2</span>)
+        &#123;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = V; j &gt;= k * v; j -- )  <span class="hljs-comment">// 01背包</span>
+            &#123;
+                f[j] = <span class="hljs-built_in">max</span>(f[j], f[j - k * v] + k * w);
+            &#125;
+            s -= k;
+        &#125;
+        <span class="hljs-keyword">if</span>(s) <span class="hljs-comment">// 对剩余的再处理一次</span>
+        &#123;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = V; j &gt;= s * v; j -- )
+            &#123;
+                f[j] = <span class="hljs-built_in">max</span>(f[j], f[j - s * v] + s * w);
+            &#125;
+        &#125;
+    &#125;
+    <span class="hljs-built_in">cout</span> &lt;&lt; f[V] &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<h4 id="单调队列优化"><a class="markdownIt-Anchor" href="#单调队列优化"></a> 单调队列优化</h4>
+<h3 id="混合背包"><a class="markdownIt-Anchor" href="#混合背包"></a> 混合背包</h3>
+<p>混合背包=01背包+完全背包+多重背包</p>
+<p>全部转换成多重背包然后利用二进制优化即可</p>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">1010</span>;
+
+<span class="hljs-keyword">int</span> f[N];
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-keyword">int</span> n, m;
+    <span class="hljs-built_in">cin</span> &gt;&gt; n &gt;&gt; m;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+    &#123;
+        <span class="hljs-keyword">int</span> v, w, s;
+        <span class="hljs-built_in">cin</span> &gt;&gt; v &gt;&gt; w &gt;&gt; s;
+        <span class="hljs-keyword">if</span>(s == <span class="hljs-number">0</span>)
+            s = (m / v) + <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">if</span>(s == <span class="hljs-number">-1</span>)
+            s = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> k = <span class="hljs-number">1</span>; k &lt;= s; k *= <span class="hljs-number">2</span>)
+        &#123;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = m; j &gt;= k * v; j -- )
+            &#123;
+                f[j] = <span class="hljs-built_in">max</span>(f[j], f[j - k * v] + k * w);
+            &#125;
+            s -= k;
+        &#125;
+        <span class="hljs-keyword">if</span>(s)
+        &#123;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = m; j &gt;= s * v; j -- )
+            &#123;
+                f[j] = <span class="hljs-built_in">max</span>(f[j], f[j - s * v] + s * w);
+            &#125;
+        &#125;
+    &#125;
+    <span class="hljs-built_in">cout</span> &lt;&lt; f[m] &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<h3 id="分组背包"><a class="markdownIt-Anchor" href="#分组背包"></a> 分组背包</h3>
+<p>将物品分为若干组，每个组内只能选择一个元素</p>
+<ul>
+<li>第一个循环枚举分组(不存可以优化掉空间)</li>
+<li>第二个循环枚举体积</li>
+<li>第三个循环枚举每个分组内选择哪一个元素</li>
+</ul>
+<p>复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>3</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^3)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></p>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">110</span>;
+
+<span class="hljs-keyword">int</span> f[N], v[N], w[N];
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-keyword">int</span> n, V;
+    <span class="hljs-built_in">cin</span> &gt;&gt; n &gt;&gt; V;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+    &#123;
+        <span class="hljs-keyword">int</span> s;
+        <span class="hljs-built_in">cin</span> &gt;&gt; s;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= s; j ++ )
+            <span class="hljs-built_in">cin</span> &gt;&gt; v[j] &gt;&gt; w[j];
+            
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = V; j &gt;= <span class="hljs-number">0</span>; j -- )  <span class="hljs-comment">// 枚举体积</span>
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> k = <span class="hljs-number">1</span>; k &lt;= s; k ++ )
+                <span class="hljs-keyword">if</span>(j &gt;= v[k])
+                    f[j] = <span class="hljs-built_in">max</span>(f[j], f[j - v[k]] + w[k]);
+    &#125;
+    
+    <span class="hljs-built_in">cout</span> &lt;&lt; f[V] &lt;&lt; <span class="hljs-built_in">endl</span>;
+    
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<h4 id="金明的预算方案"><a class="markdownIt-Anchor" href="#金明的预算方案"></a> 金明的预算方案</h4>
+<p>分析：可以将每个主件及其附件看作一个物品组，记主件为 p，两个附件为 a,b，则最多一共有4种组合：</p>
+<ul>
+<li>p</li>
+<li>p,a</li>
+<li>p,b</li>
+<li>p,a,b</li>
+</ul>
+<p>这四种组合是互斥的，最多只能从中选一种，因此可以将每种组合看作一个物品，那么问题就变成了分组背包问题</p>
+<p>在枚举四种组合时可以使用二进制的思想，可以简化代码。</p>
+<p>时间复杂度：分组背包的时间复杂度是 物品总数 * 总体积，因此总时间复杂度是 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>N</mi><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(Nm)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mord mathdefault">m</span><span class="mclose">)</span></span></span></span></p>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> v first</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> w second</span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">65</span>, M = <span class="hljs-number">32010</span>;
+
+<span class="hljs-keyword">typedef</span> pair&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; PII;
+
+PII master[N];
+<span class="hljs-built_in">vector</span>&lt;PII&gt; servant[N];
+<span class="hljs-keyword">int</span> f[M];
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-keyword">int</span> N, m;
+    <span class="hljs-built_in">cin</span> &gt;&gt; N &gt;&gt; m;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= m; i ++ )
+    &#123;
+        <span class="hljs-keyword">int</span> v, p, q;
+        <span class="hljs-built_in">cin</span> &gt;&gt; v &gt;&gt; p &gt;&gt; q;
+        p *= v;
+        <span class="hljs-keyword">if</span>(!q)  master[i] = &#123;v, p&#125;;
+        <span class="hljs-keyword">else</span>  servant[q].push_back(&#123;v, p&#125;);
+    &#125;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= m; i ++ )
+    &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> u = N; u &gt;= <span class="hljs-number">0</span>; u -- )
+        &#123;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">1</span> &lt;&lt; servant[i].<span class="hljs-built_in">size</span>(); j ++ )
+            &#123;
+                <span class="hljs-keyword">int</span> v = master[i].v, w = master[i].w;
+                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> k = <span class="hljs-number">0</span>; k &lt; servant[i].<span class="hljs-built_in">size</span>(); k ++ )
+                &#123;
+                    <span class="hljs-comment">//  利用二进制进行表达</span>
+                    <span class="hljs-comment">//  二进制表达选择情况</span>
+                    <span class="hljs-keyword">if</span>(j &gt;&gt; k &amp; <span class="hljs-number">1</span>)
+                    &#123;
+                        v += servant[i][k].v;
+                        w += servant[i][k].w;
+                    &#125;
+                &#125;
+                <span class="hljs-keyword">if</span>(u &gt;= v)  f[u] = <span class="hljs-built_in">max</span>(f[u], f[u - v] + w);
+            &#125;
+        &#125;
+    &#125;
+    <span class="hljs-built_in">cout</span> &lt;&lt; f[N] &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<h3 id="背包问题求具体方案"><a class="markdownIt-Anchor" href="#背包问题求具体方案"></a> 背包问题求具体方案</h3>
+<p>基础的01背包，但是要求求出选取的是什么(字典序最小的方案)</p>
+<p>状态表示： f[i, j]表示从前i个物品中选，总容量为j的最优解</p>
+<p>要使得字典序最小，则尽可能选择前面的元素</p>
+<p>状态转移： f[i, j] = max(f[i+1, j], f[i + 1, j - v[i]] + w[i]);</p>
+<p>然后考虑得到具体方案(以第一个物品为例)</p>
+<ul>
+<li>
+<p>f[1, m] = f[2, m−v[1]] + w[1] 说明选取了第1个物品可以得到最优解。</p>
+</li>
+<li>
+<p>f[1, m] = f[2, m]，说明不选取第一个物品才能得到最优解。</p>
+</li>
+<li>
+<p>f[1, m] = f[2, m] = f[2, m−v[1]] + w[1]，说明选不选都可以得到最优解，</p>
+<p>但是为了考虑字典序最小，我们也需要选取该物品。</p>
+</li>
+</ul>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">1010</span>;
+
+<span class="hljs-keyword">int</span> f[N][N], v[N], w[N];
+
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-keyword">int</span> n, m;
+    <span class="hljs-built_in">cin</span> &gt;&gt; n &gt;&gt; m;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+    &#123;
+        <span class="hljs-built_in">cin</span> &gt;&gt; v[i] &gt;&gt; w[i];
+    &#125;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = n; i &gt;= <span class="hljs-number">1</span>; i -- )
+    &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt;= m; j ++ )
+        &#123;
+            f[i][j] = f[i + <span class="hljs-number">1</span>][j];
+            <span class="hljs-keyword">if</span>(j &gt;= v[i]) f[i][j] = <span class="hljs-built_in">max</span>(f[i][j], f[i + <span class="hljs-number">1</span>][j - v[i]] + w[i]);
+        &#125;
+    &#125;
+    <span class="hljs-keyword">int</span> j = m;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+    &#123;
+        <span class="hljs-keyword">if</span>(j &gt;= v[i] &amp;&amp; f[i][j] == f[i + <span class="hljs-number">1</span>][j - v[i]] + w[i])
+        &#123;
+            <span class="hljs-built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="hljs-string">" "</span>;
+            j -= v[i];
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<h4 id="机器分配"><a class="markdownIt-Anchor" href="#机器分配"></a> 机器分配</h4>
+<p>可以转化为分组背包， 同时要求出具体方案</p>
+<p><img src="https://s2.loli.net/2022/07/02/Thr4pO8UxZ7cS2H.png" alt="" /></p>
+<p>倒推的时候通过 f[i][j] == f[i - 1][j - k] + w[i][k] 判断这个选不选</p>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstring&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">20</span>;
+
+<span class="hljs-keyword">int</span> f[N][N], s[N][N], w[N][N], way[N];
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-keyword">int</span> n, m;
+    <span class="hljs-built_in">cin</span> &gt;&gt; n &gt;&gt; m;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= m; j ++ )
+            <span class="hljs-built_in">cin</span> &gt;&gt; w[i][j];
+    <span class="hljs-comment">// 分组背包 </span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt;= m; j ++ )
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> k = <span class="hljs-number">0</span>; k &lt;= j; k ++ )
+                f[i][j] = <span class="hljs-built_in">max</span>(f[i][j], f[i - <span class="hljs-number">1</span>][j - k] + w[i][k]);
+
+    <span class="hljs-built_in">cout</span> &lt;&lt; f[n][m] &lt;&lt; <span class="hljs-built_in">endl</span>;
+    
+    <span class="hljs-keyword">int</span> j = m;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = n; i &gt;= <span class="hljs-number">0</span>; i -- )
+    &#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> k = <span class="hljs-number">0</span>; k &lt;= j; k ++ )
+        &#123;
+            <span class="hljs-keyword">if</span>(f[i][j] == f[i - <span class="hljs-number">1</span>][j - k] + w[i][k])  <span class="hljs-comment">// 求方案</span>
+            &#123;
+                way[i] = k;
+                j -= k;
+                <span class="hljs-keyword">break</span>;
+            &#125;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )  <span class="hljs-built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="hljs-string">" "</span> &lt;&lt; way[i] &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<h3 id="背包问题求方案数"><a class="markdownIt-Anchor" href="#背包问题求方案数"></a> 背包问题求方案数</h3>
+<p>大体思路一致，将维护最大值更改为维护总和</p>
+<p>注意此时需要对dp数组进行<mark>初始化</mark>(g[i] == 1)</p>
+<p>先初始化所有的 cnt[i] 为 1，因为背包里什么也不装也是一种方案</p>
+<p>然后进行循环， 如果</p>
+<ul>
+<li>f[j] == f[j - v] + w  两种方案一样优，将g增加</li>
+<li>f[j] &lt; f[j - v] + w  新方案更优，更改f数组和g数组</li>
+</ul>
+<p>复杂度<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(nm)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mord mathdefault">m</span><span class="mclose">)</span></span></span></span></p>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">1010</span>, mod = <span class="hljs-number">1e9</span> + <span class="hljs-number">7</span>;
+
+<span class="hljs-keyword">int</span> f[N], g[N];
+<span class="hljs-comment">// g数组维护方案数</span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-keyword">int</span> n, V;
+    <span class="hljs-built_in">cin</span> &gt;&gt; n &gt;&gt; V;
+    
+    <span class="hljs-comment">// 初始化</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt;= V; i ++ )
+        g[i] = <span class="hljs-number">1</span>;
+        
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+    &#123;
+        <span class="hljs-keyword">int</span> v, w;
+        <span class="hljs-built_in">cin</span> &gt;&gt; v &gt;&gt; w;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = V; j &gt;= v; j -- )
+        &#123;
+            <span class="hljs-keyword">if</span>(f[j] == f[j - v] + w)
+                g[j] = (g[j] + g[j - v]) % mod;
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(f[j] &lt; f[j - v] + w)
+            &#123;
+                f[j] = f[j - v] + w;
+                g[j] = g[j - v];
+            &#125;
+        &#125;
+    &#125;
+    
+    <span class="hljs-built_in">cout</span> &lt;&lt; g[V] &lt;&lt; <span class="hljs-built_in">endl</span>;
+&#125;
+</code></pre>
+<h3 id="有依赖的背包问题"><a class="markdownIt-Anchor" href="#有依赖的背包问题"></a> 有依赖的背包问题</h3>
+<p>在选择某个物品时有一个依赖关系，要求先选择该元素的前驱(类似没有上司的舞会)</p>
+<p>-&gt; 在树上的01背包</p>
+<p>而以往的背包DP每个物品关系是任意的（但我们一般视为线性的）</p>
+<p>所以，这题沿用背包DP的话，要从原来的线性DP改成树形DP即可</p>
+<p>利用vector存图，每一次三重循环：</p>
+<p>​ for(子节点) -&gt; for(总空间) -&gt; for (子树的空间)</p>
+<p>状态表示：f[x][v]表达选择以x为子树的物品，在容量不超过v时所获得的最大价值</p>
+<p>复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>N</mi><mo>∗</mo><mi>V</mi><mo>∗</mo><mi>V</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(N*V*V)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">V</span><span class="mclose">)</span></span></span></span></p>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;vector&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">110</span>;
+
+<span class="hljs-keyword">int</span> f[N][N];
+<span class="hljs-comment">// f[x][v]表达选择以x为子树的物品，在容量不超过v时所获得的最大价值</span>
+<span class="hljs-keyword">int</span> n, V;
+<span class="hljs-keyword">int</span> w[N], v[N];
+<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; tr[N + <span class="hljs-number">1</span>];
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span>
+</span>&#123;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = v[x]; i &lt;= V; i ++ )  f[x][i] = w[x];
+    <span class="hljs-comment">// 选择点x</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span> t : tr[x])
+    &#123;
+        dfs(t);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = V; j &gt;= v[x]; j -- )  <span class="hljs-comment">// 枚举含有当前节点的总空间</span>
+        &#123;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> k = <span class="hljs-number">0</span>; k &lt;= j - v[x]; k ++ )  <span class="hljs-comment">// 枚举子树的空间</span>
+            &#123;
+                f[x][j] = <span class="hljs-built_in">max</span>(f[x][j], f[x][j - k] + f[t][k]);
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-built_in">cin</span> &gt;&gt; n &gt;&gt; V;
+    <span class="hljs-keyword">int</span> root = <span class="hljs-number">-1</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+    &#123;
+        <span class="hljs-keyword">int</span> p;
+        <span class="hljs-built_in">cin</span> &gt;&gt; v[i] &gt;&gt; w[i] &gt;&gt; p;
+        <span class="hljs-keyword">if</span>(~p) tr[p].push_back(i);
+        <span class="hljs-keyword">else</span> root = i;
+    &#125;
+    dfs(root);
+    <span class="hljs-built_in">cout</span> &lt;&lt; f[root][V] &lt;&lt; <span class="hljs-built_in">endl</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<h3 id="贪心结合背包"><a class="markdownIt-Anchor" href="#贪心结合背包"></a> 贪心结合背包</h3>
+<h4 id="能量石"><a class="markdownIt-Anchor" href="#能量石"></a> 能量石</h4>
+<p>利用类似于 <a href="https://www.acwing.com/problem/content/116/">国王游戏</a> 和 <a href="https://www.acwing.com/problem/content/127/">耍杂技的牛</a> 的思路(邻项交换法)</p>
+<p>发现有可能存在最优解的某些宝石的贡献为0，我们剔除了这些宝石。</p>
+<p>假设最优解的能量石排列长度为k(1&lt;=k&lt;=n) 因为去掉了那些没有贡献的宝石，位置为：</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>a</mi><mn>1</mn></msub><mo separator="true">,</mo><msub><mi>a</mi><mn>2</mn></msub><mo separator="true">,</mo><msub><mi>a</mi><mn>3</mn></msub><mo>…</mo><msub><mi>a</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">a_1,a_2,a_3…a_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></p>
+<p>那么对于任意两个位置  <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi><mo>=</mo><msub><mi>a</mi><mi>l</mi></msub><mo separator="true">,</mo><mi>j</mi><mo>=</mo><msub><mi>a</mi><mrow><mi>l</mi><mo>+</mo><mn>1</mn></mrow></msub><mo stretchy="false">(</mo><mn>1</mn><mo>&lt;</mo><mo>=</mo><mi>l</mi><mo>&lt;</mo><mi>k</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">i=a_{l}, j=a_{l+1}(1&lt;=l&lt;k)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.73354em;vertical-align:-0.0391em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mclose">)</span></span></span></span></p>
+<p>交换后两个宝石的贡献总和不会变得更大，即（假设之前的总时间为t）：</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>E</mi><mi>i</mi></msub><mo>−</mo><mi>t</mi><mo>∗</mo><msub><mi>L</mi><mi>i</mi></msub><mo>+</mo><msub><mi>E</mi><mi>j</mi></msub><mo>−</mo><mrow><mo fence="true">(</mo><mi>t</mi><mo>+</mo><msub><mi>S</mi><mi>i</mi></msub><mo fence="true">)</mo></mrow><mo>∗</mo><msub><mi>L</mi><mi>j</mi></msub><mo>&gt;</mo><mo>=</mo><msub><mi>E</mi><mi>j</mi></msub><mo>−</mo><mi>t</mi><mo>∗</mo><msub><mi>L</mi><mi>j</mi></msub><mo>+</mo><msub><mi>E</mi><mi>i</mi></msub><mo>−</mo><mrow><mo fence="true">(</mo><mi>t</mi><mo>+</mo><msub><mi>S</mi><mi>j</mi></msub><mo fence="true">)</mo></mrow><mo>∗</mo><msub><mi>L</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">E_{i}-t * L_{i}+E_{j}-\left(t+S_{i}\right) *L_{j}&gt;=E_{j}-t* L_{j}+E_{i}-\left(t+S_{j}\right) * L_{i}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathdefault">t</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord mathdefault">t</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathdefault">t</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord mathdefault">t</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></p>
+<p>整理后:</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>S</mi><mi>i</mi></msub><mo>∗</mo><msub><mi>L</mi><mi>j</mi></msub><mo>&lt;</mo><mo>=</mo><msub><mi>S</mi><mi>j</mi></msub><mo>∗</mo><msub><mi>L</mi><mrow><mi>i</mi><mi mathvariant="normal">。</mi></mrow></msub></mrow><annotation encoding="application/x-tex">S_{i} * L_{j}&lt;=S_{j} * L_{i 。}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.969438em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord cjk_fallback mtight">。</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><br />
+这样，我们只要以如上条件作为宝石间排序的条件，进行一次sort。</p>
+<p>因为对于其他形式的放置规律，必然可以通过交换满足$\frac{S_i}{L_i} &gt; \frac{S_i}{L_i} $的相邻的两项来得到更小值。</p>
+<p>那么最优解的坐标（新的坐标）一定满足：</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>a</mi><mi>i</mi></msub><mo>&lt;</mo><msub><mi>a</mi><mn>2</mn></msub><mo>&lt;</mo><msub><mi>a</mi><mn>3</mn></msub><mo>…</mo><mo>&lt;</mo><msub><mi>a</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">a_i&lt;a_2&lt;a_3…&lt;a_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6891em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.6891em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.6891em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><br />
+那么，我们只要搞个01背包，Si作为费用，max(0,Ei−(t−Si)∗Li) 作为价值 (t为当前花费时长)。</p>
+<p>状态表示：f[t] 表示当前正好花t时间得到的最大能量。</p>
+<p>状态转移方程：f[j] = max(f[j], f[j - a[i].s] + max(0, a[i].e - (j - a[i].s) * a[i].l))</p>
+<p>最后循环一次找到最大值即可</p>
+<p>复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mrow><mo fence="true">(</mo><mi>T</mi><mo>∗</mo><mi>n</mi><mo>∗</mo><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></msubsup><msub><mi>s</mi><mi>i</mi></msub><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">O\left(T *n* \sum_{i=1}^{n} s_{i}\right)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.104002em;vertical-align:-0.29971000000000003em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord mathdefault" style="margin-right:0.13889em;">T</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.804292em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.29971000000000003em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span></span></p>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;algorithm&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstring&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">105</span>, S = <span class="hljs-number">10005</span>;
+
+<span class="hljs-keyword">int</span> n;
+<span class="hljs-keyword">int</span> f[S];
+
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">Node</span>&#123;</span>
+    <span class="hljs-keyword">int</span> s, e, l;
+    <span class="hljs-keyword">bool</span> <span class="hljs-keyword">operator</span> &lt; (<span class="hljs-keyword">const</span> Node &amp;x) <span class="hljs-keyword">const</span> &#123;
+        <span class="hljs-keyword">return</span> s * x.l &lt; x.s * l;
+    &#125;
+&#125;a[N];
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-keyword">int</span> T;
+    <span class="hljs-built_in">cin</span> &gt;&gt; T;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> cnt = <span class="hljs-number">1</span>; cnt &lt;= T; cnt ++ )
+    &#123;
+        <span class="hljs-built_in">memset</span>(f, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> f);
+        <span class="hljs-keyword">int</span> n;
+        <span class="hljs-built_in">cin</span> &gt;&gt; n;
+        <span class="hljs-keyword">int</span> t = <span class="hljs-number">0</span>; <span class="hljs-comment">// 记录总和</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+        &#123;
+            <span class="hljs-keyword">int</span> s,e, l;
+            <span class="hljs-built_in">cin</span> &gt;&gt; s &gt;&gt; e &gt;&gt; l;
+            t += s;
+            a[i] = &#123;s, e, l&#125;;
+        &#125;
+        sort(a + <span class="hljs-number">1</span>, a + <span class="hljs-number">1</span> + n);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+        &#123;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = t; j &gt;= a[i].s; j -- )  <span class="hljs-comment">// 01背包</span>
+            &#123;
+                f[j] = <span class="hljs-built_in">max</span>(f[j], f[j - a[i].s] + <span class="hljs-built_in">max</span>(<span class="hljs-number">0</span>, a[i].e - (j - a[i].s) * a[i].l)); 
+            &#125;
+        &#125;
+        <span class="hljs-keyword">int</span> res = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= t; i ++ ) res = <span class="hljs-built_in">max</span>(res, f[i]);
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">"Case #%d: %d\n"</span>, cnt, res);
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;;
+&#125;
+</code></pre>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>动态规划</tag>
+        <tag>算法</tag>
+      </tags>
+  </entry>
 </search>
