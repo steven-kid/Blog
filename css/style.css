@@ -8605,7 +8605,7 @@ a.toc-link {
     max-width: 100%;
     overflow: auto;
     text-shadow: none;
-    color: #000;
+    color: white;
     padding-top: 30px;
     box-shadow: 0 10px 30px 0 rgba(0, 0, 0, .4)
 }

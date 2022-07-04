@@ -355,7 +355,7 @@
 <p><img src="https://s2.loli.net/2022/03/24/UQgtY4E9yblsL75.png" /></p>
 <h3 id="dijkstra算法">dijkstra算法</h3>
 <p>不适用于有负权边的情况，复杂度为 <span
-class="math inline">\(O(n^2)\)</span>/<span
+class="math inline">\(O(n^2)\)</span> 或 <span
 class="math inline">\(O(m\cdot logn)\)</span></p>
 <p>有朴素版本和堆(prioirty queue)优化版本</p>
 <h4 id="朴素版本">朴素版本</h4>
@@ -405,7 +405,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#c
 <span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span><span class="op">(</span>distance <span class="op">+</span> w<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;</span> dist<span class="op">[</span>j<span class="op">])</span> </span>
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#123;</span></span>
 <span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>                dist<span class="op">[</span>j<span class="op">]</span> <span class="op">=</span> distance <span class="op">+</span> w<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>                heap<span class="op">.</span>push<span class="op">(</span>make_pair<span class="op">(</span>dist<span class="op">[</span>j<span class="op">],</span> j<span class="op">));</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>             heap<span class="op">.</span>push<span class="op">(</span>make_pair<span class="op">(</span>dist<span class="op">[</span>j<span class="op">],</span> j<span class="op">));</span></span>
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#125;</span></span>
 <span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
 <span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>

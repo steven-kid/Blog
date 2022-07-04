@@ -579,7 +579,7 @@ b)\)</span></p>
 <div class="sourceCode" id="cb6"><pre
 class="sourceCode c++"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> gcd<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">)</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> b <span class="op">?</span> gcd<span class="op">(</span>b<span class="op">,</span> a <span class="op">%</span> b<span class="op">)</span> <span class="op">:</span> a<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a> <span class="cf">return</span> b <span class="op">?</span> gcd<span class="op">(</span>b<span class="op">,</span> a <span class="op">%</span> b<span class="op">)</span> <span class="op">:</span> a<span class="op">;</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
 <h3 id="欧拉函数">欧拉函数</h3>
 <p><span class="math inline">\(\varphi(n)\)</span>指<span
@@ -802,7 +802,7 @@ class="sourceCode c++"><code class="sourceCode cpp"><span id="cb11-1"><a href="#
 <h4 id="求逆元">求逆元</h4>
 <p>逆元<span class="math inline">\(x\)</span>为满足<span
 class="math inline">\(a*x≡1(mod\ p)\)</span></p>
-<p>等价于$a * x + k * p = 1 $</p>
+<p>等价于$a <em>x + k</em> p = 1 $</p>
 <div class="sourceCode" id="cb12"><pre
 class="sourceCode c++"><code class="sourceCode cpp"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#pragma GCC diagnostic error &quot;-std=c++11&quot;</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;bits/stdc++.h&gt;</span></span>
