@@ -1715,6 +1715,14 @@ a:hover, a:active {
     pointer-events: none;
 }
 
+.lower{
+    padding-left: 150px;
+}
+
+.lower > li{
+    margin-left: 30px;
+}
+
 @media (max-width: 1200px) {
     .site-top .lower {
         left: 280px
@@ -4561,6 +4569,7 @@ li.feature-2 {
 }
 
 .notice {
+    display: none;
     padding: 20px;
     border: 1px dashed #e6e6e6;
     color: #969696;
@@ -8605,7 +8614,7 @@ a.toc-link {
     max-width: 100%;
     overflow: auto;
     text-shadow: none;
-    color: white;
+    color: #000;
     padding-top: 30px;
     box-shadow: 0 10px 30px 0 rgba(0, 0, 0, .4)
 }

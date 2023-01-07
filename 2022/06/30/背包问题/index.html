@@ -212,13 +212,6 @@
                       </li>
                     
                       <li>
-                        <a href="/categories/%E7%94%9F%E6%B4%BB/">
-                          <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                          生活
-                        </a>
-                      </li>
-                    
-                      <li>
                         <a href="/categories/%E9%9A%8F%E6%83%B3/">
                           <i class="fa fa-commenting-o" aria-hidden="true"></i>
                           随想
@@ -230,30 +223,10 @@
               </li>
             
               <li>
-                <a href="/music/">
-                  <span class="faa-parent animated-hover">
-                    <i class="fa  fa-headphones" aria-hidden="true"></i>
-                    歌单
-                  </span>
-                </a>
-                
-              </li>
-            
-              <li>
                 <a href="/links/">
                   <span class="faa-parent animated-hover">
                     <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
                     友人
-                  </span>
-                </a>
-                
-              </li>
-            
-              <li>
-                <a href="/comment/">
-                  <span class="faa-parent animated-hover">
-                    <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
-                    诗句
                   </span>
                 </a>
                 
@@ -297,16 +270,6 @@
                 
               </li>
             
-              <li>
-                <a href="/contact/">
-                  <span class="faa-parent animated-hover">
-                    <i class="fa  fa fa-envelope" aria-hidden="true"></i>
-                    Contact me
-                  </span>
-                </a>
-                
-              </li>
-            
           </ul>
         </nav>
       </div>
@@ -320,7 +283,7 @@
 
   <div class="pattern-center single-center">
     <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://s2.loli.net/2022/06/27/3xAltGSCQ2N8YLP.jpg);" src="https://cdn.jsdelivr.net/gh/Zranshi/CDN@1.0/img/loader/loading.jpg" data-src="https://s2.loli.net/2022/06/27/3xAltGSCQ2N8YLP.jpg">
+    <div class="pattern-attachment-img lazyload" style="background-image: url(https://s2.loli.net/2022/07/04/PuRsw6aKGhDMynY.png);" src="https://cdn.jsdelivr.net/gh/Zranshi/CDN@1.0/img/loader/loading.jpg" data-src="https://s2.loli.net/2022/07/04/PuRsw6aKGhDMynY.png">
     </div>
     <header class="pattern-header single-header">
       <h1 class="entry-title">
@@ -474,7 +437,9 @@ class="math inline">\(j\)</span> ,花费2不超过 <span
 class="math inline">\(k\)</span> 的选法的最大价值</p>
 <p>状态计算：<span
 class="math inline">\(f[i,j,k]=max(f[i-1,j,k],f[i-1,j-v1[i],k-v2[i]+1)\)</span>
-最多收服的小精灵数量f[n,M,K-1] 最大体力为K-1(要求剩余体力大于1)</p>
+最多收服的小精灵数量 <span class="math inline">\(f[n,M,K-1]\)</span>
+最大体力为 <span
+class="math inline">\(K-1\)</span>(要求剩余体力大于1)</p>
 <p>最少耗费体力怎么计算呢？找到最小的一个k满足 <span
 class="math inline">\(f[n,m,k] == f[n,M,K-1]\)</span></p>
 <div class="sourceCode" id="cb4"><pre
@@ -807,7 +772,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb11-1"><a href="#
 <span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
 <h4 id="单调队列优化">单调队列优化</h4>
 <h3 id="混合背包">混合背包</h3>
-<p>混合背包=01背包+完全背包+多重背包</p>
+<p>混合背包 = 01背包 + 完全背包 + 多重背包</p>
 <p>全部转换成多重背包然后利用二进制优化即可</p>
 <div class="sourceCode" id="cb12"><pre
 class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
@@ -903,8 +868,8 @@ class="math inline">\(a,b\)</span> ,则最多一共有4种组合：</p>
 </ul>
 <p>这四种组合是互斥的，最多只能从中选一种，因此可以将每种组合看作一个物品，那么问题就变成了分组背包问题</p>
 <p>在枚举四种组合时可以使用二进制的思想，可以简化代码。</p>
-<p>时间复杂度：分组背包的时间复杂度是 物品总数 *
-总体积，因此总时间复杂度是 <span
+<p>时间复杂度：分组背包的时间复杂度是 物品总数 <span
+class="math inline">\(\times\)</span> 总体积，因此总时间复杂度是 <span
 class="math inline">\(O(Nm)\)</span></p>
 <div class="sourceCode" id="cb14"><pre
 class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
@@ -961,8 +926,8 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb14-1"><a href="#
 <span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
 <h3 id="背包问题求具体方案">背包问题求具体方案</h3>
 <p>基础的01背包，但是要求求出选取的是什么(字典序最小的方案)</p>
-<p>状态表示： <span class="math inline">\(f[i, j]\)</span>表示从前 <span
-class="math inline">\(i\)</span> 个物品中选，总容量为 <span
+<p>状态表示： <span class="math inline">\(f[i, j]\)</span> 表示从前
+<span class="math inline">\(i\)</span> 个物品中选，总容量为 <span
 class="math inline">\(j\)</span> 的最优解</p>
 <p>要使得字典序最小，则尽可能选择前面的元素</p>
 <p>状态转移： <span class="math inline">\(f[i, j] = max(f[i+1, j], f[i +
@@ -1186,17 +1151,18 @@ target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/116/
 target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/127/">耍杂技的牛</a>
 的思路(邻项交换法)</p>
 <p>发现有可能存在最优解的某些宝石的贡献为0，我们剔除了这些宝石。</p>
-<p>假设最优解的能量石排列长度为k(1&lt;=k&lt;=n)
-因为去掉了那些没有贡献的宝石，位置为：</p>
+<p>假设最优解的能量石排列长度为 <span class="math inline">\(k(1 \le k
+\le n)\)</span> 因为去掉了那些没有贡献的宝石，位置为：</p>
 <p><span class="math inline">\(a_1,a_2,a_3…a_k\)</span></p>
-<p>那么对于任意两个位置 <span class="math inline">\(i=a_{l},
-j=a_{l+1}(1&lt;=l&lt;k)\)</span></p>
-<p>交换后两个宝石的贡献总和不会变得更大，即（假设之前的总时间为t）：</p>
+<p>那么对于任意两个位置 <span class="math inline">\(i=a_{l}, j=a_{l+1}(1
+\le l&lt;k)\)</span></p>
+<p>交换后两个宝石的贡献总和不会变得更大，即（假设之前的总时间为 <span
+class="math inline">\(t\)</span> ）：</p>
 <p><span class="math inline">\(E_{i}-t *
 L_{i}+E_{j}-\left(t+S_{i}\right) *L_{j}&gt;=E_{j}-t*
 L_{j}+E_{i}-\left(t+S_{j}\right) * L_{i}\)</span></p>
 <p>整理后:</p>
-<p><span class="math inline">\(S_{i} * L_{j}&lt;=S_{j} * L_{i
+<p><span class="math inline">\(S_{i} * L_{j} \le S_{j} * L_{i
 。}\)</span> 这样，我们只要以如上条件作为宝石间排序的条件，进行一次
 <span class="math inline">\(sort\)</span></p>
 <p>因为对于其他形式的放置规律，必然可以通过交换满足$ &gt;
@@ -1207,8 +1173,8 @@ $的相邻的两项来得到更小值</p>
 class="math inline">\(S_i\)</span>作为费用，<span
 class="math inline">\(max(0,E_i−(t−S_i)∗L_i)\)</span> 作为价值 ( <span
 class="math inline">\(t\)</span> 为当前花费时长)</p>
-<p>状态表示：<span class="math inline">\(f[t]\)</span>
-表示当前正好花t时间得到的最大能量</p>
+<p>状态表示：<span class="math inline">\(f[t]\)</span> 表示当前正好花
+<span class="math inline">\(t\)</span> 时间得到的最大能量</p>
 <p>状态转移方程：<span class="math inline">\(f[j] = max(f[j], f[j -
 a[i].s] + max(0, a[i].e - (j - a[i].s) * a[i].l))\)</span></p>
 <p>最后循环一次找到最大值即可</p>
@@ -1292,9 +1258,26 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb19-1"><a href="#
       <div class="toc" style="background: none;"></div>
       <section class="post-squares nextprev">
         
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2022/09/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/Zranshi/CDN@1.0/img/loader/loading.jpg" data-src="https://i.loli.net/2021/04/20/Dz3V9qUO4E5sXP8.png" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://i.loli.net/2021/04/20/Dz3V9qUO4E5sXP8.png">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                计算机网络</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
         
           
-            <div class="post-nepre full next">
+            <div class="post-nepre half next">
           
             <a href="/2022/06/30/%E7%A7%8D%E6%97%8F%E6%AD%A7%E8%A7%86/" rel="next">
               <div class="background">
@@ -1399,7 +1382,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb19-1"><a href="#
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2022 John Doe<br>
+      &copy; 2023 John Doe<br>
       powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
@@ -1543,13 +1526,6 @@ $(document).ready(function() {
               </li>
             
               <li>
-                <a href="/categories/%E7%94%9F%E6%B4%BB/">
-                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                  生活
-                </a>
-              </li>
-            
-              <li>
                 <a href="/categories/%E9%9A%8F%E6%83%B3/">
                   <i class="fa fa-commenting-o" aria-hidden="true"></i>
                   随想
@@ -1561,30 +1537,10 @@ $(document).ready(function() {
       </li>
     
       <li>
-        <a href="/music/">
-          <span class="faa-parent animated-hover">
-            <i class="fa  fa-headphones" aria-hidden="true"></i>
-            歌单
-          </span>
-        </a>
-        
-      </li>
-    
-      <li>
         <a href="/links/">
           <span class="faa-parent animated-hover">
             <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
             友人
-          </span>
-        </a>
-        
-      </li>
-    
-      <li>
-        <a href="/comment/">
-          <span class="faa-parent animated-hover">
-            <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
-            诗句
           </span>
         </a>
         
@@ -1628,16 +1584,6 @@ $(document).ready(function() {
         
       </li>
     
-      <li>
-        <a href="/contact/">
-          <span class="faa-parent animated-hover">
-            <i class="fa  fa fa-envelope" aria-hidden="true"></i>
-            Contact me
-          </span>
-        </a>
-        
-      </li>
-    
   </ul>
   <p style="text-align: center; font-size: 13px; color: #b9b9b9;">&copy 2019 hexo-sakura</p>
 </div>
@@ -1674,26 +1620,6 @@ $(document).ready(function() {
 </style>
 <meting-js
 
-    id="7508358391"
-
-    server="netease"
-
-    type="playlist"
-
-    fixed="true"
-
-    autoplay="false"
-
-    loop="all"
-
-    order="random"
-
-    preload="auto"
-
-    volume="0.7"
-
-    mutex="true"
-
 </meting-js>
 <script>
   $(function(){
@@ -1706,5 +1632,5 @@ $(document).ready(function() {
     })
   });
 </script>
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"left"},"mobile":{"show":true,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2}});</script></body>
+</body>
 </html>
