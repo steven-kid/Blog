@@ -1290,60 +1290,6 @@ a:hover, a:active {
     z-index: 0
 }
 
-#video-btn, #video-add {
-    position: absolute;
-    bottom: 3px;
-    right: 5px;
-    width: 32px;
-    height: 32px;
-    z-index: 7;
-    background-position: center;
-    background-size: cover;
-    cursor: pointer;
-    opacity: .8;
-    -moz-animation: poi-face 10s linear infinite alternate;
-    -webkit-animation: poi-face 10s linear infinite alternate;
-    -o-animation: poi-face 10s linear infinite alternate;
-    animation: poi-face 10s linear infinite alternate
-}
-
-#video-btn:hover, #video-add:hover {
-    opacity: 1
-}
-
-.video-play, .loadvideo {
-    background-image: url('https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/play@32x32.png')
-}
-
-.video-pause {
-    background-image: url('https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/pause@32x32.png')
-}
-
-#video-add {
-    background-image: url('https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/add@32x32.png');
-    bottom: 45px;
-    display: none
-}
-
-.video-stu {
-    position: absolute;
-    bottom: -100px;
-    left: 0;
-    right: 0;
-    margin: auto;
-    padding: 6px 15px;
-    text-align: center;
-    color: #fff;
-    width: 100%;
-    background-color: rgba(0, 0, 0, .8);
-    border-radius: 0;
-    font-size: 18px;
-    -webkit-transition: .4s ease all;
-    -moz-transition: .4s ease all;
-    -o-transition: .4s ease all;
-    transition: .4s ease all
-}
-
 .pattern-center {
     position: relative;
     top: 0;
@@ -1795,7 +1741,7 @@ a:hover, a:active {
     bottom: -16px;
     height: 6px;
     background-color: #fe9600;
-    width: 100%;
+    width: 55px;
     max-width: 0;
     transition: max-width .25s ease-in-out
 }
@@ -4738,6 +4684,7 @@ li.feature-2 {
     padding: 0;
     width: 100%;
     z-index: 0;
+    display: none;
 }
 
 .blank {
@@ -4783,14 +4730,6 @@ li.feature-2 {
     -webkit-transition: all ease 1s;
     -moz-transition: all ease 1s;
     -o-transition: all ease 1s
-}
-
-.focusinfo .header-tou img:hover {
-    transform: rotate(360deg);
-    -webkit-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    -o-transform: rotate(360deg);
-    -ms-transform: rotate(360deg)
 }
 
 .bio-text {
@@ -4896,7 +4835,8 @@ li.feature-2 {
 .header-info p {
     margin: 0;
     font-family: 'Ubuntu', sans-serif;
-    font-weight: 700
+    font-weight: 700;
+    font-size: 20px;
 }
 
 .top-social {
@@ -4908,8 +4848,8 @@ li.feature-2 {
 }
 
 .top-social img {
-    height: 35px;
-    width: 35px;
+    height: 40px;
+    width: 40px;
     padding: 6px;
     background: rgba(0, 0, 0, .4)
 }
@@ -4920,18 +4860,16 @@ li.feature-2 {
 }
 
 .top-social_v2 {
-    height: 32px;
+    height: 50px;
     margin-bottom: -15px;
-    margin-left: 10px;
     list-style: none;
     display: inline-block
 }
 
 .top-social_v2 img {
-    height: 35px;
-    width: 35px;
-    padding: 6px;
-    background: transparent
+    height: 50px;
+    width: 50px;
+    padding: 6px;   
 }
 
 .top-social_v2 li {
@@ -4940,22 +4878,22 @@ li.feature-2 {
 }
 
 .wechat {
-    width: 35px;
-    height: 35px;
+    width: 50px;
+    height: 50px;
     position: relative
 }
 
 .wechatInner img {
     border-radius: 0;
-    width: 121px;
+    width: 301px;
     height: auto;
     padding: 0;
     background: none
 }
 
 .wechatInner {
-    width: 121px;
-    height: 121px;
+    width: 201px;
+    height: 201px;
     padding: 10px;
     background: rgba(0, 0, 0, .4);
     top: 40px;
@@ -9051,10 +8989,6 @@ img[src*="#in-center"] {
     }
 }
 
-#video-add {
-    /*display:none !important*/
-}
-
 .accordionMenu {
     color: #424242;
     margin: 0 auto;
@@ -9249,6 +9183,22 @@ td.hljs-ln-numbers {
 .toc-fixed {
     position: fixed !important;
     top: 85px;
+}
+
+#menu-new{
+    width: 600px;
+    position: fixed;
+    right: 0;
+    align-content: space-between;
+}
+
+#menu-new > li:first-child{
+    padding-left: 250px;
+}
+
+#menu-new > li:not(:first-child){
+    z-index: 10000;
+    margin-left: 20px;
 }
 
 @media (max-width: 1200px) {

@@ -570,12 +570,6 @@ function preBG () {
 $(document).ready(function () {
   var bgindex = Math.floor(Math.random() * bg.length)
   $('.centerbg').css('background-image', 'url("' + bg[bgindex] + '")')
-  $('#bg-next').click(function () {
-    nextBG()
-  })
-  $('#bg-pre').click(function () {
-    preBG()
-  })
 })
 if (document.body.clientWidth <= 860 && !window.is_app) {
   window.onscroll = function () {
@@ -645,16 +639,7 @@ function timeSeriesReload (flag) {
           })
         }
       }
-      var al_expand_collapse_click = 0
-      $('#al_expand_collapse').click(function () {
-        if (al_expand_collapse_click == 0) {
-          $al_post_list.show()
-          al_expand_collapse_click++
-        } else if (al_expand_collapse_click == 1) {
-          $al_post_list.hide()
-          al_expand_collapse_click--
-        }
-      })
+      $al_post_list.show()
     })()
   }
 }
@@ -689,12 +674,6 @@ var pjaxInit = function () {
   }
   $('.iconflat').css('width', '50px').css('height', '50px')
   $('.openNav').css('height', '50px')
-  $('#bg-next').click(function () {
-    nextBG()
-  })
-  $('#bg-pre').click(function () {
-    preBG()
-  })
   smileBoxToggle()
   timeSeriesReload()
   add_copyright()
@@ -1136,10 +1115,7 @@ var home = location.href,
         $('#main-container,#mo-nav,.openNav').toggleClass('open')
       }
     }, splay: function () {
-      $('#video-btn').addClass('video-pause').removeClass('video-play').show()
-      $('.video-stu').css({
-        'bottom': '-100px'
-      })
+      
       $('.focusinfo').css({
         'top': '-999px'
       })
@@ -1155,7 +1131,6 @@ var home = location.href,
             // } catch (e) {}
       s.play()
     }, spause: function () {
-      $('#video-btn').addClass('video-play').removeClass('video-pause')
       $('.focusinfo').css({
         'top': '49.3%'
       })
@@ -1184,43 +1159,7 @@ var home = location.href,
       $('#bgvideo').attr('src', Poi.movies.url + '/' + _t)
       $('#bgvideo').attr('video-name', _t)
     }, LV: function () {
-      var _btn = $('#video-btn')
-      _btn.on('click', function () {
-        if ($(this).hasClass('loadvideo')) {
-          $(this).addClass('video-pause').removeClass('loadvideo').hide()
-          Siren.addsource()
-          s.oncanplay = function () {
-            Siren.splay()
-            $('#video-add').show()
-            _btn.addClass('videolive')
-            _btn.addClass('haslive')
-          }
-        } else {
-          if ($(this).hasClass('video-pause')) {
-            Siren.spause()
-            _btn.removeClass('videolive')
-            $('.video-stu').css({
-              'bottom': '0px'
-            }).html('已暂停 ...')
-          } else {
-            Siren.splay()
-            _btn.addClass('videolive')
-          }
-        }
-        s.onended = function () {
-          $('#bgvideo').attr('src', '')
-          $('#video-add').hide()
-          _btn.addClass('loadvideo').removeClass('video-pause')
-          _btn.removeClass('videolive')
-          _btn.removeClass('haslive')
-          $('.focusinfo').css({
-            'top': '49.3%'
-          })
-        }
-      })
-      $('#video-add').on('click', function () {
-        Siren.addsource()
-      })
+      
     }, AH: function () {
       if (Poi.windowheight == 'auto') {
         if ($('h1.main-title').length > 0) {

@@ -48,7 +48,7 @@
   /*End of Initial Variables*/
   </script>
   <script type="text/javascript">
-  var bg = "https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(9).jpg,https://s2.loli.net/2022/06/27/5LZPcMqsXGtWDg2.jpg,https://s2.loli.net/2022/06/27/6Ul5DEReC8JOjM1.jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(10).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(11).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(12).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(13).jpg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(14).jpeg,https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(18).jpg".split(",");
+  var bg = "https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(14).jpeg".split(",");
   var bgindex = Math.floor(Math.random()*bg.length);
   if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
     alert('朋友，IE浏览器未适配哦~');
@@ -79,11 +79,8 @@
         </a>
       </div>
       <div class="header-info">
-        <p>You meet those you&#39;ve met.</p>
+        <p>Talk is cheap, show me the code</p>
         <div class="top-social_v2">
-          <li id="bg-pre">
-            <img class="flipx" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
-          </li>
           
             
               
@@ -130,23 +127,11 @@
               
             
           
-          <li id="bg-next">
-            <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
-          </li>
         </div>
       </div>
     </div>
   </figure>
-  <div id="video-container" style="">
-    <video style="object-fit: fill" id="bgvideo" class="video" video-name="" src="" width="auto" preload="auto">
-    </video>
-    <div id="video-btn" class="loadvideo videolive">
-    </div>
-    <div id="video-add">
-    </div>
-    <div class="video-stu">
-    </div>
-  </div>
+
   <div class="headertop-down faa-float animated" onclick="headertop_down()">
     <span>
       <i class="fa fa-chevron-down" aria-hidden="true">
@@ -167,10 +152,6 @@
         </span>
       </span>
     </div>
-    <div class="searchbox search-form-submit">
-      <i class="iconfont js-toggle-search iconsearch icon-search">
-      </i>
-    </div>
     <div id="show-nav" class="showNav mobile-fit">
       <div class="line line1">
       </div>
@@ -183,16 +164,6 @@
       <div class="lower">
         <nav class="mobile-fit-control hide">
           <ul id="menu-new" class="menu">
-            
-              <li>
-                <a href="/">
-                  <span class="faa-parent animated-hover">
-                    <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
-                    首页
-                  </span>
-                </a>
-                
-              </li>
             
               <li>
                 <a href="/archives">
@@ -369,34 +340,7 @@
   </div>
 </div>
     </div>    
-    <div class="ins-search">
-    <div class="ins-search-mask"></div>
-    <div class="ins-search-container">
-        <div class="ins-input-wrapper">
-            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
-            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-    (function (window) {
-        var INSIGHT_CONFIG = {
-            TRANSLATION: {
-                POSTS: '文章',
-                // PAGES: '页面',
-                CATEGORIES: '分类',
-                TAGS: '标签',
-            },
-            ROOT_URL: '/',
-            CONTENT_URL: '/content.json',
-        };
-        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-    })(window);
-</script>
-
+    
     <!-- <footer id="footer">
   
   <div class="outer">
@@ -516,16 +460,6 @@ $(document).ready(function() {
     
   </p>
   <ul id="menu-new-1" class="menu">
-    
-      <li>
-        <a href="/">
-          <span class="faa-parent animated-hover">
-            <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
-            首页
-          </span>
-        </a>
-        
-      </li>
     
       <li>
         <a href="/archives">
