@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  
+  <title itemprop="name">区间DP | Steven&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+SerifMerriweather|Merriweather+Sans|Source+Code+Pro|Ubuntu:400,700|Noto+Serif+SC" media="all">
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+  <link rel="stylesheet" id="saukra_css-css" href="/css/style.css" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/lib.min.css" media="all">
+  <link rel="stylesheet" href="/css/font.css" media="all">
+  <link rel="stylesheet" href="/css/insight.css" media="all">
+  <link rel="stylesheet" href="/css/jquery.fancybox.min.css" media="all">
+  <link rel="stylesheet" href="/css/zoom.css" media="all">
+  <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<!--   <link rel="stylesheet" id="saukra_css-css" href="https://2heng.xin/wp-content/cache/autoptimize/css/autoptimize_ad42a61f4c7d4bdd9f91afcff6b5dda5.css
+" type="text/css" media="all"> -->
+  <script>
+  /*Initial Variables*/
+  var mashiro_option = new Object();
+  var mashiro_global = new Object();
+  mashiro_option.NProgressON = true;
+  /* 
+   * 邮箱信息之类的东西可以填在这里，这些js变量基本都作用于sakura-app.js
+   * 这样的设置仅是为了方便在基于PHP开发的主题中设置js变量，既然移植到了Node上，我想或许可以精简这一逻辑吧
+   */
+  mashiro_option.email_domain = "";
+  mashiro_option.email_name = "";
+  mashiro_option.cookie_version_control = "";
+  mashiro_option.qzone_autocomplete = false;
+  mashiro_option.site_name = "StevenのBlog";
+  mashiro_option.author_name = "Blog";
+  mashiro_option.site_url = "https://steven-kid.github.io/";
+  mashiro_option.v_appId = "GyC3NzMvd0hT9Yyd2hYIC0MN-gzGzoHsz";
+  mashiro_option.v_appKey = "mgOpfzbkHYqU92CV4IDlAUHQ";
+  mashiro_option.mathjax = "1";
+  mashiro_option.qq_api_url = "https://api.mashiro.top/qqinfo/"; 
+  mashiro_option.qq_avatar_api_url = "https://api.mashiro.top/qqinfo/";
+
+  // mashiro_option.jsdelivr_css_src = "https://cdn.jsdelivr.net/gh/moezx/cdn@3.4.5/css/lib.min.css";
+  // mashiro_option.float_player_on = true;
+
+  /*End of Initial Variables*/
+  </script>
+  <script type="text/javascript">
+  var bg = "https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/cover/(14).jpeg".split(",");
+  var bgindex = Math.floor(Math.random()*bg.length);
+  if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
+    alert('朋友，IE浏览器未适配哦~');
+  }
+  </script>
+  <style type="text/css">
+  .hljs-ln{border-collapse:collapse}.hljs-ln td{padding:0}.hljs-ln-n:before{content:attr(data-line-number)}
+  </style>
+  <style type="text/css">.site-top .lower nav{display:block !important;}.author-profile i,.post-like a,.post-share .show-share,.sub-text,.we-info a,span.sitename,.post-more i:hover,#pagination a:hover,.post-content a:hover,.float-content i:hover{color:#FE9600}.feature i,.download,.navigator i:hover,.links ul li:before,.ar-time i,span.ar-circle,.object,.comment .comment-reply-link,.siren-checkbox-radio:checked + .siren-checkbox-radioInput:after{background:#FE9600}::-webkit-scrollbar-thumb{background:#FE9600}.download,.navigator i:hover,.link-title,.links ul li:hover,#pagination a:hover,.comment-respond input[type='submit']:hover{border-color:#FE9600}.entry-content a:hover,.site-info a:hover,.comment h4 a,#comments-navi a.prev,#comments-navi a.next,.comment h4 a:hover,.site-top ul li a:hover,.entry-title a:hover,#archives-temp h3,span.page-numbers.current,.sorry li a:hover,.site-title a:hover,i.iconfont.js-toggle-search.iconsearch:hover,.comment-respond input[type='submit']:hover{color:#FE9600}.comments .comments-main{display:block !important;}.comments .comments-hidden{display:none !important;}background-position:center center;background-attachment:inherit;}
+  </style>
+<meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Steven's blog" type="application/atom+xml">
+</head>
+
+
+<body class="page-template page-template-user page-template-page-analytics page-template-userpage-analytics-php page page-id-1297 chinese-font serif isWebKit">
+  <div class="scrollbar" id="bar">
+  </div>
+  <a href="#" class="cd-top faa-float animated"></a>
+  <section id="main-container">
+    <div class="headertop filter-dot">
+  <div id="banner_wave_1"></div>
+  <div id="banner_wave_2"></div>
+  <figure id="centerbg" class="centerbg">
+    <div class="focusinfo no-select">
+      <div class="header-tou">
+        <a target="_blank" rel="noopener" href="https://steven-kid.github.io/">
+          <img src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/custom/avatar.jpg">
+        </a>
+      </div>
+      <div class="header-info">
+        <p>Talk is cheap, show me the code</p>
+        <div class="top-social_v2">
+          
+            
+              
+                <li>
+                  <a href="https://github.com/steven-kid" target="_blank" class="social-github" title="github">
+                    <img src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/social/github.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://music.163.com/#/user/home?id=646065175" target="_blank" class="social-github" title="wangyiyun">
+                    <img src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/social/wangyiyun.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://www.zhihu.com/people/wyc-64-28" target="_blank" class="social-github" title="zhihu">
+                    <img src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/social/zhihu.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li class="wechat">
+                  <a href="/#">
+                    <img src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/social/wechat.png">
+                  </a>
+                  <div class="wechatInner">
+                    <img src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/custom/wechat.jpg">
+                  </div>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://space.bilibili.com/142778954?spm_id_from=333.788.0.0" target="_blank" class="social-github" title="bilibili">
+                    <img src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/social/bilibili.png">
+                  </a>
+                </li>
+              
+            
+          
+        </div>
+      </div>
+    </div>
+  </figure>
+
+  <div class="headertop-down faa-float animated" onclick="headertop_down()">
+    <span>
+      <i class="fa fa-chevron-down" aria-hidden="true">
+      </i>
+    </span>
+  </div>
+</div>
+    <div id="page" class="site wrapper">
+      <header class="site-header no-select gizle sabit" role="banner">
+  <div class="site-top">
+    <div class="site-branding">
+      <span class="site-title">
+        <span class="logolink moe-mashiro">
+          <a href="/">
+            <span class="sakurasono">Stevenの</span>
+            <span class="shironeko">Blog</span>
+          </a>
+        </span>
+      </span>
+    </div>
+    <div id="show-nav" class="showNav mobile-fit">
+      <div class="line line1">
+      </div>
+      <div class="line line2">
+      </div>
+      <div class="line line3">
+      </div>
+    </div>
+    <div class="lower-cantiner">
+      <div class="lower">
+        <nav class="mobile-fit-control hide">
+          <ul id="menu-new" class="menu">
+            
+              <li>
+                <a href="/archives">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+                    文档
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/%E6%8A%80%E6%9C%AF/">
+                          <i class="fa fa-code" aria-hidden="true"></i>
+                          技术
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/%E9%9A%8F%E6%83%B3/">
+                          <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                          随想
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/links/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+                    友人
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/project/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa fa-tasks" aria-hidden="true"></i>
+                    项目
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+                    关于
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/theme-sakura/">
+                          <i class="fa iconfont icon-sakura" aria-hidden="true"></i>
+                          主题
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/about/">
+                          <i class="fa fa-meetup" aria-hidden="true"></i>
+                          我？
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<div class="pattern-center-blank"></div>
+
+<div id="content" class="site-content">
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+          <header class="entry-header">
+            <h1 class="entry-title">区间DP</h1>
+            <p class="entry-census">steven&nbsp;·&nbsp;2022-7-24&nbsp;·&nbsp;<span id="busuanzi_value_page_pv"></span>次阅读</p></p>
+
+            <hr>
+          </header>
+        
+        <div class="entry-content">
+          <h3 id="树的最长路径">树的最长路径</h3>
+<p><strong>题意：</strong> 给定一个含有 <span
+class="math inline">\(n\)</span> 个节点的树，以及树中每条边的权值 <span
+class="math inline">\(w_i\)</span></p>
+<p>现需要在树中找出一条路径，使得该路径上所有边的权值之和最大</p>
+<p>对于求树的直径问题，可以用两次 DFS 或者树形 DP 的方法在 <span
+class="math inline">\(O(n)\)</span> 时间求出树的直径</p>
+<p>(两次DFS 无法处理负权边)</p>
+<h4 id="两次dfsbfs">两次DFS/BFS</h4>
+<p><strong>分析：</strong> 首先从任意节点 <span
+class="math inline">\(y\)</span> 开始第一次DFS，到达距离最远的节点，记为
+<span class="math inline">\(z\)</span> , 然后再从 <span
+class="math inline">\(z\)</span> 开始左第二次 DFS</p>
+<p>到达距离 <span class="math inline">\(z\)</span> 最远的节点， 记为
+<span class="math inline">\(z&#39;\)</span>, 则 <span
+class="math inline">\((z,z&#39;)\)</span> 即为树的直径</p>
+<p><strong>证明：</strong></p>
+<p>显然，如果第一次 DFS 到达的节点 <span
+class="math inline">\(z\)</span> 是直径的一端，那么第二次 DFS 到达的节点
+<span class="math inline">\(z&#39;\)</span> 一定是直径的一端。</p>
+<p>我们只需证明在任意情况下，<span class="math inline">\(z\)</span>
+必为直径的一端，即可证明上述分析的正确性</p>
+<p>我们使用反证法，记出发节点为 y 设真实的直径是 <span
+class="math inline">\((s,t)\)</span></p>
+<p>则定理的反面为：进行的第一次 DFS 到达的节点 <span
+class="math inline">\(z\)</span> 不为 <span
+class="math inline">\(s\)</span> 或 <span
+class="math inline">\(z\)</span></p>
+<p>共分三种情况：</p>
+<ul>
+<li><span class="math inline">\(y\)</span> 在直径 <span
+class="math inline">\((s, t)\)</span> 上</li>
+</ul>
+<p>因为 <span class="math inline">\(z\)</span> 距离 <span
+class="math inline">\(y\)</span> 最远， 故 <span
+class="math inline">\((y,z)\textgreater(y,t) \Rightarrow
+(c,z)\textgreater(c,t) \Rightarrow (s,z) \textgreater (s,t)\)</span></p>
+<p>如果 <span class="math inline">\((s,z)\textgreater(s,t)\)</span> 此时
+<span class="math inline">\((s,z)\)</span> 比直径更长，故矛盾</p>
+<p>如果 <span class="math inline">\((s,z)=(s, t)\)</span> 此时说明 <span
+class="math inline">\(z\)</span> 也是直径的一个端点</p>
+<pre class="mermaid"><code>graph LR;
+    s--&gt;y;
+    y--&gt;c;
+    c--&gt;t;
+    c--&gt;z;</code></pre>
+<ul>
+<li><span class="math inline">\(y\)</span> 不在直径 <span
+class="math inline">\((s, t)\)</span> 上， <span
+class="math inline">\((y, z)\)</span> 和 <span class="math inline">\((s,
+t)\)</span> 存在重复路径</li>
+</ul>
+<p>​ 因为 <span class="math inline">\(z\)</span> 距离 <span
+class="math inline">\(y\)</span> 最远， 故 <span
+class="math inline">\((y,z)\geq(y,t) \Rightarrow (c,z)\ge(c,t)
+\Rightarrow (s,z) \ge(s,t)\)</span></p>
+<p>​ 如果 <span class="math inline">\((s,z)\textgreater(s,t)\)</span>
+此时 <span class="math inline">\((s,z)\)</span> 比直径更长，故矛盾</p>
+<p>​ 如果 <span class="math inline">\((s,z)=(s, t)\)</span> 此时说明
+<span class="math inline">\(z\)</span> 也是直径的一个端点</p>
+<pre class="mermaid"><code>graph LR;
+    s--&gt;c;
+    y--&gt;c;
+    c--&gt;c&#39;
+    c&#39;--&gt;t;
+    c&#39;--&gt;z;</code></pre>
+<ul>
+<li><span class="math inline">\(y\)</span> 不在直径 <span
+class="math inline">\((s, t)\)</span> 上， <span
+class="math inline">\((y, z)\)</span> 和 <span class="math inline">\((s,
+t)\)</span> 不存在重复路径</li>
+</ul>
+<p>​ 因为 <span class="math inline">\(z\)</span> 距离 <span
+class="math inline">\(y\)</span> 最远， 故 <span
+class="math inline">\((y, z) \ge (y, t) \Rightarrow (c&#39;, z)
+\textgreater (c,t) \Rightarrow (s,z)\textgreater(s,t)\)</span></p>
+<p>​ 此时 <span class="math inline">\((s,z)\)</span>
+比直径更长，故矛盾</p>
+<pre class="mermaid"><code>graph LR;
+    s--&gt;c;
+    c--&gt;t;
+    c--&gt;c&#39;
+    y--&gt;c&#39;;
+    c&#39;--&gt;z;</code></pre>
+<p><strong>复杂度：</strong> <span
+class="math inline">\(O(n)\)</span></p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cstring&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="fl">1e5</span> <span class="op">+</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n<span class="op">,</span> z<span class="op">;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> d<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> e<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> dfs<span class="op">(</span><span class="dt">int</span> u<span class="op">,</span> <span class="dt">int</span> fa<span class="op">)</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> v<span class="op">:</span> e<span class="op">[</span>u<span class="op">])</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>v <span class="op">==</span> fa<span class="op">)</span> <span class="cf">continue</span><span class="op">;</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>        d<span class="op">[</span>v<span class="op">]</span> <span class="op">=</span> d<span class="op">[</span>u<span class="op">]</span> <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>d<span class="op">[</span>v<span class="op">]</span> <span class="op">&gt;</span> d<span class="op">[</span>z<span class="op">])</span> z <span class="op">=</span> v<span class="op">;</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>        dfs<span class="op">(</span>v<span class="op">,</span> u<span class="op">);</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n<span class="op">;</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> a<span class="op">,</span> b<span class="op">;</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> a <span class="op">&gt;&gt;</span> b<span class="op">;</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>        e<span class="op">[</span>a<span class="op">].</span>push_back<span class="op">(</span>b<span class="op">);</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>        e<span class="op">[</span>b<span class="op">].</span>push_back<span class="op">(</span>a<span class="op">);</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    dfs<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="op">-</span><span class="dv">1</span><span class="op">);</span>  <span class="co">//  随意取一个点为最初点</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    <span class="co">// dfs完后 z已经被更新为距离起始点最远的点了</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    d<span class="op">[</span>z<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> <span class="co">// 恢复一下</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    dfs<span class="op">(</span>z<span class="op">,</span> <span class="dv">0</span><span class="op">);</span> <span class="co">// 第二次dfs</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> d<span class="op">[</span>z<span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
+<h4 id="树形dp">树形DP</h4>
+<p><strong>分析：</strong>
+我们记录当为树的根时，每个节点作为子树的根向下，所能延伸的最远距离 <span
+class="math inline">\(d_1\)</span>，和次远距离 <span
+class="math inline">\(d_2\)</span>，那么直</p>
+<p>径就是所有 <span class="math inline">\(d_1+d_2\)</span> 的最大值</p>
+<p><strong>状态表示：</strong> <span
+class="math inline">\(d_1[i]\)</span>, <span
+class="math inline">\(d_2[i]\)</span> 分别表示从 <span
+class="math inline">\(i\)</span> 往下的最长路径和次长路径( <span
+class="math inline">\(d_1\)</span> 和 <span
+class="math inline">\(d_2\)</span> 分别对应 <span
+class="math inline">\(i\)</span> 的不同子节点)</p>
+<p><strong>状态计算：</strong> <span class="math inline">\(ans =
+\max(ans, d_1[i] + d_2[i])\)</span> 取全局最大值</p>
+<p><strong>复杂度：</strong> <span
+class="math inline">\(O(n)\)</span></p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cstring&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="fl">1e5</span> <span class="op">+</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> pair<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> PII<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n<span class="op">,</span> ans <span class="op">=</span> <span class="op">-</span><span class="fl">2e9</span><span class="op">;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> d1<span class="op">[</span>N<span class="op">],</span> d2<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span>PII<span class="op">&gt;</span> e<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> dfs<span class="op">(</span><span class="dt">int</span> u<span class="op">,</span> <span class="dt">int</span> fa<span class="op">)</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    d1<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> d2<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> x<span class="op">:</span> e<span class="op">[</span>u<span class="op">])</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> v <span class="op">=</span> x<span class="op">.</span>first<span class="op">,</span> w <span class="op">=</span> x<span class="op">.</span>second<span class="op">;</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>v <span class="op">==</span> fa<span class="op">)</span>  <span class="co">// 保证只往下搜索</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span><span class="op">;</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        dfs<span class="op">(</span>v<span class="op">,</span> u<span class="op">);</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> t <span class="op">=</span> d1<span class="op">[</span>v<span class="op">]</span> <span class="op">+</span> w<span class="op">;</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>t <span class="op">&gt;</span> d1<span class="op">[</span>u<span class="op">])</span>  <span class="co">// 更新最远距离(新次远距离等于旧最远距离)</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>            d2<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> d1<span class="op">[</span>u<span class="op">],</span> d1<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> t<span class="op">;</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> <span class="cf">if</span><span class="op">(</span>t <span class="op">&gt;</span> d2<span class="op">[</span>u<span class="op">])</span>  <span class="co">// 更新次远距离</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>            d2<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> t<span class="op">;</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    ans <span class="op">=</span> max<span class="op">(</span>ans<span class="op">,</span> d1<span class="op">[</span>u<span class="op">]</span> <span class="op">+</span> d2<span class="op">[</span>u<span class="op">]);</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n<span class="op">;</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> a<span class="op">,</span> b<span class="op">,</span> w<span class="op">;</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> a <span class="op">&gt;&gt;</span> b <span class="op">&gt;&gt;</span> w<span class="op">;</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>        e<span class="op">[</span>a<span class="op">].</span>push_back<span class="op">(&#123;</span>b<span class="op">,</span> w<span class="op">&#125;);</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>        e<span class="op">[</span>b<span class="op">].</span>push_back<span class="op">(&#123;</span>a<span class="op">,</span> w<span class="op">&#125;);</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    dfs<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="op">-</span><span class="dv">1</span><span class="op">);</span>  <span class="co">// 任意选取一个节点作为根节点</span></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> ans <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
+<h3 id="树的中心">树的中心</h3>
+<p><strong>题意：</strong> 给定一棵树，树中包含 <span
+class="math inline">\(n\)</span> 个 节点 和 <span
+class="math inline">\(n−1\)</span> 条 无向边，每条边都有一个权值 <span
+class="math inline">\(w_i\)</span></p>
+<p>请在树中找到一个点，使得该点到树中其他结点的最远距离最近,
+输出这个最远距离</p>
+<p><strong>分析：</strong></p>
+<p>这个问题是树形DP中的一类经典模型，常被称作<strong>换根DP</strong>，
+一般分为三个步骤：</p>
+<ul>
+<li><p>指定任意一个根节点</p></li>
+<li><p>一次dfs遍历，统计出当前子树内的节点对当前节点的贡献(距离)</p></li>
+<li><p>一次dfs遍历，统计出当前节点的父节点对当前节点的贡献(距离)，然后合并统计答案</p></li>
+</ul>
+<p>对于一个节点，我们先dfs预处理了每个点以该节点为根，走的的最远距离和次远距离后</p>
+<p>如果想要求出树中离该节点最远的距离时，可以分为以下两种子情况 (以
+<span class="math inline">\(v\)</span> 为例)</p>
+<ul>
+<li><p>最远距离出现在该节点往下走的路径中 ( <span
+class="math inline">\(d_1\)</span> 和 <span
+class="math inline">\(d_2\)</span> 中显然取 <span
+class="math inline">\(d_1\)</span> 更好)</p></li>
+<li><p>最远距离出现在该节点往上走的路径中，此时需要额外考虑 <span
+class="math inline">\(v\)</span> 的父节点 <span
+class="math inline">\(u\)</span> 取 <span
+class="math inline">\(d_1\)</span> 时选取的子节点是否是 <span
+class="math inline">\(v\)</span></p>
+<p>可以想到，如果我们在第一次dfs将节点 <span
+class="math inline">\(u\)</span> 取到最远距离时的子节点记为 <span
+class="math inline">\(s_u\)</span> , 那又可以分为以下两种情况</p>
+<ul>
+<li><span class="math inline">\(s_u \neq v\)</span> 那么可以用 <span
+class="math inline">\(d_1[u]\)</span> (<span
+class="math inline">\(u\)</span> 往下的最远距离) 进行转移</li>
+<li><span class="math inline">\(s_u = v\)</span> 那么就只能用 <span
+class="math inline">\(d_2[u]\)</span> (<span
+class="math inline">\(u\)</span> 往下的次远距离) 进行转移, 因为不可以从
+<span class="math inline">\(v\)</span> 往上到 <span
+class="math inline">\(u\)</span> 又往下走回 <span
+class="math inline">\(v\)</span></li>
+</ul></li>
+</ul>
+<pre class="mermaid"><code>graph TD;
+    u --&gt; v;
+    u --&gt; d1_u;
+    u --&gt; d2_u;
+    v --&gt; d1_v;
+    v --&gt; d2_v;</code></pre>
+<p>故在整个过程之中，对于一个节点 <span class="math inline">\(u\)</span>
+需要记录的有</p>
+<ul>
+<li>往下走的最远距离 <span class="math inline">\(d_1[u]\)</span>
+(往子节点 <span class="math inline">\(s[u]\)</span> 走)</li>
+<li>往下走的次远距离 <span class="math inline">\(d_2[u]\)</span></li>
+<li>每个点往上走的最远距离 <span
+class="math inline">\(up[u]\)</span></li>
+</ul>
+<p>那么，最后遍历所有节点，取 <span
+class="math inline">\(\max(d_1[u],up[u])\)</span> 中最小的即可</p>
+<p><strong>状态表示：</strong></p>
+<ul>
+<li><span class="math inline">\(d_1[u]\)</span> 往下能走到最远距离</li>
+<li><span class="math inline">\(d_2[u]\)</span>
+往下能走到的次远距离</li>
+<li><span class="math inline">\(s[u]\)</span> 存下 <span
+class="math inline">\(u\)</span>
+节点向下走的最长路径是从哪一个节点下去的</li>
+<li><span class="math inline">\(up[u]\)</span> 往上走的最远距离</li>
+</ul>
+<p><strong>状态计算：</strong></p>
+<p><span class="math inline">\(son_u \neq v \longrightarrow up[v] = w +
+\max(up[u], d_1[u])\)</span> 用最远距离更新</p>
+<p><span class="math inline">\(son_u = v \longrightarrow up[v] = w +
+\max(up[u], d_2[u])\)</span> 用次远距离更新</p>
+<p><span class="math inline">\(ans = \min\left(ans, \max(d_1[u] +
+up[u])\right)\)</span> 取全局最大值</p>
+<p><strong>复杂度：</strong> <span
+class="math inline">\(O(n)\)</span></p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cstring&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="dv">10010</span><span class="op">,</span> INF <span class="op">=</span> <span class="bn">0x3f3f3f3f</span><span class="op">;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> pair<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> PII<span class="op">;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n<span class="op">;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span>PII<span class="op">&gt;</span> e<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> d1<span class="op">[</span>N<span class="op">],</span> d2<span class="op">[</span>N<span class="op">],</span> s1<span class="op">[</span>N<span class="op">],</span> up<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> dfs1<span class="op">(</span><span class="dt">int</span> u<span class="op">,</span> <span class="dt">int</span> fa<span class="op">)</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    d1<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> d2<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> <span class="op">-</span>INF<span class="op">;</span>  <span class="co">//本题边权都是正的，可以不用初始化为负无穷</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> <span class="op">[</span>v<span class="op">,</span> w<span class="op">]:</span> e<span class="op">[</span>u<span class="op">])</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>v <span class="op">==</span> fa<span class="op">)</span> <span class="cf">continue</span><span class="op">;</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        dfs1<span class="op">(</span>v<span class="op">,</span> u<span class="op">);</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> t <span class="op">=</span> d1<span class="op">[</span>v<span class="op">]</span> <span class="op">+</span> w<span class="op">;</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>t <span class="op">&gt;</span> d1<span class="op">[</span>u<span class="op">])</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>            d2<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> d1<span class="op">[</span>u<span class="op">];</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>            d1<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> t<span class="op">;</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>            s1<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> v<span class="op">;</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> <span class="cf">if</span><span class="op">(</span>t <span class="op">&gt;</span> d2<span class="op">[</span>u<span class="op">])</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>            d2<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> t<span class="op">;</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 如果初始化为负无穷需要特判叶子节点</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span><span class="op">(</span>d1<span class="op">[</span>u<span class="op">]</span> <span class="op">==</span> <span class="op">-</span>INF<span class="op">)</span> d1<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> d2<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> dfs2<span class="op">(</span><span class="dt">int</span> u<span class="op">,</span> <span class="dt">int</span> fa<span class="op">)</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> <span class="op">[</span>v<span class="op">,</span> w<span class="op">]:</span> e<span class="op">[</span>u<span class="op">])</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>v <span class="op">==</span> fa<span class="op">)</span> <span class="cf">continue</span><span class="op">;</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>s1<span class="op">[</span>u<span class="op">]</span> <span class="op">==</span> v<span class="op">)</span>  up<span class="op">[</span>v<span class="op">]</span> <span class="op">=</span> w <span class="op">+</span> max<span class="op">(</span>up<span class="op">[</span>u<span class="op">],</span> d2<span class="op">[</span>u<span class="op">]);</span>  <span class="co">// son_u = v, 用次远距离更新 </span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> up<span class="op">[</span>v<span class="op">]</span> <span class="op">=</span> w <span class="op">+</span> max<span class="op">(</span>up<span class="op">[</span>u<span class="op">],</span> d1<span class="op">[</span>u<span class="op">]);</span>  <span class="co">// son_u != v, 用最远距离更新</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>        dfs2<span class="op">(</span>v<span class="op">,</span> u<span class="op">);</span></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n<span class="op">;</span></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> a<span class="op">,</span> b<span class="op">,</span> c<span class="op">;</span></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> a <span class="op">&gt;&gt;</span> b <span class="op">&gt;&gt;</span> c<span class="op">;</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>        e<span class="op">[</span>a<span class="op">].</span>push_back<span class="op">(&#123;</span>b<span class="op">,</span> c<span class="op">&#125;);</span></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>        e<span class="op">[</span>b<span class="op">].</span>push_back<span class="op">(&#123;</span>a<span class="op">,</span> c<span class="op">&#125;);</span></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>    dfs1<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="op">-</span><span class="dv">1</span><span class="op">);</span>  <span class="co">// 处理向下的最远距离和次远距离</span></span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>    dfs2<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="op">-</span><span class="dv">1</span><span class="op">);</span>  <span class="co">// 处理向上的最远距离</span></span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> ans <span class="op">=</span> INF<span class="op">;</span></span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span> ans <span class="op">=</span> min<span class="op">(</span>ans<span class="op">,</span> max<span class="op">(</span>d1<span class="op">[</span>i<span class="op">],</span> up<span class="op">[</span>i<span class="op">]));</span></span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> ans <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
+<h3 id="数字转换">数字转换</h3>
+<p><strong>题意：</strong> 如果一个数 <span
+class="math inline">\(x\)</span> 的 约数之和
+y(不包括他本身)比他本身小，那么 <span class="math inline">\(x\)</span>
+和 <span class="math inline">\(y\)</span> 可以互相转换</p>
+<p>给定一个正整数 <span class="math inline">\(n\)</span>，求出在由正整数
+<span class="math inline">\(1\sim n\)</span>
+构成的数集中：在不出现重复数字的情况下，能进行的最大变换步数</p>
+<p><strong>分析：</strong> 首先我们考虑如何处理约数之和，如果对于每一个
+<span class="math inline">\(1\sim n\)</span>
+之间的数，我们采用朴素的试除法进行处理，</p>
+<p>复杂度为 <span class="math inline">\(O(n\sqrt{n})\)</span>
+是可能会超时的，所以换一种 <span class="math inline">\(O(nlogn)\)</span>
+的方法我们可以考虑对于当前枚举到的数 <span
+class="math inline">\(x\)</span>，枚举</p>
+<p><span class="math inline">\(x\)</span> 对 <span
+class="math inline">\((x + 1)\sim n\)</span> 之间的数的贡献，显然 <span
+class="math inline">\(x\)</span> 能使得 <span class="math inline">\(2x,
+3x \dots kx\)</span> 的约数之和都增加 <span
+class="math inline">\(x\)</span> (<span class="math inline">\(x\)</span>
+不是 <span class="math inline">\(x\)</span> 的约数)</p>
+<p>然后处理转换的问题，如果 <span class="math inline">\(x\)</span>
+的约数之和 <span class="math inline">\(y\)</span> 比它本身小, 那么 <span
+class="math inline">\(x\)</span> 和 <span
+class="math inline">\(y\)</span> 可以互相转换，等价于可以在 x 和 y</p>
+<p>之间连一条无向边，由于每个数的约数之和是确定的，所以所有的这样的边一起组成了一个森林🌴</p>
+<p>这样要求的最大转换步数就可以转化求解为这个森林中的树的直径的最大值，</p>
+<p>类比上面的树的最长路径，可以枚举每个点作为根的情况，然后取全局最大值即可</p>
+<p>但是搜索时爆栈了❓</p>
+<p>这说明存储的这个过程还有优化的空间，其实由于我们枚举了每一个点作为根节点的情况，所以每次只需要存入一</p>
+<p>条有向边即可， 同时要采用记忆化的搜索方式</p>
+<p><strong>状态表示：</strong> <span
+class="math inline">\(d_1[i]\)</span>, <span
+class="math inline">\(d_2[i]\)</span> 分别表示从 <span
+class="math inline">\(i\)</span> 往下的最长路径和次长路径( <span
+class="math inline">\(d_1\)</span> 和 <span
+class="math inline">\(d_2\)</span> 分别对应 <span
+class="math inline">\(i\)</span> 的不同子节点)</p>
+<p><strong>状态计算：</strong> <span class="math inline">\(ans =
+\max(ans, d_1[i] + d_2[i])\)</span> 取全局最大值</p>
+<p><strong>复杂度：</strong> <span
+class="math inline">\(O(nlogn)\)</span></p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cstring&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="dv">50005</span><span class="op">;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a<span class="op">[</span>N<span class="op">],</span> d1<span class="op">[</span>N<span class="op">],</span> d2<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> ans <span class="op">=</span> <span class="op">-</span><span class="fl">2e9</span><span class="op">;</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> e<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> dfs<span class="op">(</span><span class="dt">int</span> u<span class="op">)</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>d1<span class="op">[</span>u<span class="op">])</span>  <span class="co">// 记忆化</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> v<span class="op">:</span> e<span class="op">[</span>u<span class="op">])</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>        dfs<span class="op">(</span>v<span class="op">);</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> t <span class="op">=</span> d1<span class="op">[</span>v<span class="op">]</span> <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>t <span class="op">&gt;</span> d1<span class="op">[</span>u<span class="op">])</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>            d2<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> d1<span class="op">[</span>u<span class="op">];</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>            d1<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> t<span class="op">;</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>t <span class="op">&gt;</span> d2<span class="op">[</span>u<span class="op">])</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>            d2<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> t<span class="op">;</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    ans <span class="op">=</span> max<span class="op">(</span>ans<span class="op">,</span> d1<span class="op">[</span>u<span class="op">]</span> <span class="op">+</span> d2<span class="op">[</span>u<span class="op">]);</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n<span class="op">;</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n<span class="op">;</span></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> j <span class="op">&lt;=</span> n <span class="op">/</span> i<span class="op">;</span> j <span class="op">++</span> <span class="op">)</span>  <span class="co">// 从2开始, 一个数的约数不含它本身</span></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>            a<span class="op">[</span>i <span class="op">*</span> j<span class="op">]</span> <span class="op">+=</span> i<span class="op">;</span></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>i <span class="op">&gt;</span> a<span class="op">[</span>i<span class="op">])</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>            e<span class="op">[</span>a<span class="op">[</span>i<span class="op">]].</span>push_back<span class="op">(</span>i<span class="op">);</span>  <span class="co">// 虽然是可以双向转移，但是实际上只需要连一条有向边即可(因为会枚举所有的情况)</span></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>        dfs<span class="op">(</span>i<span class="op">);</span>   <span class="co">// 枚举以每一条边为根节点的情况</span></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> ans <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
+<h3 id="二叉苹果树">二叉苹果树</h3>
+<p><strong>题意：</strong> 给定一棵含有 <span
+class="math inline">\(n\)</span> 个结点的树，树根编号为
+1，且树上的每条边有一个边权 <span class="math inline">\(w_i\)</span></p>
+<p>要求我们进行减枝，只保留树中的 <span class="math inline">\(m\)</span>
+条边，使得树根(编号为1)所在的连通块的所有边的边权之和最大</p>
+<p><strong>分析：</strong>
+这题的本质其实是有依赖的背包模型，不同点在于把物品价值分配给了边而不是点</p>
+<p>不过对于树结构来说，每一个节点的入边仅有一条，所以可以将每一个节点的入边权视作该点的价值</p>
+<p>对于有依赖的背包问题，有两种常见的处理方式</p>
+<ul>
+<li>按子物体体积集合划分 <span class="math inline">\(O(N \times V\times
+V)\)</span></li>
+<li>分组背包集合划分, 将依赖关系转化为多种组合 <span
+class="math inline">\(O(N \times 2^k \times V)\)</span></li>
+</ul>
+<p>这里采用体积(边数)划分方案复杂度较低,
+枚举当前节点的边数和子树内的边数进行转移即可</p>
+<p><strong>状态表示：</strong> <span
+class="math inline">\(f[i][j]\)</span> 表示以 <span
+class="math inline">\(i\)</span> 为根节点的子树，联通块内边数不超过
+<span class="math inline">\(j\)</span> 的情况下边权最大值</p>
+<p><strong>状态计算：</strong> <span class="math inline">\(f[u][j] =
+max(f[u][j], f[u][j - k - 1] + f[v][k] + w)\)</span> (枚举以 <span
+class="math inline">\(v\)</span> 为根的子树内边数 <span
+class="math inline">\(k\)</span> )</p>
+<p><strong>复杂度：</strong> <span class="math inline">\(O(n\cdot
+m^2)\)</span></p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cstring&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> pair<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> PII<span class="op">;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="dv">105</span><span class="op">;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n<span class="op">,</span> m<span class="op">;</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> f<span class="op">[</span>N<span class="op">][</span>N<span class="op">];</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span>PII<span class="op">&gt;</span> e<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> dfs<span class="op">(</span><span class="dt">int</span> u<span class="op">,</span> <span class="dt">int</span> fa<span class="op">)</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> <span class="op">[</span>v<span class="op">,</span> w<span class="op">]:</span> e<span class="op">[</span>u<span class="op">])</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>v <span class="op">==</span> fa<span class="op">)</span> <span class="cf">continue</span><span class="op">;</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>        dfs<span class="op">(</span>v<span class="op">,</span> u<span class="op">);</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> m<span class="op">;</span> j <span class="op">&gt;=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">--</span> <span class="op">)</span>  <span class="co">// 枚举边数</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> k <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> k <span class="op">&lt;=</span> j <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> k <span class="op">++</span> <span class="op">)</span>  <span class="co">// 枚举子树的边数(留一条用于从 u --&gt; v )</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>                f<span class="op">[</span>u<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> max<span class="op">(</span>f<span class="op">[</span>u<span class="op">][</span>j<span class="op">],</span> f<span class="op">[</span>u<span class="op">][</span>j <span class="op">-</span> k <span class="op">-</span> <span class="dv">1</span><span class="op">]</span> <span class="op">+</span> f<span class="op">[</span>v<span class="op">][</span>k<span class="op">]</span> <span class="op">+</span> w<span class="op">);</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n <span class="op">&gt;&gt;</span> m<span class="op">;</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> a<span class="op">,</span> b<span class="op">,</span> c<span class="op">;</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> a <span class="op">&gt;&gt;</span> b <span class="op">&gt;&gt;</span> c<span class="op">;</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>        e<span class="op">[</span>a<span class="op">].</span>push_back<span class="op">(&#123;</span>b<span class="op">,</span> c<span class="op">&#125;);</span>  <span class="co">// 无向边</span></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>        e<span class="op">[</span>b<span class="op">].</span>push_back<span class="op">(&#123;</span>a<span class="op">,</span> c<span class="op">&#125;);</span></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>    dfs<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="op">-</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> f<span class="op">[</span><span class="dv">1</span><span class="op">][</span>m<span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
+<h3 id="没有上司的舞会">没有上司的舞会</h3>
+<p><strong>题意：</strong> 给定一棵含有 <span
+class="math inline">\(n\)</span> 个结点的树，树根编号为
+1，且树上的每条节点有一个权值 <span class="math inline">\(a_i\)</span>
+，对于每一条边，仅能</p>
+<p>选取一个端点，求选取节点使得权值之和最大</p>
+<p><strong>分析：</strong>
+对于一个节点是否选取会对其他决策产生影响，所以我们需要在状态转移的时候记录下当前节点的状态</p>
+<p>也就是状态机模型，可以单独开一维用于记录是否选取该节点，然后考虑对于当前节点，有两种转移方式</p>
+<ul>
+<li>对于不选当前节点的，子节点可选可不选</li>
+<li>对于选取了当前节点的，由于一条边上只能选取一个点，所以子节点一定不能选择</li>
+</ul>
+<p>最后取 <span class="math inline">\(f[root][0]\)</span> 和 <span
+class="math inline">\(f[root][1]\)</span> 中的较大值即位答案</p>
+<p><strong>状态表示：</strong></p>
+<ul>
+<li><p><span class="math inline">\(f[u][0]\)</span> 以 <span
+class="math inline">\(u\)</span> 为根的子树中选择，并且不选 <span
+class="math inline">\(u\)</span> 这个点的权值之和最大值</p></li>
+<li><p><span class="math inline">\(f[u][1]\)</span> 以 <span
+class="math inline">\(u\)</span> 为根的子树中选择，并且选择 <span
+class="math inline">\(u\)</span> 这个点的权值之和最大值</p></li>
+</ul>
+<p><strong>状态计算：</strong> 对于当前节点 <span
+class="math inline">\(u\)</span> 的所有子节点 <span
+class="math inline">\(v\)</span></p>
+<ul>
+<li><span class="math inline">\(f[u][0] = \sum \max(f[v][0],
+f[v][1])\)</span> 没选取 <span
+class="math inline">\(u\)</span>，可以选择 <span
+class="math inline">\(v\)</span></li>
+<li><span class="math inline">\(f[u][1] = \sum f[v][0]\)</span> 选取了
+<span class="math inline">\(u\)</span>，不能选取 <span
+class="math inline">\(v\)</span></li>
+</ul>
+<p><strong>复杂度：</strong> <span
+class="math inline">\(O(n)\)</span></p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="fl">1e4</span> <span class="op">+</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n<span class="op">;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a<span class="op">[</span>N<span class="op">],</span> fa<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> f<span class="op">[</span>N<span class="op">][</span><span class="dv">2</span><span class="op">];</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> e<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> dfs<span class="op">(</span><span class="dt">int</span> u<span class="op">)</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    f<span class="op">[</span>u<span class="op">][</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> a<span class="op">[</span>u<span class="op">];</span>  <span class="co">// 加上当前节点的值</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> v<span class="op">:</span> e<span class="op">[</span>u<span class="op">])</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>        dfs<span class="op">(</span>v<span class="op">);</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        f<span class="op">[</span>u<span class="op">][</span><span class="dv">0</span><span class="op">]</span> <span class="op">+=</span> max<span class="op">(</span>f<span class="op">[</span>v<span class="op">][</span><span class="dv">0</span><span class="op">],</span> f<span class="op">[</span>v<span class="op">][</span><span class="dv">1</span><span class="op">]);</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>        f<span class="op">[</span>u<span class="op">][</span><span class="dv">1</span><span class="op">]</span> <span class="op">+=</span> f<span class="op">[</span>v<span class="op">][</span><span class="dv">0</span><span class="op">];</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n<span class="op">;</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n<span class="op">;</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> a<span class="op">[</span>i<span class="op">];</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> a<span class="op">,</span> b<span class="op">;</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> a <span class="op">&gt;&gt;</span> b<span class="op">;</span>  <span class="co">// b 是上司</span></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>        e<span class="op">[</span>b<span class="op">].</span>push_back<span class="op">(</span>a<span class="op">);</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>        fa<span class="op">[</span>a<span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span>  <span class="co">// 有上司，用于判断根节点</span></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> u <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> u <span class="op">&lt;=</span> n<span class="op">;</span> u <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(!</span>fa<span class="op">[</span>u<span class="op">])</span>  <span class="co">// 找到根节点</span></span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>            dfs<span class="op">(</span>u<span class="op">);</span></span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>            cout <span class="op">&lt;&lt;</span> max<span class="op">(</span>f<span class="op">[</span>u<span class="op">][</span><span class="dv">0</span><span class="op">],</span> f<span class="op">[</span>u<span class="op">][</span><span class="dv">1</span><span class="op">])</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
+<h3 id="战略游戏">战略游戏</h3>
+<p><strong>题意：</strong> 给定一棵包含 <span
+class="math inline">\(n\)</span> 个结点的 树，以及树上的 <span
+class="math inline">\(n−1\)</span> 条边</p>
+<p>我们需要在这 <span class="math inline">\(n\)</span>
+个结点中，选择一定数量的结点放上哨兵</p>
+<p>最终要求，对于树中的每一条边边的左右两端，至少有一个结点上放置了哨兵</p>
+<p>求解一个方案，使得放置的哨兵数量最少，输出该方案放置的哨兵数量</p>
+<p><strong>分析：</strong>
+本题与上一题没有上司的舞会十分类似，考虑以结点 <span
+class="math inline">\(u\)</span> 为 根节点 的子树，该子树所有的方案</p>
+<p>可以由当前结点放或不放哨兵进行划分</p>
+<p>这也是一种 状态机模型(借图)</p>
+<figure>
+<img src="https://s2.loli.net/2022/07/18/RiXcaYN7FyorMuE.jpg"
+alt="pic" />
+<figcaption aria-hidden="true">pic</figcaption>
+</figure>
+<ul>
+<li>如果当前结点没有放哨兵(0)，则该子树中，连边的另一端，必须放置哨兵(1)</li>
+<li>如果当前结点放置了哨兵(1)，则该子树中，连边的另一端，可以放置哨兵(1)，也可以不放置哨兵(0)</li>
+</ul>
+<p><strong>状态表示：</strong></p>
+<ul>
+<li><p><span class="math inline">\(f[u][0]\)</span> 以 <span
+class="math inline">\(u\)</span> 为根的子树中， <span
+class="math inline">\(u\)</span>
+这个点的不放置哨兵的最少哨兵总数</p></li>
+<li><p><span class="math inline">\(f[u][1]\)</span> 以 <span
+class="math inline">\(u\)</span> 为根的子树中， <span
+class="math inline">\(u\)</span> 这个点的放置哨兵的最少哨兵总数</p></li>
+</ul>
+<p><strong>状态计算：</strong> 对于当前节点 <span
+class="math inline">\(u\)</span> 的所有子节点 <span
+class="math inline">\(v\)</span></p>
+<ul>
+<li><span class="math inline">\(f[u][0] = \sum (f[v][1])\)</span> 没选取
+<span class="math inline">\(u\)</span>，必须选择 <span
+class="math inline">\(v\)</span></li>
+<li><span class="math inline">\(f[u][1] = \sum \min(f[v][0],
+f[v][1])\)</span> 选取了 <span class="math inline">\(u\)</span>，可选择
+<span class="math inline">\(v\)</span> 也可以不选择 <span
+class="math inline">\(v\)</span></li>
+</ul>
+<p><strong>复杂度：</strong> <span
+class="math display">\[O(n)\]</span></p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cstring&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="dv">1505</span><span class="op">;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n<span class="op">;</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> fa<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> f<span class="op">[</span>N<span class="op">][</span><span class="dv">2</span><span class="op">];</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> e<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> dfs<span class="op">(</span><span class="dt">int</span> u<span class="op">)</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    f<span class="op">[</span>u<span class="op">][</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> f<span class="op">[</span>u<span class="op">][</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span>  <span class="co">// 初始化</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> v<span class="op">:</span> e<span class="op">[</span>u<span class="op">])</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>        dfs<span class="op">(</span>v<span class="op">);</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>        f<span class="op">[</span>u<span class="op">][</span><span class="dv">0</span><span class="op">]</span> <span class="op">+=</span> f<span class="op">[</span>v<span class="op">][</span><span class="dv">1</span><span class="op">];</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>        f<span class="op">[</span>u<span class="op">][</span><span class="dv">1</span><span class="op">]</span> <span class="op">+=</span> min<span class="op">(</span>f<span class="op">[</span>v<span class="op">][</span><span class="dv">0</span><span class="op">],</span> f<span class="op">[</span>v<span class="op">][</span><span class="dv">1</span><span class="op">]);</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">(</span>cin <span class="op">&gt;&gt;</span> n<span class="op">)</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>        memset<span class="op">(</span>fa<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="kw">sizeof</span> fa<span class="op">);</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>        memset<span class="op">(</span>e<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="kw">sizeof</span> e<span class="op">);</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>            <span class="dt">int</span> a<span class="op">,</span> b<span class="op">,</span> siz<span class="op">;</span></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>            scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">:(</span><span class="sc">%d</span><span class="st">)&quot;</span><span class="op">,</span> <span class="op">&amp;</span>a<span class="op">,</span> <span class="op">&amp;</span>siz<span class="op">);</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> <span class="op">(</span>siz <span class="op">--</span> <span class="op">)</span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#123;</span></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>                cin <span class="op">&gt;&gt;</span> b<span class="op">;</span></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>                e<span class="op">[</span>a<span class="op">].</span>push_back<span class="op">(</span>b<span class="op">);</span></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>                fa<span class="op">[</span>b<span class="op">]</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span>  <span class="co">// 用于判断根节点</span></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#125;</span></span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> u <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> u <span class="op">&lt;</span> n<span class="op">;</span> u <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(!</span>fa<span class="op">[</span>u<span class="op">])</span></span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#123;</span></span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>                dfs<span class="op">(</span>u<span class="op">);</span></span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>                cout <span class="op">&lt;&lt;</span> min<span class="op">(</span>f<span class="op">[</span>u<span class="op">][</span><span class="dv">0</span><span class="op">],</span> f<span class="op">[</span>u<span class="op">][</span><span class="dv">1</span><span class="op">])</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#125;</span></span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
+<h3 id="皇宫看守">皇宫看守</h3>
+<p><strong>题意：</strong>给定一个含有 <span
+class="math inline">\(n\)</span> 个结点的树</p>
+<p>每个结点有一个 权值 <span class="math inline">\(w_i\)</span> 表示在第
+<span class="math inline">\(i\)</span> 个点上放置哨兵的花费</p>
+<p>对于每个哨兵来说，他可以观察当前结点，以及所有与当前点相连的相邻结点</p>
+<p>求解一种放置哨兵的方案，使得每个结点都被观察到，且方案的花费最小</p>
+<p><strong>分析：</strong>
+本题还是状态机模型，所以对于每一个节点，有三种情况</p>
+<ul>
+<li>父节点放置哨兵，所有子节点都可放可不放哨兵</li>
+<li>父节点不放哨兵，但是他至少有一个子节点放置哨兵，观察住了他</li>
+<li>父节点不放哨兵，但父节点的父节点放置哨兵观察，则子节点可放可不放哨兵</li>
+</ul>
+<p>可以简化为三个点的状态机模型</p>
+<ul>
+<li>被父节点观察 (0)</li>
+<li>被子节点观察 (1)</li>
+<li>被自己观察 (2)</li>
+</ul>
+<p><strong>状态表示：</strong></p>
+<ul>
+<li><span class="math inline">\(f[u][0]\)</span> 以 <span
+class="math inline">\(u\)</span> 为根的子树中， <span
+class="math inline">\(u\)</span> 这个点的父节点放置哨兵的最少花费</li>
+<li><span class="math inline">\(f[u][1]\)</span> 以 <span
+class="math inline">\(u\)</span> 为根的子树中， <span
+class="math inline">\(u\)</span>
+这个点的至少其中一个子节点放置哨兵的最少花费</li>
+<li><span class="math inline">\(f[u][2]\)</span> 以 <span
+class="math inline">\(u\)</span> 为根的子树中， <span
+class="math inline">\(u\)</span>
+这个点的至少其中一个子节点放置哨兵的最少花费</li>
+</ul>
+<p><strong>状态计算：</strong> 对于当前节点 <span
+class="math inline">\(u\)</span> 的所有子节点 <span
+class="math inline">\(v\)</span></p>
+<ul>
+<li><p><span class="math inline">\(f[u][0] = \sum \min(f[v][1],
+f[v][2])\)</span> 没选取 <span class="math inline">\(u\)</span>，<span
+class="math inline">\(v\)</span> 可选可不选</p></li>
+<li><p><span class="math inline">\(f[u][1] = \min( f[v][2] +\sum
+\min(f[k][1], f[v][2]))\)</span></p>
+<p>枚举子节点，当选取了其中的一个子节点 <span
+class="math inline">\(v\)</span> ，则其余所有子节点(<span
+class="math inline">\(k\)</span>)可选可不选</p>
+<p>而 <span class="math inline">\(f[u][0]=\sum \min(f[v][1],
+f[v][2])\)</span> 其中 <span class="math inline">\(\sum \min(f[k][1],
+f[v][2])\Longrightarrow f[u][0] - \min
+(f[v][1],f[v][2])\)</span></p></li>
+<li><p><span class="math inline">\(f[u][2] = \sum
+\min(f[v][0],f[v][1],f[v][2])\)</span> 选取了 <span
+class="math inline">\(u\)</span>，则子节点 <span
+class="math inline">\(v\)</span> 随意， 注意要加上 <span
+class="math inline">\(u\)</span> 的权值</p></li>
+</ul>
+<p><strong>复杂度：</strong> <span
+class="math inline">\(O(n)\)</span></p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cstring&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="dv">1510</span><span class="op">;</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> pair<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> PII<span class="op">;</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n<span class="op">;</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> e<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> fa<span class="op">[</span>N<span class="op">];</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> w<span class="op">[</span>N<span class="op">],</span> f<span class="op">[</span>N<span class="op">][</span><span class="dv">3</span><span class="op">];</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> dfs<span class="op">(</span><span class="dt">int</span> u<span class="op">)</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    f<span class="op">[</span>u<span class="op">][</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>    <span class="co">// 被父节点观察</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    f<span class="op">[</span>u<span class="op">][</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="fl">2e9</span><span class="op">;</span>  <span class="co">// 被某个子节点观察, 先初始化为最大值</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    f<span class="op">[</span>u<span class="op">][</span><span class="dv">2</span><span class="op">]</span> <span class="op">=</span> w<span class="op">[</span>u<span class="op">];</span> <span class="co">// 被自己观察</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> v<span class="op">:</span> e<span class="op">[</span>u<span class="op">])</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>        dfs<span class="op">(</span>v<span class="op">);</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>        f<span class="op">[</span>u<span class="op">][</span><span class="dv">0</span><span class="op">]</span> <span class="op">+=</span> min<span class="op">(</span>f<span class="op">[</span>v<span class="op">][</span><span class="dv">1</span><span class="op">],</span> f<span class="op">[</span>v<span class="op">][</span><span class="dv">2</span><span class="op">]);</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>        f<span class="op">[</span>u<span class="op">][</span><span class="dv">2</span><span class="op">]</span> <span class="op">+=</span> min<span class="op">(</span>min<span class="op">(</span>f<span class="op">[</span>v<span class="op">][</span><span class="dv">0</span><span class="op">],</span> f<span class="op">[</span>v<span class="op">][</span><span class="dv">1</span><span class="op">]),</span> f<span class="op">[</span>v<span class="op">][</span><span class="dv">2</span><span class="op">]);</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> v<span class="op">:</span> e<span class="op">[</span>u<span class="op">])</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>        <span class="co">//f[u][0]中记录了sum&#123;min(f(u_son,1), f(u_son,2))&#125;，再从中减去v的贡献即可</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>        f<span class="op">[</span>u<span class="op">][</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> min<span class="op">(</span>f<span class="op">[</span>u<span class="op">][</span><span class="dv">1</span><span class="op">],</span> f<span class="op">[</span>v<span class="op">][</span><span class="dv">2</span><span class="op">]</span> <span class="op">+</span> f<span class="op">[</span>u<span class="op">][</span><span class="dv">0</span><span class="op">]</span>  <span class="op">-</span> min<span class="op">(</span>f<span class="op">[</span>v<span class="op">][</span><span class="dv">1</span><span class="op">],</span> f<span class="op">[</span>v<span class="op">][</span><span class="dv">2</span><span class="op">]));</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n<span class="op">;</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> a<span class="op">,</span> cost<span class="op">,</span> cnt<span class="op">;</span></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> a <span class="op">&gt;&gt;</span> cost <span class="op">&gt;&gt;</span> cnt<span class="op">;</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>        w<span class="op">[</span>a<span class="op">]</span> <span class="op">=</span> cost<span class="op">;</span></span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> cnt<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>            <span class="dt">int</span> b<span class="op">;</span></span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>            cin <span class="op">&gt;&gt;</span> b<span class="op">;</span></span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>            e<span class="op">[</span>a<span class="op">].</span>push_back<span class="op">(</span>b<span class="op">);</span></span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>            fa<span class="op">[</span>b<span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span>  <span class="co">// 判断是否是根节点</span></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> u <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> u <span class="op">&lt;=</span> n<span class="op">;</span> u <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(!</span>fa<span class="op">[</span>u<span class="op">])</span>  <span class="co">// 是根节点</span></span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>            dfs<span class="op">(</span>u<span class="op">);</span></span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>            cout <span class="op">&lt;&lt;</span> min<span class="op">(</span>f<span class="op">[</span>u<span class="op">][</span><span class="dv">1</span><span class="op">],</span> f<span class="op">[</span>u<span class="op">][</span><span class="dv">2</span><span class="op">])</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏
+            <div class="reward-main">
+              <ul class="reward-row">
+                <!-- <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/custom/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/custom/donate/WeChanQR.jpg"></li> -->
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2022/07/28/%E7%8A%B6%E5%8E%8BDP/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/Zranshi/CDN@1.0/img/loader/loading.jpg" data-src="" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                状态压缩DP</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2022/07/14/%E7%BA%BF%E6%80%A7DP/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/Zranshi/CDN@1.0/img/loader/loading.jpg" data-src="" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                线性DP</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
+          <a target="_blank" rel="noopener" href="https://github.com/steven-kid" class="profile gravatar"><img src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.2/img/custom/avatar.jpg" itemprop="image" alt="steven" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a target="_blank" href="https://github.com/steven-kid" itemprop="url" rel="author noopener">steven</a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
+</div>
+
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+  </script>
+
+
+    </div>    
+    
+    <!-- <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2023 John Doe<br>
+      powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer> -->
+<footer id="colophon" class="site-footer" role="contentinfo">
+  <div class="site-info">
+    <div class="footertext">
+      <div class="img-preload">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/wordpress-rotating-ball-o.svg">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/disqus-preloader.svg">
+      </div>
+      <p style="color: #666666;">&copy 2022</p>
+    </div>
+    <div class="footer-device">
+    <p style="font-family: 'Ubuntu', sans-serif;">
+        <span style="color: #b9b9b9;">Theme <a href="https://github.com/honjun/hexo-theme-sakura" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Sakura</a> <i class="iconfont icon-sakura rotating" style="color: #ffc0cb;display:inline-block"></i> by <a href="https://2heng.xin/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Mashiro</a>&<a href="https://www.hojun.cn/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Hojun</a>, Powered by Hexo, Hosted by Coding Pages</a>
+        </span>
+      </p>
+    </div>
+  </div><!-- .site-info -->
+</footer>
+
+
+
+<!-- <script src="/js/tocbot.js"></script> -->
+<script type="text/javascript" src="/js/lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/InsightSearch.js"></script>
+<script type="text/javascript" src="/js/jquery.fancybox.min.js"></script>
+<script type="text/javascript" src="/js/zoom.min.js"></script>
+<script type="text/javascript" src="/js/sakura-app.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine@1.3.4/dist/Valine.min.js'></script>
+<script src="/js/botui.js"></script>
+<!-- 不蒜子 网页计数器 -->
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script> -->
+<script type="text/javascript">
+/* <![CDATA[ */
+if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/NBA.mp4","name":"NBA.mp4","live":"close"},"windowheight":"fixed","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+} else {
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/NBA.mp4","name":"NBA.mp4","live":"open"},"windowheight":"auto","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+}
+/* ]]> */
+
+</script>
+<script>
+$(document).ready(function() {
+  if ($(".toc").length > 0 && document.body.clientWidth > 1200) {
+    if ($(".pattern-center").length > 0) { //有图的情况
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -400,
+          scrollSmoothOffset: -85
+      });
+    } else {
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -85,
+          scrollSmoothOffset: -85
+      });
+    }
+    var offsetTop = $('.toc').offset().top - 95;
+    window.onscroll = function() {
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+      if (scrollTop >= offsetTop) {
+        $('.toc').addClass('toc-fixed');
+      } else {
+        $('.toc').removeClass('toc-fixed');
+      }
+    }
+  }
+});
+</script>
+
+    <div class="openNav no-select" style="height: 50px;">
+      <div class="iconflat no-select" style="width: 50px; height: 50px;">
+        <div class="icon"></div>
+      </div>
+      <div class="site-branding search-form-submit">
+        <i class="iconfont js-toggle-search iconsearch icon-search"></i>
+      </div>
+    </div>
+  </section>
+  <div id="mo-nav" class="">
+  <div class="m-avatar">
+    <img src="https://cdn.jsdelivr.net/gh/steven-kid/cdn@1.4/img/custom/avatar.jpg">
+  </div>
+  <p style="text-align: center; color: #333; font-weight: 900; font-family: 'Ubuntu', sans-serif; letter-spacing: 1.5px">StevenのBlog</p>
+  <p style="text-align: center; word-spacing: 20px;">
+    
+      
+        <a href="https://github.com/steven-kid" class="fa fa-github" target="_blank" style="color: #333; margin-left:20px"></a>
+      
+        <a href="https://www.meta.com" class="fa fa fa-facebook-official" target="_blank" style="color: #dd4b39; margin-left:20px"></a>
+      
+        <a href="https://steven-kid.github.io/contact/" class="fa fa-wechat" target="_blank" style="color: #25c6fe; margin-left:20px"></a>
+      
+    
+  </p>
+  <ul id="menu-new-1" class="menu">
+    
+      <li>
+        <a href="/archives">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+            文档
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/%E6%8A%80%E6%9C%AF/">
+                  <i class="fa fa-code" aria-hidden="true"></i>
+                  技术
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/%E9%9A%8F%E6%83%B3/">
+                  <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                  随想
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/links/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+            友人
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/project/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa fa-tasks" aria-hidden="true"></i>
+            项目
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+            关于
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/theme-sakura/">
+                  <i class="fa iconfont icon-sakura" aria-hidden="true"></i>
+                  主题
+                </a>
+              </li>
+            
+              <li>
+                <a href="/about/">
+                  <i class="fa fa-meetup" aria-hidden="true"></i>
+                  我？
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+  </ul>
+  <p style="text-align: center; font-size: 13px; color: #b9b9b9;">&copy 2019 hexo-sakura</p>
+</div>
+<button onclick="topFunction()" class="mobile-cd-top" id="moblieGoTop" title="Go to top" style="display: none;"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+<!-- require MetingJS -->
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+<style>
+  .aplayer .aplayer-lrc {
+    height: 35px;
+  }
+  .aplayer .aplayer-lrc p{
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 18px !important;
+  }
+  .aplayer .aplayer-lrc p.aplayer-lrc-current{
+    color: #ffa500;
+  }
+  .aplayer.aplayer-narrow .aplayer-body{
+    left: -66px !important;
+  }
+  .aplayer.aplayer-fixed .aplayer-lrc {
+    display: none;
+  }
+  .aplayer .aplayer-lrc.aplayer-lrc-hide {
+      display:none !important;
+  }
+  .aplayer.aplayer-fixed .lrc-show {
+    display: block;
+    background: rgba(255, 255, 255, 0.8);
+  }
+</style>
+<meting-js
+
+</meting-js>
+<script>
+  $(function(){
+    $('body').on('click', '.aplayer', function(){
+      if($('.aplayer-button').hasClass('aplayer-play')) {
+        $('.aplayer-lrc').removeClass('lrc-show');
+      } else {
+        $('.aplayer-lrc').addClass('lrc-show');
+      }
+    })
+  });
+</script>
+</body>
+</html>
