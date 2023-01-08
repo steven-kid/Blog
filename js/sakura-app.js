@@ -556,20 +556,14 @@ $(document).ready(function () {
   add_upload_tips()
 })
 
-function nextBG () {
-  bgindex = bgindex + 1
-  console.log(bg[Math.abs(bgindex % bg.length)])
-  $('.centerbg').css('background-image', 'url("' + bg[Math.abs(bgindex % bg.length)] + '")')
-}
 
-function preBG () {
-  bgindex = bgindex - 1
-  console.log(bg[Math.abs(bgindex % bg.length)])
-  $('.centerbg').css('background-image', 'url("' + bg[Math.abs(bgindex % bg.length)] + '")')
-}
 $(document).ready(function () {
-  var bgindex = Math.floor(Math.random() * bg.length)
-  $('.centerbg').css('background-image', 'url("' + bg[bgindex] + '")')
+  const centerbg = document.querySelector('#centerbg');
+  let bgimg = document.createElement('img');
+  bgimg.src = '../images/background.jpeg';
+  bgimg.style.position = 'absolute';
+  bgimg.style.top = '0';
+  centerbg.appendChild(bgimg);
 })
 if (document.body.clientWidth <= 860 && !window.is_app) {
   window.onscroll = function () {

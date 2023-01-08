@@ -1,17 +1,20 @@
-.aplayer-container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 400px;
+
+
+#menu-new{
+    width: 600px !important;
+    position: fixed !important;
+    right: 0 !important;
+    align-content: space-between !important;
+    transition: all 0.5s;
 }
 
-#veditor {
-    background-image: url(https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/comment-bg.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: right;
-    background-color: rgba(255, 255, 255, 0);
-    resize: vertical;
+#menu-new > li:first-child{
+    padding-left: 250px !important;
+}
+
+#menu-new > li:not(:first-child){
+    z-index: 10000 !important;
+    margin-left: 20px !important;
 }
 
 .post-meta em {
@@ -892,6 +895,7 @@ mark {
 small {
     font-size: 80%
 }
+
 
 sub, sup {
     font-size: 75%;
@@ -2117,7 +2121,7 @@ i.iconfont.hotpost {
 
 .post-thumb {
     float: right;
-    width: 55%
+    width: 300px;
 }
 
 .post-thumb a {
@@ -2148,7 +2152,7 @@ i.iconfont.hotpost {
     float: right;
     padding-right: 30px;
     padding-left: 0;
-    width: 40%;
+    width: 55%;
     margin: 20px 10px 0 10px
 }
 
@@ -2689,27 +2693,9 @@ h1.page-title.mb- {
     opacity: .8
 }
 
-.post-footer {
-    padding: 20px 0;
-    border-bottom: 1px dashed #ddd;
-    border-top: 1px dashed #ddd;
-    margin-top: 30px;
-    height: 82px
-}
 
-.post-lincenses {
-    text-align: center;
-    padding-bottom: 5px;
-    font-size: 14px
-}
 
-.post-lincenses a:hover {
-    color: #888
-}
 
-.post-lincenses a {
-    color: #b3b3b3
-}
 
 .post-tags {
     float: left;
@@ -4867,8 +4853,8 @@ li.feature-2 {
 }
 
 .top-social_v2 img {
-    height: 50px;
-    width: 50px;
+    height: 40px;
+    width: 40px;
     padding: 6px;   
 }
 
@@ -4878,8 +4864,8 @@ li.feature-2 {
 }
 
 .wechat {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     position: relative
 }
 
@@ -9183,22 +9169,6 @@ td.hljs-ln-numbers {
 .toc-fixed {
     position: fixed !important;
     top: 85px;
-}
-
-#menu-new{
-    width: 600px;
-    position: fixed;
-    right: 0;
-    align-content: space-between;
-}
-
-#menu-new > li:first-child{
-    padding-left: 250px;
-}
-
-#menu-new > li:not(:first-child){
-    z-index: 10000;
-    margin-left: 20px;
 }
 
 @media (max-width: 1200px) {
