@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
   
-  <title itemprop="name">区间DP | Steven&#39;s blog</title>
+  <title itemprop="name">树形DP | Steven&#39;s blog</title>
   
     <link rel="shortcut icon" href="/images/favicon.ico">
   
@@ -260,7 +260,7 @@
         <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
         
           <header class="entry-header">
-            <h1 class="entry-title">区间DP</h1>
+            <h1 class="entry-title">树形DP</h1>
             <p class="entry-census">steven&nbsp;·&nbsp;2022-7-24&nbsp;·&nbsp;<span id="busuanzi_value_page_pv"></span>次阅读</p></p>
 
             <hr>
@@ -274,12 +274,12 @@ class="math inline">\(w_i\)</span></p>
 <p>现需要在树中找出一条路径，使得该路径上所有边的权值之和最大</p>
 <p>对于求树的直径问题，可以用两次 DFS 或者树形 DP 的方法在 <span
 class="math inline">\(O(n)\)</span> 时间求出树的直径</p>
-<p>(两次DFS 无法处理负权边)</p>
-<h4 id="两次dfsbfs">两次DFS/BFS</h4>
+<p>(两次 DFS 无法处理负权边)</p>
+<h4 id="两次-dfsbfs">两次 DFS/BFS</h4>
 <p><strong>分析：</strong> 首先从任意节点 <span
-class="math inline">\(y\)</span> 开始第一次DFS，到达距离最远的节点，记为
-<span class="math inline">\(z\)</span> , 然后再从 <span
-class="math inline">\(z\)</span> 开始左第二次 DFS</p>
+class="math inline">\(y\)</span> 开始第一次
+DFS，到达距离最远的节点，记为 <span class="math inline">\(z\)</span> ,
+然后再从 <span class="math inline">\(z\)</span> 开始左第二次 DFS</p>
 <p>到达距离 <span class="math inline">\(z\)</span> 最远的节点， 记为
 <span class="math inline">\(z&#39;\)</span>, 则 <span
 class="math inline">\((z,z&#39;)\)</span> 即为树的直径</p>
@@ -395,7 +395,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#c
 <span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> d<span class="op">[</span>z<span class="op">]</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
 <span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
-<h4 id="树形dp">树形DP</h4>
+<h4 id="树形-dp">树形 DP</h4>
 <p><strong>分析：</strong>
 我们记录当为树的根时，每个节点作为子树的根向下，所能延伸的最远距离 <span
 class="math inline">\(d_1\)</span>，和次远距离 <span
@@ -466,14 +466,17 @@ class="math inline">\(w_i\)</span></p>
 <p>请在树中找到一个点，使得该点到树中其他结点的最远距离最近,
 输出这个最远距离</p>
 <p><strong>分析：</strong></p>
-<p>这个问题是树形DP中的一类经典模型，常被称作<strong>换根DP</strong>，
-一般分为三个步骤：</p>
+<p>这个问题是树形 DP 中的一类经典模型，常被称作<strong>换根
+DP</strong>， 一般分为三个步骤：</p>
 <ul>
 <li><p>指定任意一个根节点</p></li>
-<li><p>一次dfs遍历，统计出当前子树内的节点对当前节点的贡献(距离)</p></li>
-<li><p>一次dfs遍历，统计出当前节点的父节点对当前节点的贡献(距离)，然后合并统计答案</p></li>
+<li><p>一次 dfs
+遍历，统计出当前子树内的节点对当前节点的贡献(距离)</p></li>
+<li><p>一次 dfs
+遍历，统计出当前节点的父节点对当前节点的贡献(距离)，然后合并统计答案</p></li>
 </ul>
-<p>对于一个节点，我们先dfs预处理了每个点以该节点为根，走的的最远距离和次远距离后</p>
+<p>对于一个节点，我们先 dfs
+预处理了每个点以该节点为根，走的的最远距离和次远距离后</p>
 <p>如果想要求出树中离该节点最远的距离时，可以分为以下两种子情况 (以
 <span class="math inline">\(v\)</span> 为例)</p>
 <ul>
@@ -486,7 +489,7 @@ class="math inline">\(v\)</span> 的父节点 <span
 class="math inline">\(u\)</span> 取 <span
 class="math inline">\(d_1\)</span> 时选取的子节点是否是 <span
 class="math inline">\(v\)</span></p>
-<p>可以想到，如果我们在第一次dfs将节点 <span
+<p>可以想到，如果我们在第一次 dfs 将节点 <span
 class="math inline">\(u\)</span> 取到最远距离时的子节点记为 <span
 class="math inline">\(s_u\)</span> , 那又可以分为以下两种情况</p>
 <ul>
@@ -580,7 +583,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb7-1"><a href="#c
 <span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> <span class="op">[</span>v<span class="op">,</span> w<span class="op">]:</span> e<span class="op">[</span>u<span class="op">])</span></span>
 <span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
 <span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>v <span class="op">==</span> fa<span class="op">)</span> <span class="cf">continue</span><span class="op">;</span></span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>s1<span class="op">[</span>u<span class="op">]</span> <span class="op">==</span> v<span class="op">)</span>  up<span class="op">[</span>v<span class="op">]</span> <span class="op">=</span> w <span class="op">+</span> max<span class="op">(</span>up<span class="op">[</span>u<span class="op">],</span> d2<span class="op">[</span>u<span class="op">]);</span>  <span class="co">// son_u = v, 用次远距离更新 </span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>s1<span class="op">[</span>u<span class="op">]</span> <span class="op">==</span> v<span class="op">)</span>  up<span class="op">[</span>v<span class="op">]</span> <span class="op">=</span> w <span class="op">+</span> max<span class="op">(</span>up<span class="op">[</span>u<span class="op">],</span> d2<span class="op">[</span>u<span class="op">]);</span>  <span class="co">// son_u = v, 用次远距离更新</span></span>
 <span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> up<span class="op">[</span>v<span class="op">]</span> <span class="op">=</span> w <span class="op">+</span> max<span class="op">(</span>up<span class="op">[</span>u<span class="op">],</span> d1<span class="op">[</span>u<span class="op">]);</span>  <span class="co">// son_u != v, 用最远距离更新</span></span>
 <span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>        dfs2<span class="op">(</span>v<span class="op">,</span> u<span class="op">);</span></span>
 <span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
@@ -596,15 +599,15 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb7-1"><a href="#c
 <span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>        e<span class="op">[</span>a<span class="op">].</span>push_back<span class="op">(&#123;</span>b<span class="op">,</span> c<span class="op">&#125;);</span></span>
 <span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>        e<span class="op">[</span>b<span class="op">].</span>push_back<span class="op">(&#123;</span>a<span class="op">,</span> c<span class="op">&#125;);</span></span>
 <span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
-<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>    dfs1<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="op">-</span><span class="dv">1</span><span class="op">);</span>  <span class="co">// 处理向下的最远距离和次远距离</span></span>
 <span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>    dfs2<span class="op">(</span><span class="dv">1</span><span class="op">,</span> <span class="op">-</span><span class="dv">1</span><span class="op">);</span>  <span class="co">// 处理向上的最远距离</span></span>
-<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> ans <span class="op">=</span> INF<span class="op">;</span></span>
 <span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span> ans <span class="op">=</span> min<span class="op">(</span>ans<span class="op">,</span> max<span class="op">(</span>d1<span class="op">[</span>i<span class="op">],</span> up<span class="op">[</span>i<span class="op">]));</span></span>
-<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> ans <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
 <h3 id="数字转换">数字转换</h3>
@@ -632,10 +635,11 @@ class="math inline">\(x\)</span> (<span class="math inline">\(x\)</span>
 的约数之和 <span class="math inline">\(y\)</span> 比它本身小, 那么 <span
 class="math inline">\(x\)</span> 和 <span
 class="math inline">\(y\)</span> 可以互相转换，等价于可以在 x 和 y</p>
-<p>之间连一条无向边，由于每个数的约数之和是确定的，所以所有的这样的边一起组成了一个森林🌴</p>
+<p>之间连一条无向边，由于每个数的约数之和是确定的，所以所有的这样的边一起组成了一个森林
+🌴</p>
 <p>这样要求的最大转换步数就可以转化求解为这个森林中的树的直径的最大值，</p>
 <p>类比上面的树的最长路径，可以枚举每个点作为根的情况，然后取全局最大值即可</p>
-<p>但是搜索时爆栈了❓</p>
+<p>但是搜索时爆栈了 ❓</p>
 <p>这说明存储的这个过程还有优化的空间，其实由于我们枚举了每一个点作为根节点的情况，所以每次只需要存入一</p>
 <p>条有向边即可， 同时要采用记忆化的搜索方式</p>
 <p><strong>状态表示：</strong> <span
@@ -688,16 +692,16 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb8-1"><a href="#c
 <span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
 <span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> j <span class="op">&lt;=</span> n <span class="op">/</span> i<span class="op">;</span> j <span class="op">++</span> <span class="op">)</span>  <span class="co">// 从2开始, 一个数的约数不含它本身</span></span>
 <span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>            a<span class="op">[</span>i <span class="op">*</span> j<span class="op">]</span> <span class="op">+=</span> i<span class="op">;</span></span>
-<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
 <span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>i <span class="op">&gt;</span> a<span class="op">[</span>i<span class="op">])</span></span>
 <span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>            e<span class="op">[</span>a<span class="op">[</span>i<span class="op">]].</span>push_back<span class="op">(</span>i<span class="op">);</span>  <span class="co">// 虽然是可以双向转移，但是实际上只需要连一条有向边即可(因为会枚举所有的情况)</span></span>
-<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
 <span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>        dfs<span class="op">(</span>i<span class="op">);</span>   <span class="co">// 枚举以每一条边为根节点的情况</span></span>
-<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> ans <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
-<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
 <h3 id="二叉苹果树">二叉苹果树</h3>
@@ -705,7 +709,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb8-1"><a href="#c
 class="math inline">\(n\)</span> 个结点的树，树根编号为
 1，且树上的每条边有一个边权 <span class="math inline">\(w_i\)</span></p>
 <p>要求我们进行减枝，只保留树中的 <span class="math inline">\(m\)</span>
-条边，使得树根(编号为1)所在的连通块的所有边的边权之和最大</p>
+条边，使得树根(编号为 1)所在的连通块的所有边的边权之和最大</p>
 <p><strong>分析：</strong>
 这题的本质其实是有依赖的背包模型，不同点在于把物品价值分配给了边而不是点</p>
 <p>不过对于树结构来说，每一个节点的入边仅有一条，所以可以将每一个节点的入边权视作该点的价值</p>
@@ -839,7 +843,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb10-1"><a href="#
 <span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n<span class="op">;</span></span>
 <span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
 <span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> a<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
 <span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
 <span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> a<span class="op">,</span> b<span class="op">;</span></span>
