@@ -74,11 +74,11 @@ function bot_ui_ini() {
             }).then(function () {
                 botui.message.add({
                     delay: 1500,
-                    content: "学的是大数据"
+                    content: "学的是大数据👨‍💻"
                 }).then(function () {
                     botui.message.add({
                         delay: 1500,
-                        content: "目前在学算法竞赛，偶尔也折腾 HTML/CSS/JavaScript/"
+                        content: "之前学算法竞赛，偶尔也折腾网页，现在在搞搞科研"
                     }).then(function () {
                             botui.message.add({
                                 delay: 1800,
@@ -125,7 +125,7 @@ function bot_ui_ini() {
         fifthpart = function () {
             botui.message.add({
                 delay: 1600,
-                content: "嘻嘻先走啦，看看我的博客吧"
+                content: "嘻嘻先溜啦，看看我的博客吧"
             })
         } 
 }

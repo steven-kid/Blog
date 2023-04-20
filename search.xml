@@ -7746,8 +7746,8 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#c
 <span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
 <p><img src="https://s2.loli.net/2023/04/06/gTu83rz16MWJdYc.png" /></p>
-<p>结果错了一个点，我觉得应该是因为一上来while里面就进行了一次next_permutaion()
-所以没有了最开始的1，2，3，4 ... 8这个全排列</p>
+<p>结果错了一个点，我觉得应该是因为一上来 while 里面就进行了一次
+next_permutaion() 所以没有了最开始的 1，2，3，4 ... 8 这个全排列</p>
 <p>改成这样也许可行，可惜现在评测已经关闭，我也没有办法验证我的想法了</p>
 <div class="sourceCode" id="cb4"><pre
 class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
@@ -8241,6 +8241,927 @@ alt="image-20230308233742434.png" />
         <tag>剪枝</tag>
         <tag>trick</tag>
         <tag>A*搜索</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>矩阵乘法（分治法）Strassen</title>
+    <url>/2023/04/19/%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95%EF%BC%88%E5%88%86%E6%B2%BB%EF%BC%89/</url>
+    <content><![CDATA[<h3 id="矩阵乘法分治法">矩阵乘法（分治法）</h3>
+<h4 id="题目描述">题目描述</h4>
+<p>设 A 和 B 是两个 n * n 阶矩阵，求它们的乘积矩阵
+C。要求使用分治法。</p>
+<p>输入格式</p>
+<p>输入为 1+2×n×n
+个数字，第一个数字与第二个数字之间以空格和换行隔开，其余数字之间以空格隔开，</p>
+<p>第 1 个表示矩阵阶层 n，</p>
+<p>第 2 个至第 n+1 个表示矩阵 A，</p>
+<p>第 n+2 个至第 2n+1 个表示矩阵 B。</p>
+<p>输出格式</p>
+<p>输出为 n×n 个数字，表示乘积矩阵 C</p>
+<p>样例 #1</p>
+<p>样例输入 #1</p>
+<pre><code>3
+1 1 1 1 2 3 2 3 4 5 7 8 2 3 2 1 2 9</code></pre>
+<p>样例输出 #1</p>
+<pre><code>8 12 19 12 19 39 20 31 58</code></pre>
+<p>提示</p>
+<p>0≤n≤100,A、B 均为整数矩阵</p>
+<h3 id="问题分析">问题分析</h3>
+<h4 id="解法一超级大暴力">解法一：超级大暴力</h4>
+<p>首先我们可以使用最简单的矩阵乘法，由定义</p>
+<p>两个矩阵对指定行号和列号的元素依次相乘的和作为输出矩阵对应的行号列号的元素。用数学语言表示，
+<span class="math inline">\(A=[a]_{m \times n} ， B=[b]_{n \times
+k}\)</span> ，那么有 <span class="math inline">\(C=A B=[C]_{m \times
+k}\)</span>, 且</p>
+<p><span class="math display">\[
+c_{i j}=\sum_{k=1}^n a_{i k} b_{k j}
+\]</span></p>
+<p>利用这种最简单的想法，我们很容易写出一个基于定义式的 <span
+class="math inline">\(O(n^3)\)</span> 暴力解法</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cstring&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;set&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;vector&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;map&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cmath&gt;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;queue&gt;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iomanip&gt;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stack&gt;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="pp">#define debug</span><span class="op">(</span>x<span class="op">)</span><span class="pp"> </span>cerr<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> #</span>x<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span><span class="st">&quot; = &quot;</span><span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span>x<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span>endl</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="pp">#define int </span><span class="dt">long</span><span class="pp"> </span><span class="dt">long</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="pp">#define all</span><span class="op">(</span>x<span class="op">)</span><span class="pp"> </span><span class="op">(</span>x<span class="op">).</span>begin<span class="op">(),(</span>x<span class="op">).</span>end<span class="op">()</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="pp">#define endl </span><span class="op">(</span><span class="ch">&#39;</span><span class="sc">\n</span><span class="ch">&#39;</span><span class="op">)</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> pair<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> PII<span class="op">;</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="dt">long</span> <span class="dt">long</span> LL<span class="op">;</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="fl">1e2</span> <span class="op">+</span> <span class="dv">5</span><span class="op">,</span> mod <span class="op">=</span> <span class="fl">1e9</span> <span class="op">+</span> <span class="dv">7</span><span class="op">;</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> INF <span class="op">=</span> <span class="bn">0x3f3f3f3f</span><span class="op">;</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co">//int dx[] = &#123;1, 0, -1, 0&#125;, dy[] = &#123;0, -1, 0, 1&#125;;</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="co">//const double eps = 1e-6;</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n<span class="op">,</span> m<span class="op">,</span> k<span class="op">;</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a<span class="op">[</span>N<span class="op">][</span>N<span class="op">];</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> b<span class="op">[</span>N<span class="op">][</span>N<span class="op">];</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> c<span class="op">[</span>N<span class="op">][</span>N<span class="op">];</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>string s<span class="op">;</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> get<span class="op">(</span><span class="dt">int</span> x<span class="op">,</span> <span class="dt">int</span> y<span class="op">)&#123;</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> ret <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i <span class="op">++)</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>        ret <span class="op">+=</span> a<span class="op">[</span>x<span class="op">][</span>i<span class="op">]</span> <span class="op">*</span> b<span class="op">[</span>i<span class="op">][</span>y<span class="op">];</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ret<span class="op">;</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> solve<span class="op">()&#123;</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n<span class="op">;</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n <span class="op">*</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> a<span class="op">[</span>i <span class="op">/</span> n<span class="op">][</span>i <span class="op">%</span> n<span class="op">];</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n <span class="op">*</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> b<span class="op">[</span>i <span class="op">/</span> n<span class="op">][</span>i <span class="op">%</span> n<span class="op">];</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i <span class="op">++)&#123;</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> n<span class="op">;</span> j <span class="op">++)&#123;</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>            c<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> get<span class="op">(</span>i<span class="op">,</span> j<span class="op">);</span></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n <span class="op">*</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)&#123;</span></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>        cout <span class="op">&lt;&lt;</span> c<span class="op">[</span>i <span class="op">/</span> n<span class="op">][</span>i <span class="op">%</span> n<span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="st">&quot; &quot;</span><span class="op">;</span></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a><span class="dt">signed</span> main<span class="op">()&#123;</span></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>    ios<span class="op">::</span>sync_with_stdio<span class="op">(</span><span class="kw">false</span><span class="op">);</span></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>    cin<span class="op">.</span>tie<span class="op">(</span><span class="dv">0</span><span class="op">),</span> cout<span class="op">.</span>tie<span class="op">(</span><span class="dv">0</span><span class="op">);</span></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>    solve<span class="op">();</span></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
+<p>这样的超级大暴力代码能不能通过呢？</p>
+<p>是可以的，因为时间放的很宽松，对于范围在 100 的数据竟然留了
+1s，而一秒钟跑完 <span class="math inline">\(100^3=1e6\)</span>
+的数据只能说轻轻松松</p>
+<p><img src="https://s2.loli.net/2023/04/20/K1qlUvjXNgTHpIu.png" /></p>
+<h4 id="解法二普通分治乘法">解法二：普通分治乘法</h4>
+<p>参考 zqt 大佬的代码</p>
+<p>对于矩阵 A，B 我们有</p>
+<p><span class="math display">\[
+\left(\begin{array}{ll}
+\mathrm{A}_{11} &amp; \mathrm{~A}_{12} \\
+\mathrm{~A}_{21} &amp; \mathrm{~A}_{22}
+\end{array}\right)\left(\begin{array}{ll}
+\mathrm{B}_{11} &amp; \mathrm{~B}_{12} \\
+\mathrm{~B}_{21} &amp; \mathrm{~B}_{22}
+\end{array}\right)=\left(\begin{array}{ll}
+\mathrm{C}_{11} &amp; \mathrm{C}_{12} \\
+\mathrm{C}_{21} &amp; \mathrm{C}_{22}
+\end{array}\right)
+\]</span></p>
+<p>此时</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp; \mathrm{C}_{11}=\mathrm{A}_{11}\mathrm{B}_{11}
++  \mathrm{A}_{12}\mathrm{B}_{21}\\
+&amp; \mathrm{C}_{21}=\mathrm{A}_{11}\mathrm{B}_{12}
++  \mathrm{A}_{12}\mathrm{B}_{22}\\
+&amp; \mathrm{C}_{21}=\mathrm{A}_{21}\mathrm{B}_{11}
++  \mathrm{A}_{22}\mathrm{B}_{21}\\
+&amp; \mathrm{C}_{11}=\mathrm{A}_{21}\mathrm{B}_{12}
++  \mathrm{A}_{22}\mathrm{B}_{22}\\
+\end{aligned}
+\]</span></p>
+<p>但是如果采用这一种方式，那应当如何分割宽和高为奇数的矩阵的呢，如下所示</p>
+<p><span class="math display">\[
+\left(\begin{array}{lll}
+\mathrm{a}_{11} &amp; \mathrm{a}_{12} &amp; \mathrm{a}_{13} \\
+\mathrm{a}_{21} &amp; \mathrm{a}_{22} &amp; \mathrm{a}_{23} \\
+\mathrm{a}_{31} &amp; \mathrm{a}_{32} &amp; \mathrm{a}_{33}
+\end{array}\right)
+\]</span></p>
+<p>此时我们采取的解决方案为在外侧补上一圈的 0， 长度由原来的 length 变为
+length + 1</p>
+<p><span class="math display">\[
+\left(\begin{array}{llll}
+\mathrm{a}_{11} &amp; \mathrm{a}_{12} &amp; \mathrm{a}_{13} &amp; 0 \\
+\mathrm{a}_{21} &amp; \mathrm{a}_{22} &amp; \mathrm{a}_{23} &amp; 0 \\
+\mathrm{a}_{31} &amp; \mathrm{a}_{32} &amp; \mathrm{a}_{33} &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0
+\end{array}\right)
+\]</span></p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> length <span class="op">+</span> <span class="dv">1</span><span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> length <span class="op">+</span> <span class="dv">1</span><span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 补上外侧的 0</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>i <span class="op">==</span> length <span class="op">||</span> j <span class="op">==</span> length<span class="op">)</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>            at<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>            bt<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
+<p>之后就变为长度为偶数的矩阵可以进行分块矩阵的分割，之后再递归的往下处理即可</p>
+<p>分治的核心就在于此，将目标问题转换为更为简单的多个子问题，并拆分解决</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>t1 <span class="op">=</span> MulM<span class="op">(</span>a<span class="op">,</span> b<span class="op">,</span> l<span class="op">,</span> ax11<span class="op">,</span> ay11<span class="op">,</span> bx11<span class="op">,</span> by11<span class="op">,</span> tx11<span class="op">,</span> ty11<span class="op">);</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>t2 <span class="op">=</span> MulM<span class="op">(</span>a<span class="op">,</span> b<span class="op">,</span> l<span class="op">,</span> ax12<span class="op">,</span> ay12<span class="op">,</span> bx21<span class="op">,</span> by21<span class="op">,</span> tx11<span class="op">,</span> ty11<span class="op">);</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>t3 <span class="op">=</span> MulM<span class="op">(</span>a<span class="op">,</span> b<span class="op">,</span> l<span class="op">,</span> ax11<span class="op">,</span> ay11<span class="op">,</span> bx12<span class="op">,</span> by12<span class="op">,</span> tx12<span class="op">,</span> ty12<span class="op">);</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>t4 <span class="op">=</span> MulM<span class="op">(</span>a<span class="op">,</span> b<span class="op">,</span> l<span class="op">,</span> ax12<span class="op">,</span> ay12<span class="op">,</span> bx22<span class="op">,</span> by22<span class="op">,</span> tx12<span class="op">,</span> ty12<span class="op">);</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>t5 <span class="op">=</span> MulM<span class="op">(</span>a<span class="op">,</span> b<span class="op">,</span> l<span class="op">,</span> ax21<span class="op">,</span> ay21<span class="op">,</span> bx11<span class="op">,</span> by11<span class="op">,</span> tx21<span class="op">,</span> ty21<span class="op">);</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>t6 <span class="op">=</span> MulM<span class="op">(</span>a<span class="op">,</span> b<span class="op">,</span> l<span class="op">,</span> ax22<span class="op">,</span> ay22<span class="op">,</span> bx21<span class="op">,</span> by21<span class="op">,</span> tx21<span class="op">,</span> ty21<span class="op">);</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>t7 <span class="op">=</span> MulM<span class="op">(</span>a<span class="op">,</span> b<span class="op">,</span> l<span class="op">,</span> ax21<span class="op">,</span> ay21<span class="op">,</span> bx12<span class="op">,</span> by12<span class="op">,</span> tx22<span class="op">,</span> ty22<span class="op">);</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>t8 <span class="op">=</span> MulM<span class="op">(</span>a<span class="op">,</span> b<span class="op">,</span> l<span class="op">,</span> ax22<span class="op">,</span> ay22<span class="op">,</span> bx22<span class="op">,</span> by22<span class="op">,</span> tx22<span class="op">,</span> ty22<span class="op">);</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>AddM<span class="op">(</span>t1<span class="op">,</span> t2<span class="op">,</span> temp<span class="op">,</span> l<span class="op">,</span> tx11<span class="op">,</span> ty11<span class="op">);</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>AddM<span class="op">(</span>t3<span class="op">,</span> t4<span class="op">,</span> temp<span class="op">,</span> l<span class="op">,</span> tx12<span class="op">,</span> ty12<span class="op">);</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>AddM<span class="op">(</span>t5<span class="op">,</span> t6<span class="op">,</span> temp<span class="op">,</span> l<span class="op">,</span> tx21<span class="op">,</span> ty21<span class="op">);</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>AddM<span class="op">(</span>t7<span class="op">,</span> t8<span class="op">,</span> temp<span class="op">,</span> l<span class="op">,</span> tx22<span class="op">,</span> ty22<span class="op">);</span></span></code></pre></div>
+<p>按照这一思路实现，就能够正确的输出计算结果</p>
+<p>但是提交到洛谷上之后发现，有很多测试点是 MLE (Memory limit
+exceeded)</p>
+<p><img src="https://s2.loli.net/2023/04/20/HzePn19GX6D7IEf.png" /></p>
+<p>造成这一情况的原因很可能是，由于开了太多的数组导致的，在本题中每一个子函数都创建了很多的数组（因此在使用完之后及时将内存进行释放就能够解决这一问题）</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>AddM<span class="op">(</span>t1<span class="op">,</span> t2<span class="op">,</span> temp<span class="op">,</span> l<span class="op">,</span> tx11<span class="op">,</span> ty11<span class="op">);</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>del<span class="op">(</span>l<span class="op">,</span> t1<span class="op">);</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>del<span class="op">(</span>l<span class="op">,</span> t2<span class="op">);</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>AddM<span class="op">(</span>t3<span class="op">,</span> t4<span class="op">,</span> temp<span class="op">,</span> l<span class="op">,</span> tx12<span class="op">,</span> ty12<span class="op">);</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>del<span class="op">(</span>l<span class="op">,</span> t3<span class="op">);</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>del<span class="op">(</span>l<span class="op">,</span> t4<span class="op">);</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>AddM<span class="op">(</span>t5<span class="op">,</span> t6<span class="op">,</span> temp<span class="op">,</span> l<span class="op">,</span> tx21<span class="op">,</span> ty21<span class="op">);</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>del<span class="op">(</span>l<span class="op">,</span> t5<span class="op">);</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>del<span class="op">(</span>l<span class="op">,</span> t6<span class="op">);</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>AddM<span class="op">(</span>t7<span class="op">,</span> t8<span class="op">,</span> temp<span class="op">,</span> l<span class="op">,</span> tx22<span class="op">,</span> ty22<span class="op">);</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>del<span class="op">(</span>l<span class="op">,</span> t7<span class="op">);</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>del<span class="op">(</span>l<span class="op">,</span> t8<span class="op">);</span></span></code></pre></div>
+<p>加上这一修改后即可通过该问题</p>
+<p>复杂度分析，由于在该问题中，采用这样的分治方式，只是将代码转为递归形式的延续，并不能降低代码的复杂度</p>
+<p>时间复杂度: <span class="math inline">\(O(n^3)\)</span></p>
+<p>示例代码如下：</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n<span class="op">;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>C<span class="op">;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> AddM<span class="op">(</span><span class="dt">int</span> <span class="op">**</span>a<span class="op">,</span> <span class="dt">int</span> <span class="op">**</span>b<span class="op">,</span> <span class="dt">int</span> <span class="op">**</span>temp<span class="op">,</span> <span class="dt">int</span> length<span class="op">,</span> <span class="dt">int</span> ax<span class="op">,</span> <span class="dt">int</span> ay<span class="op">,</span> <span class="dt">int</span> bx<span class="op">,</span> <span class="dt">int</span> by<span class="op">,</span> <span class="dt">int</span> tx<span class="op">,</span> <span class="dt">int</span> ty<span class="op">)</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> length<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> length<span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>            temp<span class="op">[</span>tx <span class="op">+</span> i<span class="op">][</span>ty <span class="op">+</span> j<span class="op">]</span> <span class="op">=</span> a<span class="op">[</span>ax<span class="op">+</span>i<span class="op">][</span>ay<span class="op">+</span>j<span class="op">]</span> <span class="op">+</span> b<span class="op">[</span>bx<span class="op">+</span>i<span class="op">][</span>by<span class="op">+</span>j<span class="op">];</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> SubM<span class="op">(</span><span class="dt">int</span> <span class="op">**</span>a<span class="op">,</span> <span class="dt">int</span> <span class="op">**</span>b<span class="op">,</span> <span class="dt">int</span> <span class="op">**</span>temp<span class="op">,</span> <span class="dt">int</span> length<span class="op">,</span> <span class="dt">int</span> ax<span class="op">,</span> <span class="dt">int</span> ay<span class="op">,</span> <span class="dt">int</span> bx<span class="op">,</span> <span class="dt">int</span> by<span class="op">,</span> <span class="dt">int</span> tx<span class="op">,</span> <span class="dt">int</span> ty<span class="op">)</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> length<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> length<span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>            temp<span class="op">[</span>tx <span class="op">+</span> i<span class="op">][</span>ty <span class="op">+</span> j<span class="op">]</span> <span class="op">=</span> a<span class="op">[</span>ax<span class="op">+</span>i<span class="op">][</span>ay<span class="op">+</span>j<span class="op">]</span> <span class="op">-</span> b<span class="op">[</span>bx<span class="op">+</span>i<span class="op">][</span>by<span class="op">+</span>j<span class="op">];</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co">// 用del将所有的函数都释放</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> del<span class="op">(</span><span class="dt">int</span> n<span class="op">,</span> <span class="dt">int</span> <span class="op">**</span>a<span class="op">)</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span> <span class="co">// 将矩阵空间释放</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>        free<span class="op">(</span>a<span class="op">[</span>i<span class="op">]);</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    free<span class="op">(</span>a<span class="op">);</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="co">// 返回了当前矩阵的运算结果</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>MulM<span class="op">(</span><span class="dt">int</span> <span class="op">**</span>a<span class="op">,</span> <span class="dt">int</span> <span class="op">**</span>b<span class="op">,</span> <span class="dt">int</span> length<span class="op">,</span> <span class="dt">int</span> ax<span class="op">,</span> <span class="dt">int</span> ay<span class="op">,</span> <span class="dt">int</span> bx<span class="op">,</span> <span class="dt">int</span> by<span class="op">)</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 申请一个临时的矩阵，保存这一次a*b的结果</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>temp<span class="op">;</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 分治的最底层</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>length <span class="op">==</span> <span class="dv">1</span><span class="op">)</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>        <span class="co">//  申请一个1*1的</span></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>        temp <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">**)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span> <span class="op">*)</span> <span class="op">*</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 用temp[0]</span></span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>        temp<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">*)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span><span class="op">)</span> <span class="op">*</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>        temp<span class="op">[</span><span class="dv">0</span><span class="op">][</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> a<span class="op">[</span>ax<span class="op">][</span>ay<span class="op">]</span> <span class="op">*</span> b<span class="op">[</span>bx<span class="op">][</span>by<span class="op">];</span></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> temp<span class="op">;</span></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 否则的话，把矩阵分成四块</span></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 分A</span></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> l<span class="op">;</span></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>length <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>        l <span class="op">=</span> length <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>        temp <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">**)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span> <span class="op">*)</span> <span class="op">*</span> length<span class="op">);</span></span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> length<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>            temp<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">*)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span><span class="op">)</span> <span class="op">*</span> length<span class="op">);</span></span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ax11 <span class="op">=</span> ax<span class="op">;</span></span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ay11 <span class="op">=</span> ay<span class="op">;</span></span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ax12 <span class="op">=</span> ax<span class="op">;</span></span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ay12 <span class="op">=</span> ay <span class="op">+</span> l<span class="op">;</span></span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ax21 <span class="op">=</span> ax <span class="op">+</span> l<span class="op">;</span></span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ay21 <span class="op">=</span> ay<span class="op">;</span></span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ax22 <span class="op">=</span> ax <span class="op">+</span> l<span class="op">;</span></span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ay22 <span class="op">=</span> ay <span class="op">+</span> l<span class="op">;</span></span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 分B</span></span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> bx11 <span class="op">=</span> bx<span class="op">;</span></span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> by11 <span class="op">=</span> by<span class="op">;</span></span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> bx12 <span class="op">=</span> bx<span class="op">;</span></span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> by12 <span class="op">=</span> by <span class="op">+</span> l<span class="op">;</span></span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> bx21 <span class="op">=</span> bx <span class="op">+</span> l<span class="op">;</span></span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> by21 <span class="op">=</span> by<span class="op">;</span></span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> bx22 <span class="op">=</span> bx <span class="op">+</span> l<span class="op">;</span></span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> by22 <span class="op">=</span> by <span class="op">+</span> l<span class="op">;</span></span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 分temp，他就是从0开始分的</span></span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> tx11 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ty11 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> tx12 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ty12 <span class="op">=</span> l<span class="op">;</span></span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> tx21 <span class="op">=</span> l<span class="op">;</span></span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ty21 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> tx22 <span class="op">=</span> l<span class="op">;</span></span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ty22 <span class="op">=</span> l<span class="op">;</span></span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 7次</span></span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a>        <span class="co">//开一个t，来存每次相加减的结果</span></span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> <span class="op">**</span>t<span class="op">;</span></span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> <span class="op">**</span>t2<span class="op">;</span></span>
+<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a>        t <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">**)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span> <span class="op">*)</span> <span class="op">*</span> l<span class="op">);</span></span>
+<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a>        t2 <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">**)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span> <span class="op">*)</span> <span class="op">*</span> l<span class="op">);</span></span>
+<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> l<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a>            t<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">*)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span><span class="op">)</span> <span class="op">*</span> l<span class="op">);</span></span>
+<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a>            t2<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">*)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span><span class="op">)</span> <span class="op">*</span> l<span class="op">);</span></span>
+<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a>        <span class="co">//A11*(B12-B22)</span></span>
+<span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a>        SubM<span class="op">(</span> b <span class="op">,</span> b <span class="op">,</span> t <span class="op">,</span> l<span class="op">,</span> bx12 <span class="op">,</span> by12 <span class="op">,</span> bx22 <span class="op">,</span> by22 <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-102"><a href="#cb7-102" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> <span class="op">**</span>m1 <span class="op">=</span>  MulM<span class="op">(</span>a<span class="op">,</span> t<span class="op">,</span> l<span class="op">,</span> ax11<span class="op">,</span> ay11<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a>        <span class="co">//(A11+A12)*B22</span></span>
+<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a>        AddM<span class="op">(</span> a <span class="op">,</span> a <span class="op">,</span> t <span class="op">,</span> l<span class="op">,</span> ax11 <span class="op">,</span> ay11 <span class="op">,</span> ax12 <span class="op">,</span> ay12 <span class="op">,</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> <span class="op">**</span>m2 <span class="op">=</span>  MulM<span class="op">(</span>t<span class="op">,</span> b<span class="op">,</span> l<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> bx22<span class="op">,</span>by22<span class="op">);</span></span>
+<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a>        <span class="co">//(A21+A22)*B11</span></span>
+<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a>        AddM<span class="op">(</span> a <span class="op">,</span> a <span class="op">,</span> t <span class="op">,</span> l<span class="op">,</span> ax21 <span class="op">,</span> ay21 <span class="op">,</span> ax22 <span class="op">,</span> ay22 <span class="op">,</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> <span class="op">**</span>m3 <span class="op">=</span>  MulM<span class="op">(</span>t<span class="op">,</span> b<span class="op">,</span> l<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> bx11<span class="op">,</span> by11<span class="op">);</span></span>
+<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a>        <span class="co">//A22(B21-B11)</span></span>
+<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a>        SubM<span class="op">(</span> b <span class="op">,</span> b <span class="op">,</span> t <span class="op">,</span> l<span class="op">,</span> bx21 <span class="op">,</span> by21 <span class="op">,</span> bx11 <span class="op">,</span> by11 <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> <span class="op">**</span>m4 <span class="op">=</span>  MulM<span class="op">(</span>a<span class="op">,</span> t<span class="op">,</span> l<span class="op">,</span> ax22<span class="op">,</span> ay22 <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-112"><a href="#cb7-112" aria-hidden="true" tabindex="-1"></a>        <span class="co">//(A11+A22)(B11+B22)</span></span>
+<span id="cb7-113"><a href="#cb7-113" aria-hidden="true" tabindex="-1"></a>        AddM<span class="op">(</span> a <span class="op">,</span> a <span class="op">,</span> t <span class="op">,</span> l<span class="op">,</span> ax11 <span class="op">,</span> ay11 <span class="op">,</span> ax22 <span class="op">,</span> ay22 <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-114"><a href="#cb7-114" aria-hidden="true" tabindex="-1"></a>        AddM<span class="op">(</span> b <span class="op">,</span> b <span class="op">,</span> t2 <span class="op">,</span> l<span class="op">,</span> bx11 <span class="op">,</span> by11 <span class="op">,</span> bx22 <span class="op">,</span> by22 <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-115"><a href="#cb7-115" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> <span class="op">**</span>m5 <span class="op">=</span>  MulM<span class="op">(</span>t<span class="op">,</span> t2<span class="op">,</span> l<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-116"><a href="#cb7-116" aria-hidden="true" tabindex="-1"></a>        <span class="co">//(A12-A22)(B21+B22)</span></span>
+<span id="cb7-117"><a href="#cb7-117" aria-hidden="true" tabindex="-1"></a>        SubM<span class="op">(</span> a <span class="op">,</span> a <span class="op">,</span> t <span class="op">,</span> l<span class="op">,</span> ax12 <span class="op">,</span> ay12 <span class="op">,</span> ax22 <span class="op">,</span> ay22 <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-118"><a href="#cb7-118" aria-hidden="true" tabindex="-1"></a>        AddM<span class="op">(</span> b <span class="op">,</span> b <span class="op">,</span> t2 <span class="op">,</span> l<span class="op">,</span> bx21 <span class="op">,</span> by21 <span class="op">,</span> bx22 <span class="op">,</span> by22 <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-119"><a href="#cb7-119" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> <span class="op">**</span>m6 <span class="op">=</span>  MulM<span class="op">(</span>t<span class="op">,</span> t2<span class="op">,</span> l<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-120"><a href="#cb7-120" aria-hidden="true" tabindex="-1"></a>        <span class="co">//(A11-A21)(B11+B12)</span></span>
+<span id="cb7-121"><a href="#cb7-121" aria-hidden="true" tabindex="-1"></a>        SubM<span class="op">(</span> a <span class="op">,</span> a <span class="op">,</span> t <span class="op">,</span> l<span class="op">,</span> ax11 <span class="op">,</span> ay11 <span class="op">,</span> ax21 <span class="op">,</span> ay21 <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-122"><a href="#cb7-122" aria-hidden="true" tabindex="-1"></a>        AddM<span class="op">(</span> b <span class="op">,</span> b <span class="op">,</span> t2 <span class="op">,</span> l<span class="op">,</span> bx11 <span class="op">,</span> by11 <span class="op">,</span> bx12 <span class="op">,</span> by12 <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-123"><a href="#cb7-123" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> <span class="op">**</span>m7 <span class="op">=</span>  MulM<span class="op">(</span>t<span class="op">,</span> t2<span class="op">,</span> l<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-124"><a href="#cb7-124" aria-hidden="true" tabindex="-1"></a>        <span class="co">//C11=M5+M4-M2+M6</span></span>
+<span id="cb7-125"><a href="#cb7-125" aria-hidden="true" tabindex="-1"></a>        AddM<span class="op">(</span> m5 <span class="op">,</span> m4 <span class="op">,</span> temp <span class="op">,</span> l<span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> tx11<span class="op">,</span>ty11<span class="op">);</span></span>
+<span id="cb7-126"><a href="#cb7-126" aria-hidden="true" tabindex="-1"></a>        SubM<span class="op">(</span> temp <span class="op">,</span> m2 <span class="op">,</span> temp <span class="op">,</span> l<span class="op">,</span>  tx11<span class="op">,</span>ty11 <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> tx11<span class="op">,</span>ty11<span class="op">);</span></span>
+<span id="cb7-127"><a href="#cb7-127" aria-hidden="true" tabindex="-1"></a>        AddM<span class="op">(</span> temp <span class="op">,</span> m6 <span class="op">,</span> temp <span class="op">,</span> l<span class="op">,</span> tx11<span class="op">,</span>ty11 <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> tx11<span class="op">,</span>ty11<span class="op">);</span></span>
+<span id="cb7-128"><a href="#cb7-128" aria-hidden="true" tabindex="-1"></a>        del<span class="op">(</span>l<span class="op">,</span>m6<span class="op">);</span></span>
+<span id="cb7-129"><a href="#cb7-129" aria-hidden="true" tabindex="-1"></a>        <span class="co">//C12=M1+M2</span></span>
+<span id="cb7-130"><a href="#cb7-130" aria-hidden="true" tabindex="-1"></a>        AddM<span class="op">(</span> m1 <span class="op">,</span> m2 <span class="op">,</span> temp <span class="op">,</span> l<span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> tx12<span class="op">,</span>ty12<span class="op">);</span></span>
+<span id="cb7-131"><a href="#cb7-131" aria-hidden="true" tabindex="-1"></a>        del<span class="op">(</span>l<span class="op">,</span>m2<span class="op">);</span></span>
+<span id="cb7-132"><a href="#cb7-132" aria-hidden="true" tabindex="-1"></a>        <span class="co">//C21=M3+M4</span></span>
+<span id="cb7-133"><a href="#cb7-133" aria-hidden="true" tabindex="-1"></a>        AddM<span class="op">(</span> m3 <span class="op">,</span> m4 <span class="op">,</span> temp <span class="op">,</span> l<span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> tx21<span class="op">,</span>ty21<span class="op">);</span></span>
+<span id="cb7-134"><a href="#cb7-134" aria-hidden="true" tabindex="-1"></a>        del<span class="op">(</span>l<span class="op">,</span>m4<span class="op">);</span></span>
+<span id="cb7-135"><a href="#cb7-135" aria-hidden="true" tabindex="-1"></a>        <span class="co">//C22=M5+M1-M3-M7</span></span>
+<span id="cb7-136"><a href="#cb7-136" aria-hidden="true" tabindex="-1"></a>        AddM<span class="op">(</span> m5 <span class="op">,</span> m1 <span class="op">,</span> temp <span class="op">,</span> l<span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> tx22<span class="op">,</span>ty22<span class="op">);</span></span>
+<span id="cb7-137"><a href="#cb7-137" aria-hidden="true" tabindex="-1"></a>        SubM<span class="op">(</span> temp <span class="op">,</span> m3 <span class="op">,</span> temp <span class="op">,</span> l<span class="op">,</span> tx22<span class="op">,</span>ty22<span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> tx22<span class="op">,</span>ty22<span class="op">);</span></span>
+<span id="cb7-138"><a href="#cb7-138" aria-hidden="true" tabindex="-1"></a>        SubM<span class="op">(</span> temp <span class="op">,</span> m7 <span class="op">,</span> temp <span class="op">,</span> l<span class="op">,</span> tx22<span class="op">,</span>ty22<span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> tx22<span class="op">,</span>ty22<span class="op">);</span></span>
+<span id="cb7-139"><a href="#cb7-139" aria-hidden="true" tabindex="-1"></a>        del<span class="op">(</span>l<span class="op">,</span>m1<span class="op">);</span>del<span class="op">(</span>l<span class="op">,</span>m3<span class="op">);</span>del<span class="op">(</span>l<span class="op">,</span>m5<span class="op">);</span>del<span class="op">(</span>l<span class="op">,</span>m7<span class="op">);</span></span>
+<span id="cb7-140"><a href="#cb7-140" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> temp<span class="op">;</span></span>
+<span id="cb7-141"><a href="#cb7-141" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb7-142"><a href="#cb7-142" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb7-143"><a href="#cb7-143" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb7-144"><a href="#cb7-144" aria-hidden="true" tabindex="-1"></a>        l <span class="op">=</span> length <span class="op">/</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb7-145"><a href="#cb7-145" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 如果是奇数，则分开的时候</span></span>
+<span id="cb7-146"><a href="#cb7-146" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 要把最后一行、最后一列补0，合起来的时候，再把0去掉</span></span>
+<span id="cb7-147"><a href="#cb7-147" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 那么这里最简单的方法就是开新的a，b</span></span>
+<span id="cb7-148"><a href="#cb7-148" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> <span class="op">**</span>at<span class="op">;</span></span>
+<span id="cb7-149"><a href="#cb7-149" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> <span class="op">**</span>bt<span class="op">;</span></span>
+<span id="cb7-150"><a href="#cb7-150" aria-hidden="true" tabindex="-1"></a>        at <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">**)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span> <span class="op">*)</span> <span class="op">*</span> <span class="op">(</span>length <span class="op">+</span> <span class="dv">1</span><span class="op">));</span></span>
+<span id="cb7-151"><a href="#cb7-151" aria-hidden="true" tabindex="-1"></a>        bt <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">**)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span> <span class="op">*)</span> <span class="op">*</span> <span class="op">(</span>length <span class="op">+</span> <span class="dv">1</span><span class="op">));</span></span>
+<span id="cb7-152"><a href="#cb7-152" aria-hidden="true" tabindex="-1"></a>        temp <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">**)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span> <span class="op">*)</span> <span class="op">*</span> <span class="op">(</span>length <span class="op">+</span> <span class="dv">1</span><span class="op">));</span></span>
+<span id="cb7-153"><a href="#cb7-153" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> length <span class="op">+</span> <span class="dv">1</span><span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb7-154"><a href="#cb7-154" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb7-155"><a href="#cb7-155" aria-hidden="true" tabindex="-1"></a>            temp<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">*)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span>length <span class="op">+</span> <span class="dv">1</span><span class="op">));</span></span>
+<span id="cb7-156"><a href="#cb7-156" aria-hidden="true" tabindex="-1"></a>            at<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">*)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span>length <span class="op">+</span> <span class="dv">1</span><span class="op">));</span></span>
+<span id="cb7-157"><a href="#cb7-157" aria-hidden="true" tabindex="-1"></a>            bt<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">*)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span>length <span class="op">+</span> <span class="dv">1</span><span class="op">));</span></span>
+<span id="cb7-158"><a href="#cb7-158" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb7-159"><a href="#cb7-159" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 赋值</span></span>
+<span id="cb7-160"><a href="#cb7-160" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> length <span class="op">+</span> <span class="dv">1</span><span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb7-161"><a href="#cb7-161" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb7-162"><a href="#cb7-162" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> length <span class="op">+</span> <span class="dv">1</span><span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb7-163"><a href="#cb7-163" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#123;</span></span>
+<span id="cb7-164"><a href="#cb7-164" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="op">(</span>i <span class="op">==</span> length <span class="op">||</span> j <span class="op">==</span> length<span class="op">)</span></span>
+<span id="cb7-165"><a href="#cb7-165" aria-hidden="true" tabindex="-1"></a>                <span class="op">&#123;</span></span>
+<span id="cb7-166"><a href="#cb7-166" aria-hidden="true" tabindex="-1"></a>                    at<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-167"><a href="#cb7-167" aria-hidden="true" tabindex="-1"></a>                    bt<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-168"><a href="#cb7-168" aria-hidden="true" tabindex="-1"></a>                <span class="op">&#125;</span></span>
+<span id="cb7-169"><a href="#cb7-169" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span></span>
+<span id="cb7-170"><a href="#cb7-170" aria-hidden="true" tabindex="-1"></a>                <span class="op">&#123;</span></span>
+<span id="cb7-171"><a href="#cb7-171" aria-hidden="true" tabindex="-1"></a>                    at<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> a<span class="op">[</span>ax <span class="op">+</span> i<span class="op">][</span>ay <span class="op">+</span> j<span class="op">];</span></span>
+<span id="cb7-172"><a href="#cb7-172" aria-hidden="true" tabindex="-1"></a>                    bt<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> b<span class="op">[</span>bx <span class="op">+</span> i<span class="op">][</span>by <span class="op">+</span> j<span class="op">];</span></span>
+<span id="cb7-173"><a href="#cb7-173" aria-hidden="true" tabindex="-1"></a>                <span class="op">&#125;</span></span>
+<span id="cb7-174"><a href="#cb7-174" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#125;</span></span>
+<span id="cb7-175"><a href="#cb7-175" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb7-176"><a href="#cb7-176" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ab都从00开始，进行分块，也存在temp里面，不影响</span></span>
+<span id="cb7-177"><a href="#cb7-177" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ax11 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-178"><a href="#cb7-178" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ay11 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-179"><a href="#cb7-179" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ax12 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-180"><a href="#cb7-180" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ay12 <span class="op">=</span> l<span class="op">;</span></span>
+<span id="cb7-181"><a href="#cb7-181" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ax21 <span class="op">=</span> l<span class="op">;</span></span>
+<span id="cb7-182"><a href="#cb7-182" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ay21 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-183"><a href="#cb7-183" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ax22 <span class="op">=</span> l<span class="op">;</span></span>
+<span id="cb7-184"><a href="#cb7-184" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ay22 <span class="op">=</span> l<span class="op">;</span></span>
+<span id="cb7-185"><a href="#cb7-185" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 分B</span></span>
+<span id="cb7-186"><a href="#cb7-186" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> bx11 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-187"><a href="#cb7-187" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> by11 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-188"><a href="#cb7-188" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> bx12 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-189"><a href="#cb7-189" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> by12 <span class="op">=</span> l<span class="op">;</span></span>
+<span id="cb7-190"><a href="#cb7-190" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> bx21 <span class="op">=</span> l<span class="op">;</span></span>
+<span id="cb7-191"><a href="#cb7-191" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> by21 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-192"><a href="#cb7-192" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> bx22 <span class="op">=</span> l<span class="op">;</span></span>
+<span id="cb7-193"><a href="#cb7-193" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> by22 <span class="op">=</span> l<span class="op">;</span></span>
+<span id="cb7-194"><a href="#cb7-194" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 分temp，他就是从0开始分的</span></span>
+<span id="cb7-195"><a href="#cb7-195" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> tx11 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-196"><a href="#cb7-196" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ty11 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-197"><a href="#cb7-197" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> tx12 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-198"><a href="#cb7-198" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ty12 <span class="op">=</span> l<span class="op">;</span></span>
+<span id="cb7-199"><a href="#cb7-199" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> tx21 <span class="op">=</span> l<span class="op">;</span></span>
+<span id="cb7-200"><a href="#cb7-200" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ty21 <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-201"><a href="#cb7-201" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> tx22 <span class="op">=</span> l<span class="op">;</span></span>
+<span id="cb7-202"><a href="#cb7-202" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> ty22 <span class="op">=</span> l<span class="op">;</span></span>
+<span id="cb7-203"><a href="#cb7-203" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 分别计算</span></span>
+<span id="cb7-204"><a href="#cb7-204" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> <span class="op">**</span>t<span class="op">;</span></span>
+<span id="cb7-205"><a href="#cb7-205" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> <span class="op">**</span>t2<span class="op">;</span></span>
+<span id="cb7-206"><a href="#cb7-206" aria-hidden="true" tabindex="-1"></a>        t <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">**)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span> <span class="op">*)</span> <span class="op">*</span> l<span class="op">);</span></span>
+<span id="cb7-207"><a href="#cb7-207" aria-hidden="true" tabindex="-1"></a>        t2 <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">**)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span> <span class="op">*)</span> <span class="op">*</span> l<span class="op">);</span></span>
+<span id="cb7-208"><a href="#cb7-208" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> l<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb7-209"><a href="#cb7-209" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb7-210"><a href="#cb7-210" aria-hidden="true" tabindex="-1"></a>            t<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">*)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span><span class="op">)</span> <span class="op">*</span> l<span class="op">);</span></span>
+<span id="cb7-211"><a href="#cb7-211" aria-hidden="true" tabindex="-1"></a>            t2<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">*)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span><span class="op">)</span> <span class="op">*</span> l<span class="op">);</span></span>
+<span id="cb7-212"><a href="#cb7-212" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb7-213"><a href="#cb7-213" aria-hidden="true" tabindex="-1"></a>        <span class="co">//A11*(B12-B22)</span></span>
+<span id="cb7-214"><a href="#cb7-214" aria-hidden="true" tabindex="-1"></a>        SubM<span class="op">(</span> bt <span class="op">,</span> bt <span class="op">,</span> t <span class="op">,</span> l<span class="op">,</span> bx12 <span class="op">,</span> by12 <span class="op">,</span> bx22 <span class="op">,</span> by22 <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-215"><a href="#cb7-215" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> <span class="op">**</span>m1 <span class="op">=</span>  MulM<span class="op">(</span>at<span class="op">,</span> t<span class="op">,</span> l<span class="op">,</span> ax11<span class="op">,</span> ay11<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-216"><a href="#cb7-216" aria-hidden="true" tabindex="-1"></a>        <span class="co">//(A11+A12)*B22</span></span>
+<span id="cb7-217"><a href="#cb7-217" aria-hidden="true" tabindex="-1"></a>        AddM<span class="op">(</span> at <span class="op">,</span> at <span class="op">,</span> t <span class="op">,</span> l<span class="op">,</span> ax11 <span class="op">,</span> ay11 <span class="op">,</span> ax12 <span class="op">,</span> ay12 <span class="op">,</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-218"><a href="#cb7-218" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> <span class="op">**</span>m2 <span class="op">=</span>  MulM<span class="op">(</span>t<span class="op">,</span> bt<span class="op">,</span> l<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> bx22<span class="op">,</span>by22<span class="op">);</span></span>
+<span id="cb7-219"><a href="#cb7-219" aria-hidden="true" tabindex="-1"></a>        <span class="co">//(A21+A22)*B11</span></span>
+<span id="cb7-220"><a href="#cb7-220" aria-hidden="true" tabindex="-1"></a>        AddM<span class="op">(</span> at <span class="op">,</span> at <span class="op">,</span> t <span class="op">,</span> l<span class="op">,</span> ax21 <span class="op">,</span> ay21 <span class="op">,</span> ax22 <span class="op">,</span> ay22 <span class="op">,</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-221"><a href="#cb7-221" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> <span class="op">**</span>m3 <span class="op">=</span>  MulM<span class="op">(</span>t<span class="op">,</span> bt<span class="op">,</span> l<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> bx11<span class="op">,</span> by11<span class="op">);</span></span>
+<span id="cb7-222"><a href="#cb7-222" aria-hidden="true" tabindex="-1"></a>        <span class="co">//A22(B21-B11)</span></span>
+<span id="cb7-223"><a href="#cb7-223" aria-hidden="true" tabindex="-1"></a>        SubM<span class="op">(</span> bt <span class="op">,</span> bt <span class="op">,</span> t <span class="op">,</span> l<span class="op">,</span> bx21 <span class="op">,</span> by21 <span class="op">,</span> bx11 <span class="op">,</span> by11 <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-224"><a href="#cb7-224" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> <span class="op">**</span>m4 <span class="op">=</span>  MulM<span class="op">(</span>at<span class="op">,</span> t<span class="op">,</span> l<span class="op">,</span> ax22<span class="op">,</span> ay22 <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-225"><a href="#cb7-225" aria-hidden="true" tabindex="-1"></a>        <span class="co">//(A11+A22)(B11+B22)</span></span>
+<span id="cb7-226"><a href="#cb7-226" aria-hidden="true" tabindex="-1"></a>        AddM<span class="op">(</span> at <span class="op">,</span> at <span class="op">,</span> t <span class="op">,</span> l<span class="op">,</span> ax11 <span class="op">,</span> ay11 <span class="op">,</span> ax22 <span class="op">,</span> ay22 <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-227"><a href="#cb7-227" aria-hidden="true" tabindex="-1"></a>        AddM<span class="op">(</span> bt <span class="op">,</span> bt <span class="op">,</span> t2 <span class="op">,</span> l<span class="op">,</span> bx11 <span class="op">,</span> by11 <span class="op">,</span> bx22 <span class="op">,</span> by22 <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-228"><a href="#cb7-228" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> <span class="op">**</span>m5 <span class="op">=</span>  MulM<span class="op">(</span>t<span class="op">,</span> t2<span class="op">,</span> l<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-229"><a href="#cb7-229" aria-hidden="true" tabindex="-1"></a>        <span class="co">//(A12-A22)(B21+B22)</span></span>
+<span id="cb7-230"><a href="#cb7-230" aria-hidden="true" tabindex="-1"></a>        SubM<span class="op">(</span> at <span class="op">,</span> at <span class="op">,</span> t <span class="op">,</span> l<span class="op">,</span> ax12 <span class="op">,</span> ay12 <span class="op">,</span> ax22 <span class="op">,</span> ay22 <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-231"><a href="#cb7-231" aria-hidden="true" tabindex="-1"></a>        AddM<span class="op">(</span> bt <span class="op">,</span> bt <span class="op">,</span> t2 <span class="op">,</span> l<span class="op">,</span> bx21 <span class="op">,</span> by21 <span class="op">,</span> bx22 <span class="op">,</span> by22 <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-232"><a href="#cb7-232" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> <span class="op">**</span>m6 <span class="op">=</span>  MulM<span class="op">(</span>t<span class="op">,</span> t2<span class="op">,</span> l<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-233"><a href="#cb7-233" aria-hidden="true" tabindex="-1"></a>        <span class="co">//(A11-A21)(B11+B12)</span></span>
+<span id="cb7-234"><a href="#cb7-234" aria-hidden="true" tabindex="-1"></a>        SubM<span class="op">(</span> at <span class="op">,</span> at <span class="op">,</span> t <span class="op">,</span> l<span class="op">,</span> ax11 <span class="op">,</span> ay11 <span class="op">,</span> ax21 <span class="op">,</span> ay21 <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-235"><a href="#cb7-235" aria-hidden="true" tabindex="-1"></a>        AddM<span class="op">(</span> bt <span class="op">,</span> bt <span class="op">,</span> t2 <span class="op">,</span> l<span class="op">,</span> bx11 <span class="op">,</span> by11 <span class="op">,</span> bx12 <span class="op">,</span> by12 <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-236"><a href="#cb7-236" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> <span class="op">**</span>m7 <span class="op">=</span>  MulM<span class="op">(</span>t<span class="op">,</span> t2<span class="op">,</span> l<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-237"><a href="#cb7-237" aria-hidden="true" tabindex="-1"></a>        <span class="co">//C11=M5+M4-M2+M6</span></span>
+<span id="cb7-238"><a href="#cb7-238" aria-hidden="true" tabindex="-1"></a>        AddM<span class="op">(</span> m5 <span class="op">,</span> m4 <span class="op">,</span> temp <span class="op">,</span> l<span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> tx11<span class="op">,</span>ty11<span class="op">);</span></span>
+<span id="cb7-239"><a href="#cb7-239" aria-hidden="true" tabindex="-1"></a>        SubM<span class="op">(</span> temp <span class="op">,</span> m2 <span class="op">,</span> temp <span class="op">,</span> l<span class="op">,</span>  tx11<span class="op">,</span>ty11 <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> tx11<span class="op">,</span>ty11<span class="op">);</span></span>
+<span id="cb7-240"><a href="#cb7-240" aria-hidden="true" tabindex="-1"></a>        AddM<span class="op">(</span> temp <span class="op">,</span> m6 <span class="op">,</span> temp <span class="op">,</span> l<span class="op">,</span> tx11<span class="op">,</span>ty11 <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> tx11<span class="op">,</span>ty11<span class="op">);</span></span>
+<span id="cb7-241"><a href="#cb7-241" aria-hidden="true" tabindex="-1"></a>        del<span class="op">(</span>l<span class="op">,</span>m6<span class="op">);</span></span>
+<span id="cb7-242"><a href="#cb7-242" aria-hidden="true" tabindex="-1"></a>        <span class="co">//C12=M1+M2</span></span>
+<span id="cb7-243"><a href="#cb7-243" aria-hidden="true" tabindex="-1"></a>        AddM<span class="op">(</span> m1 <span class="op">,</span> m2 <span class="op">,</span> temp <span class="op">,</span> l<span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> tx12<span class="op">,</span>ty12<span class="op">);</span></span>
+<span id="cb7-244"><a href="#cb7-244" aria-hidden="true" tabindex="-1"></a>        del<span class="op">(</span>l<span class="op">,</span>m2<span class="op">);</span></span>
+<span id="cb7-245"><a href="#cb7-245" aria-hidden="true" tabindex="-1"></a>        <span class="co">//C21=M3+M4</span></span>
+<span id="cb7-246"><a href="#cb7-246" aria-hidden="true" tabindex="-1"></a>        AddM<span class="op">(</span> m3 <span class="op">,</span> m4 <span class="op">,</span> temp <span class="op">,</span> l<span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> tx21<span class="op">,</span>ty21<span class="op">);</span></span>
+<span id="cb7-247"><a href="#cb7-247" aria-hidden="true" tabindex="-1"></a>        del<span class="op">(</span>l<span class="op">,</span>m4<span class="op">);</span></span>
+<span id="cb7-248"><a href="#cb7-248" aria-hidden="true" tabindex="-1"></a>        <span class="co">//C22=M5+M1-M3-M7</span></span>
+<span id="cb7-249"><a href="#cb7-249" aria-hidden="true" tabindex="-1"></a>        AddM<span class="op">(</span> m5 <span class="op">,</span> m1 <span class="op">,</span> temp <span class="op">,</span> l<span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> tx22<span class="op">,</span>ty22<span class="op">);</span></span>
+<span id="cb7-250"><a href="#cb7-250" aria-hidden="true" tabindex="-1"></a>        SubM<span class="op">(</span> temp <span class="op">,</span> m3 <span class="op">,</span> temp <span class="op">,</span> l<span class="op">,</span> tx22<span class="op">,</span>ty22<span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> tx22<span class="op">,</span>ty22<span class="op">);</span></span>
+<span id="cb7-251"><a href="#cb7-251" aria-hidden="true" tabindex="-1"></a>        SubM<span class="op">(</span> temp <span class="op">,</span> m7 <span class="op">,</span> temp <span class="op">,</span> l<span class="op">,</span> tx22<span class="op">,</span>ty22<span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> <span class="dv">0</span> <span class="op">,</span> tx22<span class="op">,</span>ty22<span class="op">);</span></span>
+<span id="cb7-252"><a href="#cb7-252" aria-hidden="true" tabindex="-1"></a>        del<span class="op">(</span>l<span class="op">,</span>m1<span class="op">);</span>del<span class="op">(</span>l<span class="op">,</span>m3<span class="op">);</span>del<span class="op">(</span>l<span class="op">,</span>m5<span class="op">);</span>del<span class="op">(</span>l<span class="op">,</span>m7<span class="op">);</span></span>
+<span id="cb7-253"><a href="#cb7-253" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 返回的话，都要把最后一行最后一列应该去掉</span></span>
+<span id="cb7-254"><a href="#cb7-254" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 但是length的话，本来就是不包括的</span></span>
+<span id="cb7-255"><a href="#cb7-255" aria-hidden="true" tabindex="-1"></a>        del<span class="op">(</span>length<span class="op">,</span>at<span class="op">);</span>del<span class="op">(</span>length<span class="op">,</span>bt<span class="op">);</span></span>
+<span id="cb7-256"><a href="#cb7-256" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> temp<span class="op">;</span></span>
+<span id="cb7-257"><a href="#cb7-257" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb7-258"><a href="#cb7-258" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb7-259"><a href="#cb7-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-260"><a href="#cb7-260" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
+<span id="cb7-261"><a href="#cb7-261" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb7-262"><a href="#cb7-262" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 读入</span></span>
+<span id="cb7-263"><a href="#cb7-263" aria-hidden="true" tabindex="-1"></a>    scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>n<span class="op">);</span></span>
+<span id="cb7-264"><a href="#cb7-264" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>A<span class="op">;</span></span>
+<span id="cb7-265"><a href="#cb7-265" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>B<span class="op">;</span></span>
+<span id="cb7-266"><a href="#cb7-266" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 多开一个</span></span>
+<span id="cb7-267"><a href="#cb7-267" aria-hidden="true" tabindex="-1"></a>    A <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">**)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span> <span class="op">*)</span> <span class="op">*</span> <span class="op">(</span>n <span class="op">+</span> <span class="dv">1</span><span class="op">));</span></span>
+<span id="cb7-268"><a href="#cb7-268" aria-hidden="true" tabindex="-1"></a>    B <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">**)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span> <span class="op">*)</span> <span class="op">*</span> <span class="op">(</span>n <span class="op">+</span> <span class="dv">1</span><span class="op">));</span></span>
+<span id="cb7-269"><a href="#cb7-269" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n <span class="op">+</span> <span class="dv">1</span><span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb7-270"><a href="#cb7-270" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb7-271"><a href="#cb7-271" aria-hidden="true" tabindex="-1"></a>        A<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">*)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span>n <span class="op">+</span> <span class="dv">1</span><span class="op">));</span></span>
+<span id="cb7-272"><a href="#cb7-272" aria-hidden="true" tabindex="-1"></a>        B<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">*)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span>n <span class="op">+</span> <span class="dv">1</span><span class="op">));</span></span>
+<span id="cb7-273"><a href="#cb7-273" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb7-274"><a href="#cb7-274" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb7-275"><a href="#cb7-275" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb7-276"><a href="#cb7-276" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> n<span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb7-277"><a href="#cb7-277" aria-hidden="true" tabindex="-1"></a>            scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>A<span class="op">[</span>i<span class="op">][</span>j<span class="op">]);</span></span>
+<span id="cb7-278"><a href="#cb7-278" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb7-279"><a href="#cb7-279" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb7-280"><a href="#cb7-280" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb7-281"><a href="#cb7-281" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> n<span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb7-282"><a href="#cb7-282" aria-hidden="true" tabindex="-1"></a>            scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>B<span class="op">[</span>i<span class="op">][</span>j<span class="op">]);</span></span>
+<span id="cb7-283"><a href="#cb7-283" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb7-284"><a href="#cb7-284" aria-hidden="true" tabindex="-1"></a>    C <span class="op">=</span> MulM<span class="op">(</span>A<span class="op">,</span> B<span class="op">,</span> n<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span>
+<span id="cb7-285"><a href="#cb7-285" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb7-286"><a href="#cb7-286" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb7-287"><a href="#cb7-287" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> n<span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb7-288"><a href="#cb7-288" aria-hidden="true" tabindex="-1"></a>            printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st"> &quot;</span><span class="op">,</span> C<span class="op">[</span>i<span class="op">][</span>j<span class="op">]);</span></span>
+<span id="cb7-289"><a href="#cb7-289" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb7-290"><a href="#cb7-290" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
+<h4 id="解法三斯特拉森-strassen-矩阵乘法">解法三：斯特拉森 (Strassen)
+矩阵乘法</h4>
+<p>1969 年，Volker Strassen 提出了第一个算法时间复杂度低于 <span
+class="math inline">\(\Theta\left(N^3\right)\)</span>
+矩阵乘法算法，算法复杂度为 <span
+class="math inline">\(\Theta\left(n^{\log
+_2^7}\right)=\Theta\left(n^{2.807}\right)\)</span>
+。性能上才有很大的优势，可以减少很多乘法计算。</p>
+<p>设 A 和 B 是两个 n <span class="math inline">\(\times n\)</span>
+的矩阵，其中 n 可以写成 <span
+class="math inline">\(2^{\mathrm{k}}\)</span> 。将 A 和 B 分别等分成 4
+个小矩阵，此时如果把 A 和 B 都当成 <span class="math inline">\(2 \times
+2\)</span> 矩阵来看,每个元素就是一个 <span
+class="math inline">\((\mathrm{n} / 2) \times(\mathrm{n} / 2)\)</span>
+矩阵，而矩阵 A 和 B 的乘积就可以写成</p>
+<p><span class="math display">\[
+\left(\begin{array}{ll}
+\mathrm{A}_{11} &amp; \mathrm{~A}_{12} \\
+\mathrm{~A}_{21} &amp; \mathrm{~A}_{22}
+\end{array}\right)\left(\begin{array}{ll}
+\mathrm{B}_{11} &amp; \mathrm{~B}_{12} \\
+\mathrm{~B}_{21} &amp; \mathrm{~B}_{22}
+\end{array}\right)=\left(\begin{array}{ll}
+\mathrm{C}_{11} &amp; \mathrm{C}_{12} \\
+\mathrm{C}_{21} &amp; \mathrm{C}_{22}
+\end{array}\right)
+\]</span></p>
+<p>其中利用斯特拉森方法得到 7 个小矩阵，分别定义为:</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;
+\mathrm{M}_1=\mathrm{A}_{11}\left(\mathrm{~B}_{12}-\mathrm{B}_{22}\right)
+\\
+&amp; \mathrm{M}_2=\left(\mathrm{A}_{11}+\mathrm{A}_{12}\right)
+\mathrm{B}_{22} \\
+&amp; \mathrm{M}_3=\left(\mathrm{A}_{21}+\mathrm{A}_{22}\right)
+\mathrm{B}_{11} \\
+&amp;
+\mathrm{M}_4=\mathrm{A}_{22}\left(\mathrm{~B}_{21}-\mathrm{B}_{11}\right)
+\\
+&amp;
+\mathrm{M}_5=\left(\mathrm{A}_{11}+\mathrm{A}_{22}\right)\left(\mathrm{B}_{11}+\mathrm{B}_{22}\right)
+\\
+&amp;
+\mathrm{M}_6=\left(\mathrm{A}_{12}-\mathrm{A}_{22}\right)\left(\mathrm{B}_{21}+\mathrm{B}_{22}\right)
+\\
+&amp;
+\mathrm{M}_7=\left(\mathrm{A}_{11}-\mathrm{A}_{21}\right)\left(\mathrm{B}_{11}+\mathrm{B}_{12}\right)
+\end{aligned}
+\]</span></p>
+<p>矩阵 <span class="math inline">\(\mathrm{M}_1 \sim
+\mathrm{M}_7\)</span> 可以通过 7 次矩阵乘法，6 次矩阵加法和 4
+次矩阵减法计算得出，前述 4 个小矩阵 <span
+class="math inline">\(\mathrm{C}_1 \sim \mathrm{C}_4\)</span> 可以由矩阵
+<span class="math inline">\(\mathrm{M}_1 \sim \mathrm{M}_7\)</span> 通过
+6 次矩阵加法和 2 次矩阵减法得出，方法如下:</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;
+\mathrm{C}_{11}=\mathrm{M}_4+\mathrm{M}_5-\mathrm{M}_2+\mathrm{M}_6 \\
+&amp; \mathrm{C}_{12}=\mathrm{M}_1+\mathrm{M}_2 \\
+&amp; \mathrm{C}_{21}=\mathrm{M}_3+\mathrm{M}_4 \\
+&amp;
+\mathrm{C}_{22}=\mathrm{M}_5+\mathrm{M}_1-\mathrm{M}_3-\mathrm{M}_7
+\end{aligned}
+\]</span></p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>t1 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>sub<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> B12<span class="op">,</span> B22<span class="op">,</span> t1<span class="op">);</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>M1 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>strassen<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> A11<span class="op">,</span> t1<span class="op">,</span> M1<span class="op">);</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t1<span class="op">);</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>t2 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>add<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> A11<span class="op">,</span> A12<span class="op">,</span> t2<span class="op">);</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>M2 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>strassen<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t2<span class="op">,</span> B22<span class="op">,</span> M2<span class="op">);</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t2<span class="op">);</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>t3 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>add<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> A21<span class="op">,</span> A22<span class="op">,</span> t3<span class="op">);</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>M3 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>strassen<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t3<span class="op">,</span> B11<span class="op">,</span> M3<span class="op">);</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t3<span class="op">);</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>t4 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>sub<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> B21<span class="op">,</span> B11<span class="op">,</span> t4<span class="op">);</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>M4 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>strassen<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> A22<span class="op">,</span> t4<span class="op">,</span> M4<span class="op">);</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t4<span class="op">);</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>t5 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>t6 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>add<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> A11<span class="op">,</span> A22<span class="op">,</span> t5<span class="op">);</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>add<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> B11<span class="op">,</span> B22<span class="op">,</span> t6<span class="op">);</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>M5 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>strassen<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t5<span class="op">,</span> t6<span class="op">,</span> M5<span class="op">);</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t5<span class="op">);</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t6<span class="op">);</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>t7 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>t8 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>sub<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> A12<span class="op">,</span> A22<span class="op">,</span> t7<span class="op">);</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>add<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> B21<span class="op">,</span> B22<span class="op">,</span> t8<span class="op">);</span></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>M6 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>strassen<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t7<span class="op">,</span> t8<span class="op">,</span> M6<span class="op">);</span></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t7<span class="op">);</span></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t8<span class="op">);</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>t9 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>t10 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>sub<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> A11<span class="op">,</span> A21<span class="op">,</span> t9<span class="op">);</span></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>add<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> B11<span class="op">,</span> B12<span class="op">,</span> t10<span class="op">);</span></span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>M7 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>strassen<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t9<span class="op">,</span> t10<span class="op">,</span> M7<span class="op">);</span></span></code></pre></div>
+<p>那么我们再来考虑奇数的处理方式
+实际上，还有第二种思路进行队奇数进行补全</p>
+<p>因为问题中每一次处理都是将原本的问题规模缩减一半，即变为原来的<span
+class="math inline">\(\frac{1}{2}\)</span></p>
+<p>所以如果只想进行一次补全，之后解决的子问题长度全是偶数，我们就要保证最开始的起始问题规模为
+<span class="math inline">\(2^n\)</span></p>
+<p>如 {2, 4, 8, 16, 32, 64, 128}</p>
+<p>由于该问题中数值最大为 100，所以问题研究的大小最大到 128 即可</p>
+<p>算数据范围：</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> next_power_of_two<span class="op">(</span><span class="dt">unsigned</span> <span class="dt">int</span> n<span class="op">)</span> <span class="op">&#123;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 如果 n 已经是 2 的幂次方，则直接返回 n</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">((</span>n <span class="op">&amp;</span> <span class="op">(</span>n <span class="op">-</span> <span class="dv">1</span><span class="op">))</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">&#123;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> n<span class="op">;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 将 n 转换为二进制后，将最高位后面的所有位都设为 1</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">((</span>n <span class="op">&amp;</span> <span class="op">(</span>n <span class="op">-</span> <span class="dv">1</span><span class="op">))</span> <span class="op">!=</span> <span class="dv">0</span><span class="op">)</span> <span class="op">&#123;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> n <span class="op">&amp;</span> <span class="op">(</span>n <span class="op">-</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> n <span class="op">&lt;&lt;</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
+<p>补 0：</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> N<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> j <span class="op">&lt;</span> N<span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>i <span class="op">&gt;=</span> n <span class="op">||</span> j <span class="op">&gt;=</span> n<span class="op">)</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>            A<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>            B<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
+<p>最终完整的代码如下：</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cstring&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cstdlib&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">**</span>init<span class="op">(</span><span class="dt">int</span> n<span class="op">)</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>a <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">**)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span> <span class="op">*)</span> <span class="op">*</span> n<span class="op">);</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>        a<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="op">(</span><span class="dt">int</span> <span class="op">*)</span>malloc<span class="op">(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span><span class="op">)</span> <span class="op">*</span> n<span class="op">);</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a<span class="op">;</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> del<span class="op">(</span><span class="dt">int</span> n<span class="op">,</span> <span class="dt">int</span> <span class="op">**</span>a<span class="op">)</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> <span class="op">++</span>i<span class="op">)</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>        free<span class="op">(</span>a<span class="op">[</span>i<span class="op">]);</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    free<span class="op">(</span>a<span class="op">);</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> add<span class="op">(</span><span class="dt">int</span> n<span class="op">,</span> <span class="dt">int</span> <span class="op">**</span>A<span class="op">,</span> <span class="dt">int</span> <span class="op">**</span>B<span class="op">,</span> <span class="dt">int</span> <span class="op">**</span>C<span class="op">)</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> n<span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>            C<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> A<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">+</span> B<span class="op">[</span>i<span class="op">][</span>j<span class="op">];</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> sub<span class="op">(</span><span class="dt">int</span> n<span class="op">,</span> <span class="dt">int</span> <span class="op">**</span>A<span class="op">,</span> <span class="dt">int</span> <span class="op">**</span>B<span class="op">,</span> <span class="dt">int</span> <span class="op">**</span>C<span class="op">)</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> n<span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>            C<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> A<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">-</span> B<span class="op">[</span>i<span class="op">][</span>j<span class="op">];</span></span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> strassen<span class="op">(</span><span class="dt">int</span> n<span class="op">,</span> <span class="dt">int</span> <span class="op">**</span>A<span class="op">,</span> <span class="dt">int</span> <span class="op">**</span>B<span class="op">,</span> <span class="dt">int</span> <span class="op">**</span>C<span class="op">)</span></span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>A11 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>A12 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>A21 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>A22 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>B11 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>B12 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>B21 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>B22 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>n <span class="op">==</span> <span class="dv">2</span><span class="op">)</span></span>
+<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> n<span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#123;</span></span>
+<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a>                C<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> k <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> k <span class="op">&lt;</span> n<span class="op">;</span> k<span class="op">++)</span></span>
+<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a>                <span class="op">&#123;</span></span>
+<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a>                    C<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">+=</span> A<span class="op">[</span>i<span class="op">][</span>k<span class="op">]</span> <span class="op">*</span> B<span class="op">[</span>k<span class="op">][</span>j<span class="op">];</span></span>
+<span id="cb11-68"><a href="#cb11-68" aria-hidden="true" tabindex="-1"></a>                <span class="op">&#125;</span></span>
+<span id="cb11-69"><a href="#cb11-69" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#125;</span></span>
+<span id="cb11-70"><a href="#cb11-70" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb11-71"><a href="#cb11-71" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb11-72"><a href="#cb11-72" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb11-73"><a href="#cb11-73" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n <span class="op">/</span> <span class="dv">2</span><span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb11-74"><a href="#cb11-74" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb11-75"><a href="#cb11-75" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> n <span class="op">/</span> <span class="dv">2</span><span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb11-76"><a href="#cb11-76" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb11-77"><a href="#cb11-77" aria-hidden="true" tabindex="-1"></a>            A11<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> A<span class="op">[</span>i<span class="op">][</span>j<span class="op">];</span></span>
+<span id="cb11-78"><a href="#cb11-78" aria-hidden="true" tabindex="-1"></a>            A12<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> A<span class="op">[</span>i<span class="op">][</span>j <span class="op">+</span> n <span class="op">/</span> <span class="dv">2</span><span class="op">];</span></span>
+<span id="cb11-79"><a href="#cb11-79" aria-hidden="true" tabindex="-1"></a>            A21<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> A<span class="op">[</span>i <span class="op">+</span> n <span class="op">/</span> <span class="dv">2</span><span class="op">][</span>j<span class="op">];</span></span>
+<span id="cb11-80"><a href="#cb11-80" aria-hidden="true" tabindex="-1"></a>            A22<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> A<span class="op">[</span>i <span class="op">+</span> n <span class="op">/</span> <span class="dv">2</span><span class="op">][</span>j <span class="op">+</span> n <span class="op">/</span> <span class="dv">2</span><span class="op">];</span></span>
+<span id="cb11-81"><a href="#cb11-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-82"><a href="#cb11-82" aria-hidden="true" tabindex="-1"></a>            B11<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> B<span class="op">[</span>i<span class="op">][</span>j<span class="op">];</span></span>
+<span id="cb11-83"><a href="#cb11-83" aria-hidden="true" tabindex="-1"></a>            B12<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> B<span class="op">[</span>i<span class="op">][</span>j <span class="op">+</span> n <span class="op">/</span> <span class="dv">2</span><span class="op">];</span></span>
+<span id="cb11-84"><a href="#cb11-84" aria-hidden="true" tabindex="-1"></a>            B21<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> B<span class="op">[</span>i <span class="op">+</span> n <span class="op">/</span> <span class="dv">2</span><span class="op">][</span>j<span class="op">];</span></span>
+<span id="cb11-85"><a href="#cb11-85" aria-hidden="true" tabindex="-1"></a>            B22<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> B<span class="op">[</span>i <span class="op">+</span> n <span class="op">/</span> <span class="dv">2</span><span class="op">][</span>j <span class="op">+</span> n <span class="op">/</span> <span class="dv">2</span><span class="op">];</span></span>
+<span id="cb11-86"><a href="#cb11-86" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb11-87"><a href="#cb11-87" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb11-88"><a href="#cb11-88" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>t1 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-89"><a href="#cb11-89" aria-hidden="true" tabindex="-1"></a>    sub<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> B12<span class="op">,</span> B22<span class="op">,</span> t1<span class="op">);</span></span>
+<span id="cb11-90"><a href="#cb11-90" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>M1 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-91"><a href="#cb11-91" aria-hidden="true" tabindex="-1"></a>    strassen<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> A11<span class="op">,</span> t1<span class="op">,</span> M1<span class="op">);</span></span>
+<span id="cb11-92"><a href="#cb11-92" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t1<span class="op">);</span></span>
+<span id="cb11-93"><a href="#cb11-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-94"><a href="#cb11-94" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>t2 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-95"><a href="#cb11-95" aria-hidden="true" tabindex="-1"></a>    add<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> A11<span class="op">,</span> A12<span class="op">,</span> t2<span class="op">);</span></span>
+<span id="cb11-96"><a href="#cb11-96" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>M2 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-97"><a href="#cb11-97" aria-hidden="true" tabindex="-1"></a>    strassen<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t2<span class="op">,</span> B22<span class="op">,</span> M2<span class="op">);</span></span>
+<span id="cb11-98"><a href="#cb11-98" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t2<span class="op">);</span></span>
+<span id="cb11-99"><a href="#cb11-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-100"><a href="#cb11-100" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>t3 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-101"><a href="#cb11-101" aria-hidden="true" tabindex="-1"></a>    add<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> A21<span class="op">,</span> A22<span class="op">,</span> t3<span class="op">);</span></span>
+<span id="cb11-102"><a href="#cb11-102" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>M3 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-103"><a href="#cb11-103" aria-hidden="true" tabindex="-1"></a>    strassen<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t3<span class="op">,</span> B11<span class="op">,</span> M3<span class="op">);</span></span>
+<span id="cb11-104"><a href="#cb11-104" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t3<span class="op">);</span></span>
+<span id="cb11-105"><a href="#cb11-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-106"><a href="#cb11-106" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>t4 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-107"><a href="#cb11-107" aria-hidden="true" tabindex="-1"></a>    sub<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> B21<span class="op">,</span> B11<span class="op">,</span> t4<span class="op">);</span></span>
+<span id="cb11-108"><a href="#cb11-108" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>M4 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-109"><a href="#cb11-109" aria-hidden="true" tabindex="-1"></a>    strassen<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> A22<span class="op">,</span> t4<span class="op">,</span> M4<span class="op">);</span></span>
+<span id="cb11-110"><a href="#cb11-110" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t4<span class="op">);</span></span>
+<span id="cb11-111"><a href="#cb11-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-112"><a href="#cb11-112" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>t5 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-113"><a href="#cb11-113" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>t6 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-114"><a href="#cb11-114" aria-hidden="true" tabindex="-1"></a>    add<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> A11<span class="op">,</span> A22<span class="op">,</span> t5<span class="op">);</span></span>
+<span id="cb11-115"><a href="#cb11-115" aria-hidden="true" tabindex="-1"></a>    add<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> B11<span class="op">,</span> B22<span class="op">,</span> t6<span class="op">);</span></span>
+<span id="cb11-116"><a href="#cb11-116" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>M5 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-117"><a href="#cb11-117" aria-hidden="true" tabindex="-1"></a>    strassen<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t5<span class="op">,</span> t6<span class="op">,</span> M5<span class="op">);</span></span>
+<span id="cb11-118"><a href="#cb11-118" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t5<span class="op">);</span></span>
+<span id="cb11-119"><a href="#cb11-119" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t6<span class="op">);</span></span>
+<span id="cb11-120"><a href="#cb11-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-121"><a href="#cb11-121" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>t7 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-122"><a href="#cb11-122" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>t8 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-123"><a href="#cb11-123" aria-hidden="true" tabindex="-1"></a>    sub<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> A12<span class="op">,</span> A22<span class="op">,</span> t7<span class="op">);</span></span>
+<span id="cb11-124"><a href="#cb11-124" aria-hidden="true" tabindex="-1"></a>    add<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> B21<span class="op">,</span> B22<span class="op">,</span> t8<span class="op">);</span></span>
+<span id="cb11-125"><a href="#cb11-125" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>M6 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-126"><a href="#cb11-126" aria-hidden="true" tabindex="-1"></a>    strassen<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t7<span class="op">,</span> t8<span class="op">,</span> M6<span class="op">);</span></span>
+<span id="cb11-127"><a href="#cb11-127" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t7<span class="op">);</span></span>
+<span id="cb11-128"><a href="#cb11-128" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t8<span class="op">);</span></span>
+<span id="cb11-129"><a href="#cb11-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-130"><a href="#cb11-130" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>t9 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-131"><a href="#cb11-131" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>t10 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-132"><a href="#cb11-132" aria-hidden="true" tabindex="-1"></a>    sub<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> A11<span class="op">,</span> A21<span class="op">,</span> t9<span class="op">);</span></span>
+<span id="cb11-133"><a href="#cb11-133" aria-hidden="true" tabindex="-1"></a>    add<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> B11<span class="op">,</span> B12<span class="op">,</span> t10<span class="op">);</span></span>
+<span id="cb11-134"><a href="#cb11-134" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>M7 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-135"><a href="#cb11-135" aria-hidden="true" tabindex="-1"></a>    strassen<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t9<span class="op">,</span> t10<span class="op">,</span> M7<span class="op">);</span></span>
+<span id="cb11-136"><a href="#cb11-136" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t9<span class="op">);</span></span>
+<span id="cb11-137"><a href="#cb11-137" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t10<span class="op">);</span></span>
+<span id="cb11-138"><a href="#cb11-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-139"><a href="#cb11-139" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> A11<span class="op">);</span></span>
+<span id="cb11-140"><a href="#cb11-140" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> A12<span class="op">);</span></span>
+<span id="cb11-141"><a href="#cb11-141" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> A21<span class="op">);</span></span>
+<span id="cb11-142"><a href="#cb11-142" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> A22<span class="op">);</span></span>
+<span id="cb11-143"><a href="#cb11-143" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> B11<span class="op">);</span></span>
+<span id="cb11-144"><a href="#cb11-144" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> B12<span class="op">);</span></span>
+<span id="cb11-145"><a href="#cb11-145" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> B21<span class="op">);</span></span>
+<span id="cb11-146"><a href="#cb11-146" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> B22<span class="op">);</span></span>
+<span id="cb11-147"><a href="#cb11-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-148"><a href="#cb11-148" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>t11 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-149"><a href="#cb11-149" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>t12 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-150"><a href="#cb11-150" aria-hidden="true" tabindex="-1"></a>    add<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> M5<span class="op">,</span> M4<span class="op">,</span> t11<span class="op">);</span></span>
+<span id="cb11-151"><a href="#cb11-151" aria-hidden="true" tabindex="-1"></a>    sub<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t11<span class="op">,</span> M2<span class="op">,</span> t12<span class="op">);</span></span>
+<span id="cb11-152"><a href="#cb11-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-153"><a href="#cb11-153" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>C11 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-154"><a href="#cb11-154" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>C12 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-155"><a href="#cb11-155" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>C21 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-156"><a href="#cb11-156" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>C22 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-157"><a href="#cb11-157" aria-hidden="true" tabindex="-1"></a>    add<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t12<span class="op">,</span> M6<span class="op">,</span> C11<span class="op">);</span></span>
+<span id="cb11-158"><a href="#cb11-158" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t11<span class="op">);</span></span>
+<span id="cb11-159"><a href="#cb11-159" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t12<span class="op">);</span></span>
+<span id="cb11-160"><a href="#cb11-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-161"><a href="#cb11-161" aria-hidden="true" tabindex="-1"></a>    add<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> M1<span class="op">,</span> M2<span class="op">,</span> C12<span class="op">);</span></span>
+<span id="cb11-162"><a href="#cb11-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-163"><a href="#cb11-163" aria-hidden="true" tabindex="-1"></a>    add<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> M3<span class="op">,</span> M4<span class="op">,</span> C21<span class="op">);</span></span>
+<span id="cb11-164"><a href="#cb11-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-165"><a href="#cb11-165" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>t13 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-166"><a href="#cb11-166" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>t14 <span class="op">=</span> init<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">);</span></span>
+<span id="cb11-167"><a href="#cb11-167" aria-hidden="true" tabindex="-1"></a>    add<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> M5<span class="op">,</span> M1<span class="op">,</span> t13<span class="op">);</span></span>
+<span id="cb11-168"><a href="#cb11-168" aria-hidden="true" tabindex="-1"></a>    sub<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t13<span class="op">,</span> M3<span class="op">,</span> t14<span class="op">);</span></span>
+<span id="cb11-169"><a href="#cb11-169" aria-hidden="true" tabindex="-1"></a>    sub<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t14<span class="op">,</span> M7<span class="op">,</span> C22<span class="op">);</span></span>
+<span id="cb11-170"><a href="#cb11-170" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t13<span class="op">);</span></span>
+<span id="cb11-171"><a href="#cb11-171" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> t14<span class="op">);</span></span>
+<span id="cb11-172"><a href="#cb11-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-173"><a href="#cb11-173" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> M1<span class="op">);</span></span>
+<span id="cb11-174"><a href="#cb11-174" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> M2<span class="op">);</span></span>
+<span id="cb11-175"><a href="#cb11-175" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> M3<span class="op">);</span></span>
+<span id="cb11-176"><a href="#cb11-176" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> M4<span class="op">);</span></span>
+<span id="cb11-177"><a href="#cb11-177" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> M5<span class="op">);</span></span>
+<span id="cb11-178"><a href="#cb11-178" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> M6<span class="op">);</span></span>
+<span id="cb11-179"><a href="#cb11-179" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> M7<span class="op">);</span></span>
+<span id="cb11-180"><a href="#cb11-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-181"><a href="#cb11-181" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n <span class="op">/</span> <span class="dv">2</span><span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb11-182"><a href="#cb11-182" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb11-183"><a href="#cb11-183" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> n <span class="op">/</span> <span class="dv">2</span><span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb11-184"><a href="#cb11-184" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb11-185"><a href="#cb11-185" aria-hidden="true" tabindex="-1"></a>            C<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> C11<span class="op">[</span>i<span class="op">][</span>j<span class="op">];</span></span>
+<span id="cb11-186"><a href="#cb11-186" aria-hidden="true" tabindex="-1"></a>            C<span class="op">[</span>i <span class="op">+</span> n <span class="op">/</span> <span class="dv">2</span><span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> C21<span class="op">[</span>i<span class="op">][</span>j<span class="op">];</span></span>
+<span id="cb11-187"><a href="#cb11-187" aria-hidden="true" tabindex="-1"></a>            C<span class="op">[</span>i<span class="op">][</span>j <span class="op">+</span> n <span class="op">/</span> <span class="dv">2</span><span class="op">]</span> <span class="op">=</span> C12<span class="op">[</span>i<span class="op">][</span>j<span class="op">];</span></span>
+<span id="cb11-188"><a href="#cb11-188" aria-hidden="true" tabindex="-1"></a>            C<span class="op">[</span>i <span class="op">+</span> n <span class="op">/</span> <span class="dv">2</span><span class="op">][</span>j <span class="op">+</span> n <span class="op">/</span> <span class="dv">2</span><span class="op">]</span> <span class="op">=</span> C22<span class="op">[</span>i<span class="op">][</span>j<span class="op">];</span></span>
+<span id="cb11-189"><a href="#cb11-189" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb11-190"><a href="#cb11-190" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb11-191"><a href="#cb11-191" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> C11<span class="op">);</span></span>
+<span id="cb11-192"><a href="#cb11-192" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> C12<span class="op">);</span></span>
+<span id="cb11-193"><a href="#cb11-193" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> C21<span class="op">);</span></span>
+<span id="cb11-194"><a href="#cb11-194" aria-hidden="true" tabindex="-1"></a>    del<span class="op">(</span>n <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> C22<span class="op">);</span></span>
+<span id="cb11-195"><a href="#cb11-195" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb11-196"><a href="#cb11-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-197"><a href="#cb11-197" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> next_power_of_two<span class="op">(</span><span class="dt">int</span> n<span class="op">)</span> <span class="op">&#123;</span></span>
+<span id="cb11-198"><a href="#cb11-198" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">((</span>n <span class="op">&amp;</span> <span class="op">(</span>n <span class="op">-</span> <span class="dv">1</span><span class="op">))</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">&#123;</span></span>
+<span id="cb11-199"><a href="#cb11-199" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> n<span class="op">;</span></span>
+<span id="cb11-200"><a href="#cb11-200" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb11-201"><a href="#cb11-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-202"><a href="#cb11-202" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">((</span>n <span class="op">&amp;</span> <span class="op">(</span>n <span class="op">-</span> <span class="dv">1</span><span class="op">))</span> <span class="op">!=</span> <span class="dv">0</span><span class="op">)</span> <span class="op">&#123;</span></span>
+<span id="cb11-203"><a href="#cb11-203" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> n <span class="op">&amp;</span> <span class="op">(</span>n <span class="op">-</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb11-204"><a href="#cb11-204" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb11-205"><a href="#cb11-205" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> n <span class="op">&lt;&lt;</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb11-206"><a href="#cb11-206" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
+<span id="cb11-207"><a href="#cb11-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-208"><a href="#cb11-208" aria-hidden="true" tabindex="-1"></a><span class="dt">signed</span> main<span class="op">()</span></span>
+<span id="cb11-209"><a href="#cb11-209" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
+<span id="cb11-210"><a href="#cb11-210" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> n<span class="op">;</span></span>
+<span id="cb11-211"><a href="#cb11-211" aria-hidden="true" tabindex="-1"></a>    scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>n<span class="op">);</span></span>
+<span id="cb11-212"><a href="#cb11-212" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> N<span class="op">;</span></span>
+<span id="cb11-213"><a href="#cb11-213" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>n <span class="op">&gt;=</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> n <span class="op">&lt;=</span> <span class="dv">2</span><span class="op">)</span></span>
+<span id="cb11-214"><a href="#cb11-214" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb11-215"><a href="#cb11-215" aria-hidden="true" tabindex="-1"></a>        N <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb11-216"><a href="#cb11-216" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb11-217"><a href="#cb11-217" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb11-218"><a href="#cb11-218" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb11-219"><a href="#cb11-219" aria-hidden="true" tabindex="-1"></a>        N <span class="op">=</span> next_power_of_two<span class="op">(</span>n<span class="op">);</span></span>
+<span id="cb11-220"><a href="#cb11-220" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb11-221"><a href="#cb11-221" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>A <span class="op">=</span> init<span class="op">(</span>N<span class="op">);</span></span>
+<span id="cb11-222"><a href="#cb11-222" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>B <span class="op">=</span> init<span class="op">(</span>N<span class="op">);</span></span>
+<span id="cb11-223"><a href="#cb11-223" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> <span class="op">**</span>C <span class="op">=</span> init<span class="op">(</span>N<span class="op">);</span></span>
+<span id="cb11-224"><a href="#cb11-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-225"><a href="#cb11-225" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb11-226"><a href="#cb11-226" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb11-227"><a href="#cb11-227" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> n<span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb11-228"><a href="#cb11-228" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb11-229"><a href="#cb11-229" aria-hidden="true" tabindex="-1"></a>            scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>A<span class="op">[</span>i<span class="op">][</span>j<span class="op">]);</span></span>
+<span id="cb11-230"><a href="#cb11-230" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb11-231"><a href="#cb11-231" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb11-232"><a href="#cb11-232" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb11-233"><a href="#cb11-233" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb11-234"><a href="#cb11-234" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> n<span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb11-235"><a href="#cb11-235" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb11-236"><a href="#cb11-236" aria-hidden="true" tabindex="-1"></a>            scanf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st">&quot;</span><span class="op">,</span> <span class="op">&amp;</span>B<span class="op">[</span>i<span class="op">][</span>j<span class="op">]);</span></span>
+<span id="cb11-237"><a href="#cb11-237" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb11-238"><a href="#cb11-238" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb11-239"><a href="#cb11-239" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> N<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb11-240"><a href="#cb11-240" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb11-241"><a href="#cb11-241" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> j <span class="op">&lt;</span> N<span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb11-242"><a href="#cb11-242" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb11-243"><a href="#cb11-243" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span><span class="op">(</span>i <span class="op">&gt;=</span> n <span class="op">||</span> j <span class="op">&gt;=</span> n<span class="op">)</span></span>
+<span id="cb11-244"><a href="#cb11-244" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#123;</span></span>
+<span id="cb11-245"><a href="#cb11-245" aria-hidden="true" tabindex="-1"></a>                A<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb11-246"><a href="#cb11-246" aria-hidden="true" tabindex="-1"></a>                B<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb11-247"><a href="#cb11-247" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#125;</span></span>
+<span id="cb11-248"><a href="#cb11-248" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb11-249"><a href="#cb11-249" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb11-250"><a href="#cb11-250" aria-hidden="true" tabindex="-1"></a>    strassen<span class="op">(</span>N<span class="op">,</span> A<span class="op">,</span> B<span class="op">,</span> C<span class="op">);</span></span>
+<span id="cb11-251"><a href="#cb11-251" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i<span class="op">++)</span></span>
+<span id="cb11-252"><a href="#cb11-252" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
+<span id="cb11-253"><a href="#cb11-253" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> n<span class="op">;</span> j<span class="op">++)</span></span>
+<span id="cb11-254"><a href="#cb11-254" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
+<span id="cb11-255"><a href="#cb11-255" aria-hidden="true" tabindex="-1"></a>            printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d</span><span class="st"> &quot;</span><span class="op">,</span> C<span class="op">[</span>i<span class="op">][</span>j<span class="op">]);</span></span>
+<span id="cb11-256"><a href="#cb11-256" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
+<span id="cb11-257"><a href="#cb11-257" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
+<span id="cb11-258"><a href="#cb11-258" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
+<p><img src="https://s2.loli.net/2023/04/20/yt9e4mHuNYWzZJA.png" /></p>
+<p>可惜的是，虽然在算法的时间复杂度上，strassen
+是有优势的，但是考虑到数据范围较小仅为
+100，时间复杂度的优势体现不出来，反而是 malloc
+函数的常数过大，导致总体的时间更高。</p>
+<p>最为讽刺的是，速度最快的竟然是直接暴力相乘。</p>
+<p>如果在实际的生产中 可以设置一个数据范围，比如 300
+当大于要相乘的矩阵数据范围大于 300 时，再采用 strassen 算法进行计算</p>
+<p>具体参考 alibaba 的开源算法库中 MNN 中关于 Strassen
+算法实现https://github.com/alibaba/MNN</p>
+<p>Reference：</p>
+<p>[1] https://zhuanlan.zhihu.com/p/268392799</p>
+<p>[2] https://zhuanlan.zhihu.com/p/78657463</p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>分治算法</tag>
+        <tag>Strasen算法</tag>
+        <tag>矩阵</tag>
       </tags>
   </entry>
 </search>

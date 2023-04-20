@@ -406,8 +406,8 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#c
 <span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
 <p><img src="https://s2.loli.net/2023/04/06/gTu83rz16MWJdYc.png" /></p>
-<p>结果错了一个点，我觉得应该是因为一上来while里面就进行了一次next_permutaion()
-所以没有了最开始的1，2，3，4 ... 8这个全排列</p>
+<p>结果错了一个点，我觉得应该是因为一上来 while 里面就进行了一次
+next_permutaion() 所以没有了最开始的 1，2，3，4 ... 8 这个全排列</p>
 <p>改成这样也许可行，可惜现在评测已经关闭，我也没有办法验证我的想法了</p>
 <div class="sourceCode" id="cb4"><pre
 class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
