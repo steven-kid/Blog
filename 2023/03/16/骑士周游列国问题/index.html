@@ -268,29 +268,29 @@
         
         <div class="entry-content">
           <h1 id="骑士周游列国问题">骑士周游列国问题</h1>
-<h2 id="题目背景">题目背景</h2>
+<h4 id="题目背景">题目背景</h4>
 <p>国际象棋棋盘由<span class="math inline">\(8 \times 8\)</span>共<span
 class="math inline">\(64\)</span>个黑白相间的块组成，每个棋子占据一个块。在国际象棋中，马的行走方式与中国象棋类似，即可以向以自身为角点的“日”字形的对角线移动。</p>
 <p>经检验，当棋盘上有且仅有一个马时，无论其初始位置如何，均可沿规则允许的方式不重不漏地走遍棋盘的全部位置。</p>
-<h2 id="题目描述">题目描述</h2>
+<h4 id="题目描述">题目描述</h4>
 <p>已知棋盘上只有一个马，其初始位置为<span class="math inline">\(0 \leq
 row,col &lt; 8\)</span>，求解一条满足上述要求的路径。</p>
-<h2 id="输入格式">输入格式</h2>
+<h4 id="输入格式">输入格式</h4>
 <p>每个数据一行，每行两个数字，分别代表初始行<span
 class="math inline">\(row\)</span>和初始列<span
 class="math inline">\(col\)</span>。数字间以空格隔开，行末尾为 <span
 class="math inline">\(\n\)</span></p>
-<h2 id="输出格式">输出格式</h2>
+<h4 id="输出格式">输出格式</h4>
 <p>输出<span class="math inline">\(8 \times 8\)</span>的矩阵<span
 class="math inline">\(M\)</span>，其中<span
 class="math inline">\(M_{i,j}\)</span>代表沿此路径行走时，到达方格<span
 class="math inline">\((i,j)\)</span>的步数（初始位置步数记为<span
-class="math inline">\(1\)</span>，以此类推）。数字间以空格隔开（行末无空格），每行以（含最后一行）。</p>
+class="math inline">\(1\)</span>，以此类推）。数字间以空格隔开（行末无空格），每行以结尾（含最后一行）。</p>
 <p>注意：满足题意的路径可能不只有一种，输出时只输出一种结果。</p>
-<h2 id="样例-1">样例 #1</h2>
-<h3 id="样例输入-1">样例输入 #1</h3>
+<h4 id="样例-1">样例 #1</h4>
+<h5 id="样例输入-1">样例输入 #1</h5>
 <pre><code>2 6</code></pre>
-<h3 id="样例输出-1">样例输出 #1</h3>
+<h5 id="样例输出-1">样例输出 #1</h5>
 <pre><code>33 30 57 20 55 18 5 2
 58 21 32 29 6 3 54 17
 31 34 23 56 19 52 1 4
@@ -299,16 +299,20 @@ class="math inline">\(1\)</span>，以此类推）。数字间以空格隔开（
 60 9 44 27 48 15 42 39
 25 46 11 62 37 40 13 50
 10 61 26 47 12 49 38 41</code></pre>
-<h2 id="提示">提示</h2>
+<h4 id="提示">提示</h4>
 <p><span class="math inline">\(0 &lt; row, col &lt; 8\)</span></p>
 <h3 id="问题分析">问题分析</h3>
+<h4 id="解法-ⅰ-普通的搜索回溯">解法 Ⅰ 普通的搜索回溯</h4>
 <p>首先对于骑士周游列国这一问题，我们很难找到一个多项式复杂度的算法，所以我们考虑搜索之后再进行剪枝的做法。</p>
-<p>对于搜索，我们可以直接使用深度优先搜索的方式，在每一次记录当前所在的点坐标以及当前的步数，通过x，y的变化代表位置的转移，注意回溯即可</p>
+<p>对于搜索，我们可以直接使用深度优先搜索的方式，在每一次记录当前所在的点坐标以及当前的步数，通过
+x，y 的变化代表位置的转移，注意回溯即可</p>
 <p>之后我们为了简化代码，采用定义偏移数组的方式进行位置的变化，数组表达如下</p>
 <p>int dx[] = {1, 2, -1, -2, 2, 1, -1, -2}; int dy[] = {2, 1, 2, 1, -1,
 -2, -2, -1};</p>
-<p>这八位的数组分别代表八个方向偏移的坐标，用来x，y来表示当前点的位置，用nowx，nowy代表</p>
-<p>每次到达对应的nowx，nowy之后，我们再对这些点进行检测，如果超出棋盘范围，就舍去。</p>
+<p>这八位的数组分别代表八个方向偏移的坐标，用来 x，y
+来表示当前点的位置，用 nowx，nowy 代表</p>
+<p>每次到达对应的 nowx，nowy
+之后，我们再对这些点进行检测，如果超出棋盘范围，就舍去。</p>
 <p>按照这样的方式，我们肯定能够在遍历所有可能性之后确定这条路线，代码如下</p>
 <div class="sourceCode" id="cb3"><pre
 class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
@@ -365,7 +369,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#c
 <span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
 <span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>            a<span class="op">[</span>nowx<span class="op">][</span>nowy<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
-<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
 <span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
 <span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
@@ -393,18 +397,25 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#c
 <span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>    solve<span class="op">();</span></span>
 <span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
-<p>但是此时我们的复杂度还是比较高的，经测试此时这样的算法只能完成6*6的棋盘搜索，对于8*8的表格是无法在1s之内完成的</p>
+<p>但是此时我们的复杂度还是比较高的，经测试此时这样的算法只能完成 6*6
+的棋盘搜索，对于 8*8 的表格是无法在 1s 之内完成的</p>
 <p>我们可以考虑进行优化</p>
+<h4 id="解法-ⅱ-搜索剪枝优化">解法 Ⅱ 搜索+剪枝优化</h4>
 <p>留意到，在搜索的过程之中，下一步前往的点之间是存在差异的，</p>
 <p>例如有些点到达后再能够往后走的路径并不多，即到达后的选择较少，优先到访这样的点其实是更优的选择</p>
 <p>为什么呢？</p>
-<p>对于按顺序来访问的情况，我们可以认为每个格子之后访问的节点数量都差不多，假设每次走到节点的子节点有3~4个，那么整体的搜索路径大概是这样的三叉树或者四叉树（仅仅画出部分以示意，因为不同节点的子节点可能不同，最终结果并不是一颗满三叉树）</p>
+<p>对于按顺序来访问的情况，我们可以认为每个格子之后访问的节点数量都差不多，假设每次走到节点的子节点有
+3~4
+个，那么整体的搜索路径大概是这样的三叉树或者四叉树（仅仅画出部分以示意，因为不同节点的子节点可能不同，最终结果并不是一颗满三叉树）</p>
 <p><img src="https://s2.loli.net/2023/04/06/fMyQrB6wWaqg18z.png" /></p>
-<p>但是如果我们加入偏好，类似于启发式搜索中的估价函数，给这些节点都加上对应的权重，然后优先到访权重小的，假设此时每个节点只剩1~2个子节点，情况就大概是二叉树如下所示（仅仅画出部分，右侧其实还有很多多叉的节点，但是其实那些节点是不会被访问到的），对应的量级就下降了很多。</p>
+<p>但是如果我们加入偏好，类似于启发式搜索中的估价函数，给这些节点都加上对应的权重，然后优先到访权重小的，假设此时每个节点只剩
+1~2
+个子节点，情况就大概是二叉树如下所示（仅仅画出部分，右侧其实还有很多多叉的节点，但是其实那些节点是不会被访问到的），对应的量级就下降了很多。</p>
 <p><img src="https://s2.loli.net/2023/04/06/W9fRqICLzg4BwuD.png" /></p>
 <p>实际上，如果我们带上偏好的进行搜索，我们就能够节省进入死胡同之后退出来的成本，假设真的走入了一条没有结果的路，那样我们付出的成本也不算太高，因而能够优化整体的时间</p>
 <p>我们这一优化的缺点在于，如果完成全部搜索来找到所有可能的路径，那么无论如何都要将所有的可能搜索完成。无论是用类似二叉树的情况或者是三叉树的情况搜索那么我们的优化就没有意义。</p>
-<p><strong>时间复杂度</strong>：由于剪枝之后的复杂度计算变得很复杂，不方便采用O表示法来计算，但是时间上大概还是在指数量级</p>
+<p><strong>时间复杂度</strong>：由于剪枝之后的复杂度计算变得很复杂，不方便采用
+O 表示法来计算，但是时间上大概还是在指数量级</p>
 <div class="sourceCode" id="cb4"><pre
 class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;algorithm&gt;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
@@ -445,7 +456,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#c
 <span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> get_weight<span class="op">(</span><span class="dt">int</span> x<span class="op">,</span> <span class="dt">int</span> y<span class="op">)</span> <span class="op">&#123;</span></span>
 <span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> temp_x<span class="op">,</span> temp_y<span class="op">,</span> weight <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">8</span><span class="op">;</span> i<span class="op">++)</span> </span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">8</span><span class="op">;</span> i<span class="op">++)</span></span>
 <span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
 <span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>        temp_x <span class="op">=</span> x <span class="op">+</span> dx<span class="op">[</span>i<span class="op">],</span> temp_y <span class="op">=</span> y <span class="op">+</span> dy<span class="op">[</span>i<span class="op">];</span></span>
 <span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>In<span class="op">(</span>temp_x<span class="op">,</span> temp_y<span class="op">)</span> <span class="op">&amp;&amp;</span> a<span class="op">[</span>temp_x<span class="op">][</span>temp_y<span class="op">]</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span></span>
@@ -470,7 +481,7 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#c
 <span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span><span class="op">&#123;</span></span>
 <span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>            v<span class="op">.</span>push_back<span class="op">(&#123;</span>get_weight<span class="op">(</span>nowx<span class="op">,</span> nowy<span class="op">),</span> nowx<span class="op">,</span> nowy<span class="op">&#125;);</span></span>
 <span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
-<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
 <span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>    sort<span class="op">(</span>v<span class="op">.</span>begin<span class="op">(),</span> v<span class="op">.</span>end<span class="op">());</span></span>
 <span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> <span class="op">(</span><span class="kw">auto</span> temp<span class="op">:</span> v<span class="op">)&#123;</span></span>
@@ -509,12 +520,16 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#c
 <span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
 <p><img src="https://s2.loli.net/2023/04/06/sQh7bK4L6TyE3Hg.png" /></p>
+<h4 id="解法-ⅲ-trick-解法">解法 Ⅲ Trick 解法</h4>
 <p>在此之外，其实还有一种更为快速，但是有一点投机取巧性质的做法</p>
-<p>留意到在题目所给的样例中，从64是可以走到1的，那这样这一条路径就形成了一条环，如下所示</p>
+<p>留意到在题目所给的样例中，从 64 是可以走到 1
+的，那这样这一条路径就形成了一条环，如下所示</p>
 <p>1 -&gt; 2 -&gt; 3 -&gt; ... -&gt; 64 -&gt; 1...</p>
 <p>那按照这样的方式，这一条环覆盖了棋盘上的所有点，那么如果我们只需要找到一条合法的解，且棋盘的大小不变的情况下，我们可以通过将这条环进行移动来构造可行解。</p>
-<p>例如我们现在的起点在样例给的答案中的第15个位置上，那么我让到访这个点之前的所有点都回退15位，这样子就能把原本的答案改写成为由该位置出发的一个可行解。</p>
-<p>为了防止超过64，只需要进行取模即可</p>
+<p>例如我们现在的起点在样例给的答案中的第 15
+个位置上，那么我让到访这个点之前的所有点都回退 15
+位，这样子就能把原本的答案改写成为由该位置出发的一个可行解。</p>
+<p>为了防止超过 64，只需要进行取模即可</p>
 <div class="sourceCode" id="cb5"><pre
 class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -533,13 +548,9 @@ class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb5-1"><a href="#c
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
 <span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
-<figure>
-<img src="https://s2.loli.net/2023/04/06/sQh7bK4L6TyE3Hg.png"
-alt="image-20230308233742434.png" />
-<figcaption aria-hidden="true">image-20230308233742434.png</figcaption>
-</figure>
-<p><strong>时间复杂度：</strong>这时其实我们只是进行一个数字的转写，总共只需要遍历棋盘一次(64次)，复杂度在常数级
-<span class="math inline">\(O(1)\)</span></p>
+<p><img src="https://s2.loli.net/2023/04/06/sQh7bK4L6TyE3Hg.png" /></p>
+<p><strong>时间复杂度：</strong>这时其实我们只是进行一个数字的转写，总共只需要遍历棋盘一次(64
+次)，复杂度在常数级 <span class="math inline">\(O(1)\)</span></p>
 
         </div>
         <!-- .entry-content -->
@@ -634,7 +645,7 @@ alt="image-20230308233742434.png" />
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2023 John Doe<br>
+      &copy; 2023 steven-kid<br>
       powered_by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
