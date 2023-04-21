@@ -3728,13 +3728,13 @@ header.page-header {
     border-radius: 100%
 }
 
-.links ul li:hover img {
+/* .links ul li:hover img {
     transform: rotate(360deg);
     -webkit-transform: rotate(360deg);
     -moz-transform: rotate(360deg);
     -o-transform: rotate(360deg);
     -ms-transform: rotate(360deg)
-}
+} */
 
 span.sitename {
     color: orange;
