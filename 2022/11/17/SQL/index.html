@@ -1,15 +1,129 @@
-<!DOCTYPE html><html lang="zh-cn" prefix="og: http://ogp.me/ns#"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title>SQL复习 · Steven's blog</title><meta name="description" content=""><meta name="og:title" content="SQL复习"><meta name="og:type" content="website"><meta name="og:url" content="http://example.com/2022/11/17/SQL/"><meta name="og:image" content="http://image.toast.com/aaaaahq/hola_cover.JPG"><meta name="og:description" content=""><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/css/chiangmai.css"><meta name="steem:author" content="@stunstunstun"><meta name="fb:app_id" content="1258629384258634"><link rel="search" type="application/opensearchdescription+xml" href="http://example.com/atom.xml" title="Steven's blog"><meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Steven's blog" type="application/atom+xml">
-</head><body class="post"><div id="fb-root"></div><div class="wrap"><header><nav class="navi-post"><a class="navi-post-back" href="javascript:history.back()"><i class="fa fa-arrow-left" aria-hidden="true"></i></a><a class="navi-post-home" href="/"><i class="fa fa-home" aria-hidden="true"></i></a></nav></header><main class="post"><div class="post"><article class="post-block"><h1 class="post-title">SQL复习</h1><div class="post-info"><div class="post-info-profile"><a href="https://github.com/stunstunstun" target="_blank"><img src="/image/profile.jpg"></a></div><div class="post-info-details"><div class="post-categories"><a href="/categories/%E6%8A%80%E6%9C%AF" target="_self"><span>技术</span></a></div><div class="post-date">2022年11月17日</div></div></div><div class="post-share"><div class="fb-like" data-href="http://example.com/2022/11/17/SQL/" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="false">                 </div><div class="fb-share-button" data-href="http://example.com/2022/11/17/SQL/" data-layout="button" data-size="small" data-mobile-iframe="true"></div><div class="fb-follow" data-href="https://www.facebook.com/holaxprogramming/" data-layout="button_count" data-size="small" data-show-faces="true"></div></div><div class="post-content"><h2 id="sql概述">3.1 SQL概述</h2>
+<!DOCTYPE html><html lang="zh-cn" prefix="og: http://ogp.me/ns#"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title>SQL复习 · Steven's blog</title><meta name="description" content=""><meta name="og:title" content="SQL复习"><meta name="og:type" content="website"><meta name="og:url" content="http://example.com/2022/11/17/SQL/"><meta name="og:image" content="http://image.toast.com/aaaaahq/hola_cover.JPG"><meta name="og:description" content=""><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/css/chiangmai.css"><meta name="steem:author" content="@stunstunstun"><meta name="fb:app_id" content="1258629384258634"><link rel="search" type="application/opensearchdescription+xml" href="http://example.com/atom.xml" title="Steven's blog"><meta name="generator" content="Hexo 6.1.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="Steven's blog" type="application/atom+xml">
+</head><body class="post"><div id="fb-root"></div><div class="wrap"><header><nav class="navi-post"><a class="navi-post-back" href="javascript:history.back()"><i class="fa fa-arrow-left" aria-hidden="true"></i></a><a class="navi-post-home" href="/"><i class="fa fa-home" aria-hidden="true"></i></a></nav></header><main class="post"><div class="post"><article class="post-block"><h1 class="post-title">SQL复习</h1><div class="post-info"><div class="post-info-profile"><a href="https://github.com/stunstunstun" target="_blank"><img src="/image/profile.jpg"></a></div><div class="post-info-details"><div class="post-categories"><a href="/categories/%E6%8A%80%E6%9C%AF" target="_self"><span>技术</span></a></div><div class="post-date">2022年11月17日</div></div></div><div class="post-share"><div class="fb-like" data-href="http://example.com/2022/11/17/SQL/" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="false">                 </div><div class="fb-share-button" data-href="http://example.com/2022/11/17/SQL/" data-layout="button" data-size="small" data-mobile-iframe="true"></div><div class="fb-follow" data-href="https://www.facebook.com/holaxprogramming/" data-layout="button_count" data-size="small" data-show-faces="true"></div></div><div class="post-content"><h2 id="31-sql概述"><a class="markdownIt-Anchor" href="#31-sql概述"></a> 3.1 SQL概述</h2>
 <p>(Strutured Query Language)</p>
 <p>结构化查询语言，关系数据库的标准语言</p>
 <p>特点：通用，功能强</p>
 <ul>
-<li><h4 id="sql-的产生与发展----多版本标准">SQL 的产生与发展 --&gt;
-多版本标准</h4></li>
+<li>
+<h4 id="sql-的产生与发展-多版本标准"><a class="markdownIt-Anchor" href="#sql-的产生与发展-多版本标准"></a> SQL 的产生与发展 --&gt; 多版本标准</h4>
+</li>
 </ul>
 <p>没有任何一个数据库能够支持所有标准</p>
 <ul>
-<li><h4 id="特点">特点：</h4>
+<li>
+<h4 id="特点"><a class="markdownIt-Anchor" href="#特点"></a> 特点：</h4>
 <blockquote>
 <p>综合统一</p>
 </blockquote>
@@ -49,55 +163,58 @@
 </blockquote>
 <table>
 <thead>
-<tr class="header">
+<tr>
 <th>功能</th>
 <th>关键词</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>查询</td>
 <td>SELECT</td>
 </tr>
-<tr class="even">
+<tr>
 <td>定义</td>
 <td>CREATE，DROP，ALTER</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>操纵</td>
 <td>INSERT，UPDATE，DELETE</td>
 </tr>
-<tr class="even">
+<tr>
 <td>控制</td>
 <td>GRANT，REVOKE</td>
 </tr>
 </tbody>
-</table></li>
-<li><h4
-id="数据库三级模式外模式模式内模式">数据库三级模式(外模式，模式，内模式)</h4></li>
-<li><p>基本表(独立存在的表，关系，索引，储存文件)</p></li>
-<li><p>存储文件</p></li>
-<li><p>视图(只存放视图的定义，不存放实际数据)--&gt; 虚表</p></li>
+</table>
+</li>
+<li>
+<h4 id="数据库三级模式外模式模式内模式"><a class="markdownIt-Anchor" href="#数据库三级模式外模式模式内模式"></a> 数据库三级模式(外模式，模式，内模式)</h4>
+</li>
+<li>
+<p>基本表(独立存在的表，关系，索引，储存文件)</p>
+</li>
+<li>
+<p>存储文件</p>
+</li>
+<li>
+<p>视图(只存放视图的定义，不存放实际数据)–&gt; 虚表</p>
+</li>
 </ul>
-<figure>
-<img src="../../img/image-20221031103227138.png"
-alt="image-20221031103227138" />
-<figcaption aria-hidden="true">image-20221031103227138</figcaption>
-</figure>
-<h2 id="学生-课程数据库">3.2 学生-课程数据库</h2>
-<h3 id="模式-s-t">模式 S-T</h3>
+<p><img src="../../img/image-20221031103227138.png" alt="image-20221031103227138" /></p>
+<h2 id="32-学生-课程数据库"><a class="markdownIt-Anchor" href="#32-学生-课程数据库"></a> 3.2 学生-课程数据库</h2>
+<h3 id="模式-s-t"><a class="markdownIt-Anchor" href="#模式-s-t"></a> 模式 S-T</h3>
 <p>学生表 Student(Sno, Sname, Ssex, Sage, Sdept)</p>
 <p>课程表 Course(Cno, Cname, Cpno, CCredit)</p>
 <p>选课表 SC(Sno, Cno, Grade)</p>
-<h2 id="数据定义">3.3 数据定义</h2>
-<h4 id="创建-create-table-view-index">创建 CREATE (TABLE | VIEW |
-INDEX)</h4>
-<div class="sourceCode" id="cb1"><pre
-class="sourceCode sql"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> <span class="op">&lt;</span>表名<span class="op">&gt;</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>列名<span class="op">&gt;</span> <span class="op">&lt;</span>数据类型<span class="op">&gt;</span> [列级约束],</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>列名<span class="op">&gt;</span> <span class="op">&lt;</span>数据类型<span class="op">&gt;</span> [列级约束],</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    [表级约束]</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<h2 id="33-数据定义"><a class="markdownIt-Anchor" href="#33-数据定义"></a> 3.3 数据定义</h2>
+<h4 id="创建-create-table-view-index"><a class="markdownIt-Anchor" href="#创建-create-table-view-index"></a> 创建 CREATE (TABLE | VIEW | INDEX)</h4>
+<pre class="highlight"><code class="SQL"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-operator">&lt;</span>表名<span class="hljs-operator">&gt;</span>(
+    <span class="hljs-operator">&lt;</span>列名<span class="hljs-operator">&gt;</span> <span class="hljs-operator">&lt;</span>数据类型<span class="hljs-operator">&gt;</span> [列级约束],
+    <span class="hljs-operator">&lt;</span>列名<span class="hljs-operator">&gt;</span> <span class="hljs-operator">&lt;</span>数据类型<span class="hljs-operator">&gt;</span> [列级约束],
+    [表级约束]
+);
+</code></pre>
 <p>数据类型</p>
 <ul>
 <li>INT</li>
@@ -106,21 +223,20 @@ class="sourceCode sql"><code class="sourceCode sql"><span id="cb1-1"><a href="#c
 <li>TIMESTAMP</li>
 <li>FLOAT</li>
 </ul>
-<h4 id="删除-drop-table-view-index">删除 DROP (TABLE | VIEW |
-INDEX)</h4>
-<h4 id="修改-alter-table-index">修改 ALTER (TABLE | INDEX)</h4>
+<h4 id="删除-drop-table-view-index"><a class="markdownIt-Anchor" href="#删除-drop-table-view-index"></a> 删除 DROP (TABLE | VIEW | INDEX)</h4>
+<h4 id="修改-alter-table-index"><a class="markdownIt-Anchor" href="#修改-alter-table-index"></a> 修改 ALTER (TABLE | INDEX)</h4>
 <blockquote>
 <p>数据字典： 所有定义信息</p>
 </blockquote>
-<div class="sourceCode" id="cb2"><pre
-class="sourceCode sql"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">ALTER</span> <span class="kw">TABLE</span> <span class="op">&lt;</span>表名<span class="op">&gt;</span>(</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ADD</span> <span class="op">&lt;</span>新列名<span class="op">&gt;</span> <span class="op">&lt;</span>数据类型<span class="op">&gt;</span> [完整性约束],</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ADD</span> [表级完整性约束],</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">DROP</span> <span class="op">&lt;</span>列名<span class="op">&gt;</span> [<span class="kw">CASCADE</span> | <span class="kw">RESTRICT</span>],</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">DROP</span> <span class="kw">CONSTRAINT</span> <span class="op">&lt;</span>约束名<span class="op">&gt;</span> [<span class="kw">RESTRICT</span> | <span class="kw">CASCADE</span>],</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ALTER</span> <span class="kw">COLUMN</span> <span class="op">&lt;</span>列名<span class="op">&gt;</span> <span class="op">&lt;</span>数据类型<span class="op">&gt;</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
-<h4 id="索引-加快查询速度">索引： 加快查询速度</h4>
+<pre class="highlight"><code class="SQL"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-operator">&lt;</span>表名<span class="hljs-operator">&gt;</span>(
+  <span class="hljs-keyword">ADD</span> <span class="hljs-operator">&lt;</span>新列名<span class="hljs-operator">&gt;</span> <span class="hljs-operator">&lt;</span>数据类型<span class="hljs-operator">&gt;</span> [完整性约束],
+  <span class="hljs-keyword">ADD</span> [表级完整性约束],
+  <span class="hljs-keyword">DROP</span> <span class="hljs-operator">&lt;</span>列名<span class="hljs-operator">&gt;</span> [CASCADE <span class="hljs-operator">|</span> RESTRICT],
+  <span class="hljs-keyword">DROP</span> <span class="hljs-keyword">CONSTRAINT</span> <span class="hljs-operator">&lt;</span>约束名<span class="hljs-operator">&gt;</span> [RESTRICT <span class="hljs-operator">|</span> CASCADE],
+  <span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">COLUMN</span> <span class="hljs-operator">&lt;</span>列名<span class="hljs-operator">&gt;</span> <span class="hljs-operator">&lt;</span>数据类型<span class="hljs-operator">&gt;</span>
+);
+</code></pre>
+<h4 id="索引-加快查询速度"><a class="markdownIt-Anchor" href="#索引-加快查询速度"></a> 索引： 加快查询速度</h4>
 <blockquote>
 <p>B+ 树： 动态平衡</p>
 <p>hash 索引： 查找快</p>
@@ -130,71 +246,83 @@ class="sourceCode sql"><code class="sourceCode sql"><span id="cb2-1"><a href="#c
 <ul>
 <li>建立索引</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre
-class="sourceCode sql"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">INDEX</span> <span class="op">&lt;</span>索引名<span class="op">&gt;</span> <span class="kw">ON</span> <span class="op">&lt;</span>表名<span class="op">&gt;</span> (<span class="op">&lt;</span>列名<span class="op">&gt;</span>[<span class="op">&lt;</span>次序<span class="op">&gt;</span>], <span class="op">&lt;</span>列名<span class="op">&gt;</span>[<span class="op">&lt;</span>次序<span class="op">&gt;</span>]);</span></code></pre></div>
+<pre class="highlight"><code class="SQL"><span class="hljs-keyword">CREATE</span> INDEX <span class="hljs-operator">&lt;</span>索引名<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">ON</span> <span class="hljs-operator">&lt;</span>表名<span class="hljs-operator">&gt;</span> (<span class="hljs-operator">&lt;</span>列名<span class="hljs-operator">&gt;</span>[<span class="hljs-operator">&lt;</span>次序<span class="hljs-operator">&gt;</span>], <span class="hljs-operator">&lt;</span>列名<span class="hljs-operator">&gt;</span>[<span class="hljs-operator">&lt;</span>次序<span class="hljs-operator">&gt;</span>]);
+</code></pre>
 <ul>
 <li>修改索引</li>
 </ul>
-<div class="sourceCode" id="cb4"><pre
-class="sourceCode sql"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">ALTER</span> <span class="kw">INDEX</span> <span class="op">&lt;</span>旧索引<span class="op">&gt;</span> <span class="kw">RENAME</span> <span class="kw">TO</span> <span class="op">&lt;</span>新索引<span class="op">&gt;</span></span></code></pre></div>
+<pre class="highlight"><code class="sql"><span class="hljs-keyword">ALTER</span> INDEX <span class="hljs-operator">&lt;</span>旧索引<span class="hljs-operator">&gt;</span> RENAME <span class="hljs-keyword">TO</span> <span class="hljs-operator">&lt;</span>新索引<span class="hljs-operator">&gt;</span>
+</code></pre>
 <ul>
 <li>删除索引</li>
 </ul>
-<div class="sourceCode" id="cb5"><pre
-class="sourceCode sql"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">DROP</span> <span class="kw">INDEX</span> <span class="op">&lt;</span>索引名<span class="op">&gt;</span></span></code></pre></div>
-<h2 id="数据查询">3.4 数据查询</h2>
-<h3 id="单表查询">单表查询</h3>
+<pre class="highlight"><code class="SQL"><span class="hljs-keyword">DROP</span> INDEX <span class="hljs-operator">&lt;</span>索引名<span class="hljs-operator">&gt;</span>
+</code></pre>
+<h2 id="34-数据查询"><a class="markdownIt-Anchor" href="#34-数据查询"></a> 3.4 数据查询</h2>
+<h3 id="单表查询"><a class="markdownIt-Anchor" href="#单表查询"></a> 单表查询</h3>
 <p>语句格式</p>
-<div class="sourceCode" id="cb6"><pre
-class="sourceCode sql"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> [<span class="kw">ALL</span>|<span class="kw">DISTINCT</span>] <span class="op">&lt;</span>列名<span class="op">&gt;</span> </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> <span class="op">&lt;</span>表或视图名<span class="op">&gt;</span> | (<span class="kw">SELECT</span> 语句) [<span class="kw">AS</span>] <span class="op">&lt;</span>别名<span class="op">&gt;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>[WEHER <span class="op">&lt;</span>条件<span class="op">&gt;</span>]</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>[<span class="kw">GROUP</span> <span class="kw">BY</span> <span class="op">&lt;</span>列名<span class="op">&gt;</span> [<span class="kw">HAVING</span> <span class="op">&lt;</span>条件<span class="op">&gt;</span>]]</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>[ORDERED <span class="kw">BY</span> <span class="op">&lt;</span>列名<span class="op">&gt;</span> [<span class="kw">ASC</span> | <span class="kw">DESC</span>]];</span></code></pre></div>
+<pre class="highlight"><code class="SQL"><span class="hljs-keyword">SELECT</span> [<span class="hljs-keyword">ALL</span><span class="hljs-operator">|</span><span class="hljs-keyword">DISTINCT</span>] <span class="hljs-operator">&lt;</span>列名<span class="hljs-operator">&gt;</span> 
+<span class="hljs-keyword">FROM</span> <span class="hljs-operator">&lt;</span>表或视图名<span class="hljs-operator">&gt;</span> <span class="hljs-operator">|</span> (<span class="hljs-keyword">SELECT</span> 语句) [<span class="hljs-keyword">AS</span>] <span class="hljs-operator">&lt;</span>别名<span class="hljs-operator">&gt;</span>
+[WEHER <span class="hljs-operator">&lt;</span>条件<span class="hljs-operator">&gt;</span>]
+[<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> <span class="hljs-operator">&lt;</span>列名<span class="hljs-operator">&gt;</span> [<span class="hljs-keyword">HAVING</span> <span class="hljs-operator">&lt;</span>条件<span class="hljs-operator">&gt;</span>]]
+[ORDERED <span class="hljs-keyword">BY</span> <span class="hljs-operator">&lt;</span>列名<span class="hljs-operator">&gt;</span> [<span class="hljs-keyword">ASC</span> <span class="hljs-operator">|</span> <span class="hljs-keyword">DESC</span>]];
+</code></pre>
 <p>tips</p>
 <blockquote>
 <p>* : 所有列</p>
 <p>AS 后跟别名</p>
 <p>DISTINCT 去除重复行</p>
-<p>查询条件： &gt;, BETWEEN AND, IN, LIKE, IS NULL</p>
+<p>查询条件：  &gt;, BETWEEN AND, IN, LIKE, IS NULL</p>
 <p>多重条件： AND， OR， NOT</p>
-<p>IN <值表>: where title in ('微积分Ⅰ','数据库概论')</p>
-<p>LIKE： LIKE '<匹配串>'</p>
+<p>IN &lt;值表&gt;: where title in (‘微积分Ⅰ’,‘数据库概论’)</p>
+<p>LIKE： LIKE ‘&lt;匹配串&gt;’</p>
 <ul>
 <li>%： 任意字符</li>
-<li>_: 任意单个字符</li>
+<li>_:  任意单个字符</li>
 <li>ESCAPE： 将转义字符转换为普通字符</li>
 </ul>
 <p>ASC： 升序， DESC：降序， 默认为升序</p>
 </blockquote>
 <p>聚集函数</p>
 <ul>
-<li>COUNT [DISTINT] <列名></li>
-<li>SUM [DISTINT] <列名></li>
-<li>AVG [DISTINT] <列名></li>
-<li>MAX <列名></li>
-<li>MIN <列名></li>
+<li>COUNT [DISTINT] &lt;列名&gt;</li>
+<li>SUM [DISTINT] &lt;列名&gt;</li>
+<li>AVG [DISTINT] &lt;列名&gt;</li>
+<li>MAX &lt;列名&gt;</li>
+<li>MIN &lt;列名&gt;</li>
 </ul>
 <p>GROUP BY(分组)</p>
 <ul>
 <li>对查询结果按指定的列分组，值相等的分为一组</li>
 </ul>
 <p>WEHRE 子句中不能使用聚集函数作为条件表达式-&gt; 写在HAVING里</p>
-<h3 id="多表连接">多表连接</h3>
+<h3 id="多表连接"><a class="markdownIt-Anchor" href="#多表连接"></a> 多表连接</h3>
 <ul>
-<li><p>等值连接 WHERE 中写 = (NATURAL JOIN)</p></li>
-<li><p>自身连接 需要起别名以作区分</p></li>
-<li><p>外连接</p>
+<li>
+<p>等值连接 WHERE 中写 = (NATURAL JOIN)</p>
+</li>
+<li>
+<p>自身连接 需要起别名以作区分</p>
+</li>
+<li>
+<p>外连接</p>
 <ul>
 <li>左外连接 <code>LEFT OUT JOIN</code></li>
 <li>右外连接 <code>RIGHT OUT JOIN</code></li>
-</ul></li>
-<li><p>多表连接</p></li>
 </ul>
-<h3 id="嵌套查询">嵌套查询</h3>
+</li>
+<li>
+<p>多表连接</p>
+</li>
+</ul>
+<h3 id="嵌套查询"><a class="markdownIt-Anchor" href="#嵌套查询"></a> 嵌套查询</h3>
 <ul>
-<li><p>带有IN的子查询</p></li>
-<li><p>将select from where 语句嵌套在where子句中</p></li>
+<li>
+<p>带有IN的子查询</p>
+</li>
+<li>
+<p>将select from where 语句嵌套在where子句中</p>
+</li>
 </ul>
 <p>sql允许多层嵌套查询</p>
 <blockquote>
@@ -204,51 +332,56 @@ class="sourceCode sql"><code class="sourceCode sql"><span id="cb6-1"><a href="#c
 <ul>
 <li>带有ANY和ALL的子查询： 此时必须使用比较运算</li>
 </ul>
-<p>例如
-<code>&gt; ANY(子查询), &lt;= ALL(子查询), != ANY(子查询)</code></p>
+<p>例如 <code>&gt; ANY(子查询), &lt;= ALL(子查询), != ANY(子查询)</code></p>
 <ul>
 <li>带有EXISTS的子查询</li>
 </ul>
-<p>​ 带有EXISTS谓词的子句只返回逻辑上的真值和假值</p>
-<h3 id="集合查询">集合查询</h3>
+<p>​	带有EXISTS谓词的子句只返回逻辑上的真值和假值</p>
+<h3 id="集合查询"><a class="markdownIt-Anchor" href="#集合查询"></a> 集合查询</h3>
 <ul>
-<li><p>并操作</p>
+<li>
+<p>并操作</p>
 <p>UNION： 去重</p>
-<p>UNION ALL： 不去重</p></li>
-<li><p>交操作</p>
-<p>INTERSECT</p></li>
-<li><p>差操作</p>
-<p>EXCEPT</p></li>
+<p>UNION ALL： 不去重</p>
+</li>
+<li>
+<p>交操作</p>
+<p>INTERSECT</p>
+</li>
+<li>
+<p>差操作</p>
+<p>EXCEPT</p>
+</li>
 </ul>
-<h3 id="基于派生表的查询">基于派生表的查询</h3>
+<h3 id="基于派生表的查询"><a class="markdownIt-Anchor" href="#基于派生表的查询"></a> 基于派生表的查询</h3>
 <p>子查询不仅可以出现在WHERE子句中，还可以出现在FROM子句中(临时派生表)</p>
 <p>Derived Table</p>
-<h2 id="数据更新">3.5 数据更新</h2>
-<h3 id="插入数据">插入数据</h3>
+<h2 id="35-数据更新"><a class="markdownIt-Anchor" href="#35-数据更新"></a> 3.5 数据更新</h2>
+<h3 id="插入数据"><a class="markdownIt-Anchor" href="#插入数据"></a> 插入数据</h3>
 <ul>
 <li>插入元组</li>
 </ul>
-<div class="sourceCode" id="cb7"><pre
-class="sourceCode sql"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">INTO</span> <span class="op">&lt;</span>表名<span class="op">&gt;</span> [<span class="op">&lt;</span>列名<span class="op">&gt;</span>,<span class="op">&lt;</span>列名<span class="op">&gt;</span>]</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">VALUES</span> (<span class="op">&lt;</span>常量1<span class="op">&gt;</span>,<span class="op">&lt;</span>常量2<span class="op">&gt;</span>)；</span></code></pre></div>
+<pre class="highlight"><code class="sql"><span class="hljs-keyword">INSERT</span> 
+<span class="hljs-keyword">INTO</span> <span class="hljs-operator">&lt;</span>表名<span class="hljs-operator">&gt;</span> [<span class="hljs-operator">&lt;</span>列名<span class="hljs-operator">&gt;</span>,<span class="hljs-operator">&lt;</span>列名<span class="hljs-operator">&gt;</span>]
+<span class="hljs-keyword">VALUES</span> (<span class="hljs-operator">&lt;</span>常量<span class="hljs-number">1</span><span class="hljs-operator">&gt;</span>,<span class="hljs-operator">&lt;</span>常量<span class="hljs-number">2</span><span class="hljs-operator">&gt;</span>)；
+</code></pre>
 <ul>
 <li>插入子查询结果</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre
-class="sourceCode sql"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">INTO</span> <span class="op">&lt;</span>表名<span class="op">&gt;</span> [<span class="op">&lt;</span>列名<span class="op">&gt;</span>,<span class="op">&lt;</span>列名<span class="op">&gt;</span>]</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>(<span class="kw">SELECT</span> 子查询)；</span></code></pre></div>
+<pre class="highlight"><code class="sql"><span class="hljs-keyword">INSERT</span> 
+<span class="hljs-keyword">INTO</span> <span class="hljs-operator">&lt;</span>表名<span class="hljs-operator">&gt;</span> [<span class="hljs-operator">&lt;</span>列名<span class="hljs-operator">&gt;</span>,<span class="hljs-operator">&lt;</span>列名<span class="hljs-operator">&gt;</span>]
+(<span class="hljs-keyword">SELECT</span> 子查询)；
+</code></pre>
 <p>如果指定属性列，按找指定属性列插入</p>
 <p>否则按表的定义中的顺序插入</p>
 <blockquote>
 <p>其中如果使用select子句插入，目标列中的值的个数与类型必须与into子句匹配</p>
 </blockquote>
-<h3 id="修改数据">修改数据</h3>
-<div class="sourceCode" id="cb9"><pre
-class="sourceCode sql"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">UPDATE</span> <span class="op">&lt;</span>表名<span class="op">&gt;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SET</span> <span class="op">&lt;</span>列名<span class="op">&gt;</span> <span class="op">=</span> <span class="op">&lt;</span>表达式<span class="op">&gt;</span> [,<span class="op">&lt;</span>列名<span class="op">&gt;=&lt;</span>表达式<span class="op">&gt;</span>]</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>[<span class="kw">WHERE</span> <span class="op">&lt;</span>条件<span class="op">&gt;</span>];</span></code></pre></div>
+<h3 id="修改数据"><a class="markdownIt-Anchor" href="#修改数据"></a> 修改数据</h3>
+<pre class="highlight"><code class="sql"><span class="hljs-keyword">UPDATE</span> <span class="hljs-operator">&lt;</span>表名<span class="hljs-operator">&gt;</span>
+<span class="hljs-keyword">SET</span> <span class="hljs-operator">&lt;</span>列名<span class="hljs-operator">&gt;</span> <span class="hljs-operator">=</span> <span class="hljs-operator">&lt;</span>表达式<span class="hljs-operator">&gt;</span> [,<span class="hljs-operator">&lt;</span>列名<span class="hljs-operator">&gt;=</span><span class="hljs-operator">&lt;</span>表达式<span class="hljs-operator">&gt;</span>]
+[<span class="hljs-keyword">WHERE</span> <span class="hljs-operator">&lt;</span>条件<span class="hljs-operator">&gt;</span>];
+</code></pre>
 <p>修改数据是不能破坏已有的完整性规则</p>
 <ul>
 <li>实体完整性</li>
@@ -258,15 +391,16 @@ class="sourceCode sql"><code class="sourceCode sql"><span id="cb9-1"><a href="#c
 <li>NOT NULL 约束</li>
 <li>UNIQUE 约束</li>
 <li>值域约束</li>
-</ul></li>
 </ul>
-<h3 id="删除数据">删除数据</h3>
-<div class="sourceCode" id="cb10"><pre
-class="sourceCode sql"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">DELETE</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> <span class="op">&lt;</span>表名<span class="op">&gt;</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>[<span class="kw">WHERE</span> <span class="op">&lt;</span>条件<span class="op">&gt;</span>]；</span></code></pre></div>
+</li>
+</ul>
+<h3 id="删除数据"><a class="markdownIt-Anchor" href="#删除数据"></a> 删除数据</h3>
+<pre class="highlight"><code class="sql"><span class="hljs-keyword">DELETE</span> 
+<span class="hljs-keyword">FROM</span> <span class="hljs-operator">&lt;</span>表名<span class="hljs-operator">&gt;</span>
+[<span class="hljs-keyword">WHERE</span> <span class="hljs-operator">&lt;</span>条件<span class="hljs-operator">&gt;</span>]；
+</code></pre>
 <p>删除满足指定要求的元组</p>
-<h2 id="空值的处理">3.6 空值的处理</h2>
+<h2 id="36-空值的处理"><a class="markdownIt-Anchor" href="#36-空值的处理"></a> 3.6 空值的处理</h2>
 <ul>
 <li>不清楚具体值</li>
 <li>不应该有值</li>
@@ -274,21 +408,21 @@ class="sourceCode sql"><code class="sourceCode sql"><span id="cb10-1"><a href="#
 </ul>
 <p>不知道或者无意义的值(NULL)</p>
 <p>可以使用 IS NULL 或者 IS NOT NULL 来判断</p>
-<h2 id="视图">3.7 视图</h2>
-<h4 id="特点-1">特点</h4>
+<h2 id="37-视图"><a class="markdownIt-Anchor" href="#37-视图"></a> 3.7 视图</h2>
+<h4 id="特点-2"><a class="markdownIt-Anchor" href="#特点-2"></a> 特点</h4>
 <ul>
 <li>虚表，由基本表导出</li>
 <li>只存放图的定义，不存放对应数据</li>
 <li>内容随基本表而变化</li>
 </ul>
-<h4 id="定义">定义</h4>
+<h4 id="定义"><a class="markdownIt-Anchor" href="#定义"></a> 定义</h4>
 <ul>
 <li>建立视图</li>
 </ul>
-<div class="sourceCode" id="cb11"><pre
-class="sourceCode sql"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">VIEW</span> <span class="op">&lt;</span>视图名<span class="op">&gt;</span> [<span class="op">&lt;</span>列名<span class="op">&gt;</span>, <span class="op">&lt;</span>列名<span class="op">&gt;</span>]</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">AS</span> <span class="op">&lt;</span>子查询<span class="op">&gt;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>[<span class="kw">WITH</span> <span class="kw">CHECK</span> <span class="kw">OPTION</span>];</span></code></pre></div>
+<pre class="highlight"><code class="sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">VIEW</span> <span class="hljs-operator">&lt;</span>视图名<span class="hljs-operator">&gt;</span> [<span class="hljs-operator">&lt;</span>列名<span class="hljs-operator">&gt;</span>, <span class="hljs-operator">&lt;</span>列名<span class="hljs-operator">&gt;</span>]
+<span class="hljs-keyword">AS</span> <span class="hljs-operator">&lt;</span>子查询<span class="hljs-operator">&gt;</span>
+[<span class="hljs-keyword">WITH</span> <span class="hljs-keyword">CHECK</span> OPTION];
+</code></pre>
 <blockquote>
 <p>WITH CHEKC OPTION 保证更新，插入或删除的行满足视图中的定义</p>
 </blockquote>
@@ -296,10 +430,10 @@ class="sourceCode sql"><code class="sourceCode sql"><span id="cb11-1"><a href="#
 <ul>
 <li>删除视图</li>
 </ul>
-<div class="sourceCode" id="cb12"><pre
-class="sourceCode sql"><code class="sourceCode sql"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">DROP</span> <span class="kw">VIEW</span> <span class="op">&lt;</span>视图名<span class="op">&gt;</span> [<span class="kw">CASCADE</span>];</span></code></pre></div>
+<pre class="highlight"><code class="sql"><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">VIEW</span> <span class="hljs-operator">&lt;</span>视图名<span class="hljs-operator">&gt;</span> [CASCADE];
+</code></pre>
 <p>CASCADE 是级联删除语句</p>
-<h4 id="查询">查询</h4>
+<h4 id="查询"><a class="markdownIt-Anchor" href="#查询"></a> 查询</h4>
 <p>与基本表的查询相似</p>
 <p>数据库管理系统实现视图查询的方法</p>
 <ul>
@@ -307,7 +441,7 @@ class="sourceCode sql"><code class="sourceCode sql"><span id="cb12-1"><a href="#
 <li>转换成为等价的基本表查询</li>
 <li>执行修正后的查询</li>
 </ul>
-<h4 id="更新">更新</h4>
+<h4 id="更新"><a class="markdownIt-Anchor" href="#更新"></a> 更新</h4>
 <p>与基本表类似</p>
 <p>但是有一定的局限</p>
 <ul>
@@ -317,7 +451,7 @@ class="sourceCode sql"><code class="sourceCode sql"><span id="cb12-1"><a href="#
 <li>含有GROUP BY和DISTINCT的，不允许更新</li>
 <li>有嵌套查询，且内层的FROM子句中涉及该视图的基本表，不允许更新</li>
 </ul>
-<h4 id="作用">作用</h4>
+<h4 id="作用"><a class="markdownIt-Anchor" href="#作用"></a> 作用</h4>
 <ul>
 <li>简化操作</li>
 <li>多种视角</li>

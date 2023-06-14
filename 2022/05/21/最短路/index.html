@@ -1,533 +1,641 @@
-<!DOCTYPE html><html lang="zh-cn" prefix="og: http://ogp.me/ns#"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title>最短路算法 · Steven's blog</title><meta name="description" content=""><meta name="og:title" content="最短路算法"><meta name="og:type" content="website"><meta name="og:url" content="http://example.com/2022/05/21/最短路/"><meta name="og:image" content="http://image.toast.com/aaaaahq/hola_cover.JPG"><meta name="og:description" content=""><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/css/chiangmai.css"><meta name="steem:author" content="@stunstunstun"><meta name="fb:app_id" content="1258629384258634"><link rel="search" type="application/opensearchdescription+xml" href="http://example.com/atom.xml" title="Steven's blog"><meta name="generator" content="Hexo 6.1.0"><link rel="alternate" href="/atom.xml" title="Steven's blog" type="application/atom+xml">
-</head><body class="post"><div id="fb-root"></div><div class="wrap"><header><nav class="navi-post"><a class="navi-post-back" href="javascript:history.back()"><i class="fa fa-arrow-left" aria-hidden="true"></i></a><a class="navi-post-home" href="/"><i class="fa fa-home" aria-hidden="true"></i></a></nav></header><main class="post"><div class="post"><article class="post-block"><h1 class="post-title">最短路算法</h1><div class="post-info"><div class="post-info-profile"><a href="https://github.com/stunstunstun" target="_blank"><img src="/image/profile.jpg"></a></div><div class="post-info-details"><div class="post-categories"><a href="/categories/%E6%8A%80%E6%9C%AF" target="_self"><span>技术</span></a></div><div class="post-date">2022年5月21日</div></div></div><div class="post-share"><div class="fb-like" data-href="http://example.com/2022/05/21/最短路/" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="false">                 </div><div class="fb-share-button" data-href="http://example.com/2022/05/21/最短路/" data-layout="button" data-size="small" data-mobile-iframe="true"></div><div class="fb-follow" data-href="https://www.facebook.com/holaxprogramming/" data-layout="button_count" data-size="small" data-show-faces="true"></div></div><div class="post-content"><h1 id="最短路">最短路</h1>
-<p>声明：<span class="math inline">\(n\)</span> 个点，<span
-class="math inline">\(m\)</span> 条边
+<!DOCTYPE html><html lang="zh-cn" prefix="og: http://ogp.me/ns#"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title>最短路算法 · Steven's blog</title><meta name="description" content=""><meta name="og:title" content="最短路算法"><meta name="og:type" content="website"><meta name="og:url" content="http://example.com/2022/05/21/最短路/"><meta name="og:image" content="http://image.toast.com/aaaaahq/hola_cover.JPG"><meta name="og:description" content=""><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/css/chiangmai.css"><meta name="steem:author" content="@stunstunstun"><meta name="fb:app_id" content="1258629384258634"><link rel="search" type="application/opensearchdescription+xml" href="http://example.com/atom.xml" title="Steven's blog"><meta name="generator" content="Hexo 6.1.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="Steven's blog" type="application/atom+xml">
+</head><body class="post"><div id="fb-root"></div><div class="wrap"><header><nav class="navi-post"><a class="navi-post-back" href="javascript:history.back()"><i class="fa fa-arrow-left" aria-hidden="true"></i></a><a class="navi-post-home" href="/"><i class="fa fa-home" aria-hidden="true"></i></a></nav></header><main class="post"><div class="post"><article class="post-block"><h1 class="post-title">最短路算法</h1><div class="post-info"><div class="post-info-profile"><a href="https://github.com/stunstunstun" target="_blank"><img src="/image/profile.jpg"></a></div><div class="post-info-details"><div class="post-categories"><a href="/categories/%E6%8A%80%E6%9C%AF" target="_self"><span>技术</span></a></div><div class="post-date">2022年5月21日</div></div></div><div class="post-share"><div class="fb-like" data-href="http://example.com/2022/05/21/最短路/" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="false">                 </div><div class="fb-share-button" data-href="http://example.com/2022/05/21/最短路/" data-layout="button" data-size="small" data-mobile-iframe="true"></div><div class="fb-follow" data-href="https://www.facebook.com/holaxprogramming/" data-layout="button_count" data-size="small" data-show-faces="true"></div></div><div class="post-content"><h1 id="最短路"><a class="markdownIt-Anchor" href="#最短路"></a> 最短路</h1>
+<p>声明：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span> 个点，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span></span></span></span> 条边<br />
 稠密图用邻接矩阵，稀疏图用邻接表</p>
-<p><img src="https://s2.loli.net/2022/03/24/UQgtY4E9yblsL75.png" /></p>
-<h3 id="dijkstra算法">dijkstra算法</h3>
-<p>不适用于有负权边的情况，复杂度为 <span
-class="math inline">\(O(n^2)\)</span> 或 <span
-class="math inline">\(O(m\cdot logn)\)</span></p>
+<p><img src="https://s2.loli.net/2022/03/24/UQgtY4E9yblsL75.png" alt="" /></p>
+<h3 id="dijkstra算法"><a class="markdownIt-Anchor" href="#dijkstra算法"></a> dijkstra算法</h3>
+<p>不适用于有负权边的情况，复杂度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> 或 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>m</mi><mo>⋅</mo><mi>l</mi><mi>o</mi><mi>g</mi><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(m\cdot logn)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span></p>
 <p>有朴素版本和堆(优先队列)优化版本</p>
-<h4 id="朴素版本">朴素版本</h4>
-<div class="sourceCode" id="cb1"><pre
-class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> dijkstra<span class="op">()</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    memset<span class="op">(</span>dist<span class="op">,</span> <span class="bn">0x3f</span><span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>dist<span class="op">));</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    dist<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span>  <span class="co">// 因为第一个点已经计算过了，所以循环n-1次即可</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> t <span class="op">=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> j <span class="op">&lt;=</span> n<span class="op">;</span> j <span class="op">++</span> <span class="op">)</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span><span class="op">(!</span>st<span class="op">[</span>j<span class="op">]</span> <span class="op">&amp;&amp;</span> <span class="op">(</span>t <span class="op">==</span> <span class="op">-</span><span class="dv">1</span> <span class="op">||</span> dist<span class="op">[</span>j<span class="op">]</span> <span class="op">&lt;</span> dist<span class="op">[</span>t<span class="op">]))</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                    t <span class="op">=</span> j<span class="op">;</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> j <span class="op">&lt;=</span> n<span class="op">;</span> j <span class="op">++</span> <span class="op">)</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>            dist<span class="op">[</span>j<span class="op">]</span> <span class="op">=</span> min<span class="op">(</span>dist<span class="op">[</span>j<span class="op">],</span> dist<span class="op">[</span>t<span class="op">]</span> <span class="op">+</span> g<span class="op">[</span>t<span class="op">][</span>j<span class="op">]);</span> </span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        st<span class="op">[</span>t<span class="op">]</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span><span class="op">(</span>dist<span class="op">[</span>n<span class="op">]</span> <span class="op">==</span> <span class="bn">0x3f3f3f3f</span><span class="op">)</span>  <span class="cf">return</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> <span class="cf">return</span> dist<span class="op">[</span>n<span class="op">];</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
-<h4 id="堆优化版本">堆优化版本</h4>
+<h4 id="朴素版本"><a class="markdownIt-Anchor" href="#朴素版本"></a> 朴素版本</h4>
+<pre class="highlight"><code class="c++"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">dijkstra</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-built_in">memset</span>(dist, <span class="hljs-number">0x3f</span>, <span class="hljs-built_in">sizeof</span>(dist));
+    dist[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt; n; i ++ )  <span class="hljs-comment">// 因为第一个点已经计算过了，所以循环n-1次即可</span>
+    &#123;
+        <span class="hljs-type">int</span> t = <span class="hljs-number">-1</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= n; j ++ )
+            <span class="hljs-keyword">if</span>(!st[j] &amp;&amp; (t == <span class="hljs-number">-1</span> || dist[j] &lt; dist[t]))
+                    t = j;
+
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= n; j ++ )
+            dist[j] = <span class="hljs-built_in">min</span>(dist[j], dist[t] + g[t][j]); 
+        st[t] = <span class="hljs-literal">true</span>;
+    &#125;
+    <span class="hljs-keyword">if</span>(dist[n] == <span class="hljs-number">0x3f3f3f3f</span>)  <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> dist[n];
+&#125;
+</code></pre>
+<h4 id="堆优化版本"><a class="markdownIt-Anchor" href="#堆优化版本"></a> 堆优化版本</h4>
 <p>(优化的是找出距离最近的点这一步)</p>
-<div class="sourceCode" id="cb2"><pre
-class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> add<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">,</span> <span class="dt">int</span> c<span class="op">)</span>  <span class="co">// 邻接表存边</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    e<span class="op">[</span>idx<span class="op">]</span> <span class="op">=</span> b<span class="op">,</span> w<span class="op">[</span>idx<span class="op">]</span> <span class="op">=</span> c<span class="op">,</span> ne<span class="op">[</span>idx<span class="op">]</span> <span class="op">=</span> h<span class="op">[</span>a<span class="op">],</span> h<span class="op">[</span>a<span class="op">]</span> <span class="op">=</span> idx <span class="op">++</span> <span class="op">;</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> dijkstra<span class="op">()</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    memset<span class="op">(</span>dist<span class="op">,</span> <span class="bn">0x3f</span><span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>dist<span class="op">));</span>  <span class="co">//  初始化距离为正无穷</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    priority_queue<span class="op">&lt;</span>PII<span class="op">,</span> vector<span class="op">&lt;</span>PII<span class="op">&gt;,</span> greater<span class="op">&lt;</span>PII<span class="op">&gt;</span> <span class="op">&gt;</span> heap<span class="op">;</span>  <span class="co">// 元素种类为PII的小根堆</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    dist<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    heap<span class="op">.</span>push<span class="op">(</span>make_pair<span class="op">(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">));</span>  <span class="co">//  由于小根堆中的pair会默认按第一个元素排序，所以这里将距离存到前面</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">(</span>heap<span class="op">.</span>size<span class="op">())</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="kw">auto</span> t <span class="op">=</span> heap<span class="op">.</span>top<span class="op">();</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        heap<span class="op">.</span>pop<span class="op">();</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> distance <span class="op">=</span> t<span class="op">.</span>first<span class="op">,</span> ver <span class="op">=</span> t<span class="op">.</span>second<span class="op">;</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>st<span class="op">[</span>ver<span class="op">])</span> <span class="cf">continue</span><span class="op">;</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        st<span class="op">[</span>ver<span class="op">]</span>  <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> h<span class="op">[</span>ver<span class="op">];</span> i <span class="op">!=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span> i <span class="op">=</span> ne<span class="op">[</span>i<span class="op">]</span> <span class="op">)</span>  <span class="co">//  注意i初始化ver的头指针h[ver]</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>            <span class="dt">int</span> j <span class="op">=</span> e<span class="op">[</span>i<span class="op">];</span>  <span class="co">// 取点</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span><span class="op">(</span>distance <span class="op">+</span> w<span class="op">[</span>i<span class="op">]</span> <span class="op">&lt;</span> dist<span class="op">[</span>j<span class="op">])</span> </span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#123;</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>                dist<span class="op">[</span>j<span class="op">]</span> <span class="op">=</span> distance <span class="op">+</span> w<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>             heap<span class="op">.</span>push<span class="op">(</span>make_pair<span class="op">(</span>dist<span class="op">[</span>j<span class="op">],</span> j<span class="op">));</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#125;</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span><span class="op">(</span>dist<span class="op">[</span>n<span class="op">]</span> <span class="op">==</span> <span class="bn">0x3f3f3f3f</span><span class="op">)</span>  <span class="cf">return</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> <span class="cf">return</span> dist<span class="op">[</span>n<span class="op">];</span></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
-<h4 id="vector存图">vector存图</h4>
-<div class="sourceCode" id="cb3"><pre
-class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;bits/stdc++.h&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#define debug</span><span class="op">(</span>x<span class="op">)</span><span class="pp"> </span>cout<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> #</span>x<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span><span class="st">&quot; = &quot;</span><span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span>x<span class="pp"> </span><span class="op">&lt;&lt;</span><span class="pp"> </span>endl</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#define xx </span>first</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#define yy </span>second</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> pair<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> PII<span class="op">;</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="dt">long</span> <span class="dt">long</span> LL<span class="op">;</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="fl">1e6</span> <span class="op">+</span> <span class="dv">5</span><span class="op">,</span> mod <span class="op">=</span> <span class="fl">1e9</span> <span class="op">+</span> <span class="dv">7</span><span class="op">;</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">//const double esp = 1e-6;</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> dist<span class="op">[</span>N<span class="op">];</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> st<span class="op">[</span>N<span class="op">];</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n<span class="op">,</span> m<span class="op">;</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n <span class="op">&gt;&gt;</span> m<span class="op">;</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    vector<span class="op">&lt;</span>vector<span class="op">&lt;</span>PII<span class="op">&gt;&gt;</span> g<span class="op">(</span>n<span class="op">);</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> m<span class="op">;</span> i <span class="op">++)</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> a<span class="op">,</span> b<span class="op">,</span> c<span class="op">;</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> a <span class="op">&gt;&gt;</span> b <span class="op">&gt;&gt;</span> c<span class="op">;</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        a <span class="op">--,</span> b <span class="op">--;</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>        g<span class="op">[</span>a<span class="op">].</span>push_back<span class="op">(&#123;</span>b<span class="op">,</span> c<span class="op">&#125;);</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">auto</span> dijkstra <span class="op">=</span> <span class="op">[&amp;]()</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        memset<span class="op">(</span>dist<span class="op">,</span> <span class="bn">0x3f</span><span class="op">,</span> <span class="kw">sizeof</span> dist<span class="op">);</span></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>        memset<span class="op">(</span>st<span class="op">,</span> <span class="kw">false</span><span class="op">,</span> <span class="kw">sizeof</span> st<span class="op">);</span></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>        priority_queue<span class="op">&lt;</span>PII<span class="op">,</span> vector<span class="op">&lt;</span>PII<span class="op">&gt;,</span> greater<span class="op">&lt;</span>PII<span class="op">&gt;</span> <span class="op">&gt;</span> q<span class="op">;</span></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>        dist<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>        q<span class="op">.</span>push<span class="op">(&#123;</span><span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">&#125;);</span></span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span><span class="op">(</span>q<span class="op">.</span>size<span class="op">())</span></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>            <span class="kw">auto</span> t <span class="op">=</span> q<span class="op">.</span>top<span class="op">();</span></span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>            q<span class="op">.</span>pop<span class="op">();</span></span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span><span class="op">(</span>st<span class="op">[</span>t<span class="op">.</span>yy<span class="op">])</span> <span class="cf">continue</span><span class="op">;</span></span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>            st<span class="op">[</span>t<span class="op">.</span>yy<span class="op">]</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span> </span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span><span class="op">(</span><span class="kw">auto</span> <span class="op">[</span>u<span class="op">,</span> v<span class="op">]</span> <span class="op">:</span> g<span class="op">[</span>t<span class="op">.</span>yy<span class="op">])</span></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#123;</span></span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span><span class="op">(</span>dist<span class="op">[</span>u<span class="op">]</span> <span class="op">&gt;</span> t<span class="op">.</span>xx <span class="op">+</span> v<span class="op">)</span></span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>                <span class="op">&#123;</span></span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>                    dist<span class="op">[</span>u<span class="op">]</span> <span class="op">=</span> t<span class="op">.</span>xx <span class="op">+</span> v<span class="op">;</span></span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>                    q<span class="op">.</span>push<span class="op">(&#123;</span>dist<span class="op">[</span>u<span class="op">],</span> u<span class="op">&#125;);</span></span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>                <span class="op">&#125;</span></span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#125;</span></span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;;</span></span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>    dijkstra<span class="op">();</span></span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span><span class="op">(</span>dist<span class="op">[</span>n <span class="op">-</span> <span class="dv">1</span><span class="op">]</span> <span class="op">==</span> <span class="bn">0x3f3f3f3f</span><span class="op">)</span> cout <span class="op">&lt;&lt;</span> <span class="st">&quot;-1&quot;</span><span class="op">;</span></span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> cout <span class="op">&lt;&lt;</span> dist<span class="op">[</span>n <span class="op">-</span> <span class="dv">1</span><span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="ch">&#39;</span><span class="sc">\n</span><span class="ch">&#39;</span><span class="op">;</span></span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
-<h4 id="邮递员送信">邮递员送信</h4>
+<pre class="highlight"><code class="c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b, <span class="hljs-type">int</span> c)</span>  <span class="hljs-comment">// 邻接表存边</span>
+</span>&#123;
+    e[idx] = b, w[idx] = c, ne[idx] = h[a], h[a] = idx ++ ;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">dijkstra</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-built_in">memset</span>(dist, <span class="hljs-number">0x3f</span>, <span class="hljs-built_in">sizeof</span>(dist));  <span class="hljs-comment">//  初始化距离为正无穷</span>
+    priority_queue&lt;PII, vector&lt;PII&gt;, greater&lt;PII&gt; &gt; heap;  <span class="hljs-comment">// 元素种类为PII的小根堆</span>
+    dist[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;
+    heap.<span class="hljs-built_in">push</span>(<span class="hljs-built_in">make_pair</span>(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>));  <span class="hljs-comment">//  由于小根堆中的pair会默认按第一个元素排序，所以这里将距离存到前面</span>
+    <span class="hljs-keyword">while</span>(heap.<span class="hljs-built_in">size</span>())
+    &#123;
+        <span class="hljs-keyword">auto</span> t = heap.<span class="hljs-built_in">top</span>();
+        heap.<span class="hljs-built_in">pop</span>();
+        <span class="hljs-type">int</span> distance = t.first, ver = t.second;
+        <span class="hljs-keyword">if</span>(st[ver]) <span class="hljs-keyword">continue</span>;
+        st[ver]  = <span class="hljs-literal">true</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = h[ver]; i != <span class="hljs-number">-1</span>; i = ne[i] )  <span class="hljs-comment">//  注意i初始化ver的头指针h[ver]</span>
+        &#123;
+            <span class="hljs-type">int</span> j = e[i];  <span class="hljs-comment">// 取点</span>
+            <span class="hljs-keyword">if</span>(distance + w[i] &lt; dist[j]) 
+            &#123;
+                dist[j] = distance + w[i];
+             heap.<span class="hljs-built_in">push</span>(<span class="hljs-built_in">make_pair</span>(dist[j], j));
+            &#125;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">if</span>(dist[n] == <span class="hljs-number">0x3f3f3f3f</span>)  <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> dist[n];
+&#125;
+</code></pre>
+<h4 id="vector存图"><a class="markdownIt-Anchor" href="#vector存图"></a> vector存图</h4>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> debug(x) cout &lt;&lt; #x &lt;&lt; <span class="hljs-string">&quot; = &quot;</span> &lt;&lt; x &lt;&lt; endl</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> xx first</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> yy second</span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-keyword">typedef</span> pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt; PII;
+<span class="hljs-keyword">typedef</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> LL;
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">1e6</span> + <span class="hljs-number">5</span>, mod = <span class="hljs-number">1e9</span> + <span class="hljs-number">7</span>;
+<span class="hljs-comment">//const double esp = 1e-6;</span>
+<span class="hljs-type">int</span> dist[N];
+<span class="hljs-type">bool</span> st[N];
+<span class="hljs-type">int</span> n, m;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    cin &gt;&gt; n &gt;&gt; m;
+    vector&lt;vector&lt;PII&gt;&gt; <span class="hljs-built_in">g</span>(n);
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= m; i ++)
+    &#123;
+        <span class="hljs-type">int</span> a, b, c;
+        cin &gt;&gt; a &gt;&gt; b &gt;&gt; c;
+        a --, b --;
+        g[a].<span class="hljs-built_in">push_back</span>(&#123;b, c&#125;);
+    &#125;
+    <span class="hljs-keyword">auto</span> dijkstra = [&amp;]()
+    &#123;
+        <span class="hljs-built_in">memset</span>(dist, <span class="hljs-number">0x3f</span>, <span class="hljs-keyword">sizeof</span> dist);
+        <span class="hljs-built_in">memset</span>(st, <span class="hljs-literal">false</span>, <span class="hljs-keyword">sizeof</span> st);
+        priority_queue&lt;PII, vector&lt;PII&gt;, greater&lt;PII&gt; &gt; q;
+        dist[<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>;
+        q.<span class="hljs-built_in">push</span>(&#123;<span class="hljs-number">0</span>, <span class="hljs-number">0</span>&#125;);
+        <span class="hljs-keyword">while</span>(q.<span class="hljs-built_in">size</span>())
+        &#123;
+            <span class="hljs-keyword">auto</span> t = q.<span class="hljs-built_in">top</span>();
+            q.<span class="hljs-built_in">pop</span>();
+            <span class="hljs-keyword">if</span>(st[t.yy]) <span class="hljs-keyword">continue</span>;
+            st[t.yy] = <span class="hljs-literal">true</span>; 
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> [u, v] : g[t.yy])
+            &#123;
+                <span class="hljs-keyword">if</span>(dist[u] &gt; t.xx + v)
+                &#123;
+                    dist[u] = t.xx + v;
+                    q.<span class="hljs-built_in">push</span>(&#123;dist[u], u&#125;);
+                &#125;
+            &#125;
+        &#125;
+    &#125;;
+    <span class="hljs-built_in">dijkstra</span>();
+    <span class="hljs-keyword">if</span>(dist[n - <span class="hljs-number">1</span>] == <span class="hljs-number">0x3f3f3f3f</span>) cout &lt;&lt; <span class="hljs-string">&quot;-1&quot;</span>;
+    <span class="hljs-keyword">else</span> cout &lt;&lt; dist[n - <span class="hljs-number">1</span>] &lt;&lt; <span class="hljs-string">&#x27;\n&#x27;</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+
+</code></pre>
+<h4 id="邮递员送信"><a class="markdownIt-Anchor" href="#邮递员送信"></a> 邮递员送信</h4>
 <p>邮递员去送信然后要求送信后再返回（有向边）</p>
 <p>解法：</p>
-<p>反向建边+跑两次dijkstra 正着走过去的时候用一遍dijkstra。
-返回时就建个返图跑一遍dijkstra。
+<p>反向建边+跑两次dijkstra<br />
+正着走过去的时候用一遍dijkstra。<br />
+返回时就建个返图跑一遍dijkstra。<br />
 反图可以把所有结点的编号+n建在原图的体系中。</p>
-<div class="sourceCode" id="cb4"><pre
-class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cstring&gt;</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;queue&gt;</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="dt">long</span> <span class="dt">long</span> LL<span class="op">;</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> pair<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> PII<span class="op">;</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="fl">2e5</span> <span class="op">+</span> <span class="dv">5</span><span class="op">;</span>  <span class="co">//  数组记得开够</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n<span class="op">,</span> m<span class="op">;</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> h<span class="op">[</span>N<span class="op">],</span> ne<span class="op">[</span>N<span class="op">],</span> w<span class="op">[</span>N<span class="op">],</span> e<span class="op">[</span>N<span class="op">],</span> idx<span class="op">;</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> dist<span class="op">[</span>N<span class="op">];</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> st<span class="op">[</span>N<span class="op">];</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> add<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">,</span> <span class="dt">int</span> c<span class="op">)</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    e<span class="op">[</span>idx<span class="op">]</span> <span class="op">=</span> b<span class="op">,</span> w<span class="op">[</span>idx<span class="op">]</span> <span class="op">=</span> c<span class="op">,</span> ne<span class="op">[</span>idx<span class="op">]</span> <span class="op">=</span> h<span class="op">[</span>a<span class="op">],</span> h<span class="op">[</span>a<span class="op">]</span> <span class="op">=</span> idx <span class="op">++</span> <span class="op">;</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> dijkstra<span class="op">(</span><span class="dt">int</span> fir<span class="op">)</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span>   </span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    memset<span class="op">(</span>dist<span class="op">,</span> <span class="bn">0x3f</span><span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>dist<span class="op">));</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    priority_queue<span class="op">&lt;</span>PII<span class="op">,</span> vector<span class="op">&lt;</span>PII<span class="op">&gt;,</span> greater<span class="op">&lt;</span>PII<span class="op">&gt;</span> <span class="op">&gt;</span>heap<span class="op">;</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    dist<span class="op">[</span>fir<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    heap<span class="op">.</span>push<span class="op">(</span>make_pair<span class="op">(</span><span class="dv">0</span><span class="op">,</span> fir<span class="op">));</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">(</span>heap<span class="op">.</span>size<span class="op">())</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>        PII t <span class="op">=</span> heap<span class="op">.</span>top<span class="op">();</span></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>        heap<span class="op">.</span>pop<span class="op">();</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> distance <span class="op">=</span> t<span class="op">.</span>first<span class="op">,</span> ver <span class="op">=</span> t<span class="op">.</span>second<span class="op">;</span></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>st<span class="op">[</span>ver<span class="op">])</span>  <span class="cf">continue</span><span class="op">;</span></span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>        st<span class="op">[</span>ver<span class="op">]</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> h<span class="op">[</span>ver<span class="op">];</span> i <span class="op">!=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span> i <span class="op">=</span> ne<span class="op">[</span>i<span class="op">])</span></span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>            <span class="dt">int</span> j <span class="op">=</span> e<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span><span class="op">(</span>dist<span class="op">[</span>j<span class="op">]</span> <span class="op">&gt;</span> distance <span class="op">+</span> w<span class="op">[</span>i<span class="op">])</span></span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#123;</span></span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>                dist<span class="op">[</span>j<span class="op">]</span> <span class="op">=</span> distance <span class="op">+</span> w<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>                heap<span class="op">.</span>push<span class="op">(</span>make_pair<span class="op">(</span>dist<span class="op">[</span>j<span class="op">],</span> j<span class="op">));</span></span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#125;</span></span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
-<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n <span class="op">&gt;&gt;</span> m<span class="op">;</span></span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    memset<span class="op">(</span>h<span class="op">,</span> <span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>h<span class="op">));</span></span>
-<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">(</span>m <span class="op">--</span> <span class="op">)</span></span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
-<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> a<span class="op">,</span> b<span class="op">,</span> c<span class="op">;</span></span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> a <span class="op">&gt;&gt;</span> b <span class="op">&gt;&gt;</span> c<span class="op">;</span></span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>        add<span class="op">(</span>a<span class="op">,</span> b<span class="op">,</span> c<span class="op">);</span></span>
-<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>        add<span class="op">(</span>b <span class="op">+</span> n<span class="op">,</span> a <span class="op">+</span> n<span class="op">,</span> c<span class="op">);</span>  <span class="co">//  建一个反图</span></span>
-<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>    dijkstra<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
-<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>    LL res <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
-<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
-<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>        res <span class="op">+=</span> dist<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
-<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>    dijkstra<span class="op">(</span><span class="dv">1</span> <span class="op">+</span> n<span class="op">);</span>  <span class="co">//  反向跑一次dijkstra</span></span>
-<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span> <span class="op">+</span> n<span class="op">;</span> i <span class="op">&lt;=</span> <span class="dv">2</span> <span class="op">*</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
-<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
-<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>        res <span class="op">+=</span> dist<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
-<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> res<span class="op">;</span></span>
-<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
-<h4 id="最短路计数">最短路计数</h4>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;queue&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-keyword">typedef</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> LL;
+<span class="hljs-keyword">typedef</span> pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt; PII;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">2e5</span> + <span class="hljs-number">5</span>;  <span class="hljs-comment">//  数组记得开够</span>
+<span class="hljs-type">int</span> n, m;
+<span class="hljs-type">int</span> h[N], ne[N], w[N], e[N], idx;
+<span class="hljs-type">int</span> dist[N];
+<span class="hljs-type">bool</span> st[N];
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b, <span class="hljs-type">int</span> c)</span>
+</span>&#123;
+    e[idx] = b, w[idx] = c, ne[idx] = h[a], h[a] = idx ++ ;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dijkstra</span><span class="hljs-params">(<span class="hljs-type">int</span> fir)</span>
+</span>&#123;   
+    <span class="hljs-built_in">memset</span>(dist, <span class="hljs-number">0x3f</span>, <span class="hljs-built_in">sizeof</span>(dist));
+    priority_queue&lt;PII, vector&lt;PII&gt;, greater&lt;PII&gt; &gt;heap;
+    dist[fir] = <span class="hljs-number">0</span>;
+    heap.<span class="hljs-built_in">push</span>(<span class="hljs-built_in">make_pair</span>(<span class="hljs-number">0</span>, fir));
+    <span class="hljs-keyword">while</span>(heap.<span class="hljs-built_in">size</span>())
+    &#123;
+        PII t = heap.<span class="hljs-built_in">top</span>();
+        heap.<span class="hljs-built_in">pop</span>();
+        <span class="hljs-type">int</span> distance = t.first, ver = t.second;
+        <span class="hljs-keyword">if</span>(st[ver])  <span class="hljs-keyword">continue</span>;
+        st[ver] = <span class="hljs-literal">true</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = h[ver]; i != <span class="hljs-number">-1</span>; i = ne[i])
+        &#123;
+            <span class="hljs-type">int</span> j = e[i];
+            <span class="hljs-keyword">if</span>(dist[j] &gt; distance + w[i])
+            &#123;
+                dist[j] = distance + w[i];
+                heap.<span class="hljs-built_in">push</span>(<span class="hljs-built_in">make_pair</span>(dist[j], j));
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    cin &gt;&gt; n &gt;&gt; m;
+    <span class="hljs-built_in">memset</span>(h, <span class="hljs-number">-1</span>, <span class="hljs-built_in">sizeof</span>(h));
+    <span class="hljs-keyword">while</span>(m -- )
+    &#123;
+        <span class="hljs-type">int</span> a, b, c;
+        cin &gt;&gt; a &gt;&gt; b &gt;&gt; c;
+        <span class="hljs-built_in">add</span>(a, b, c);
+        <span class="hljs-built_in">add</span>(b + n, a + n, c);  <span class="hljs-comment">//  建一个反图</span>
+    &#125;
+    <span class="hljs-built_in">dijkstra</span>(<span class="hljs-number">1</span>);
+    LL res = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+    &#123;
+        res += dist[i];
+    &#125;
+    <span class="hljs-built_in">dijkstra</span>(<span class="hljs-number">1</span> + n);  <span class="hljs-comment">//  反向跑一次dijkstra</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span> + n; i &lt;= <span class="hljs-number">2</span> * n; i ++ )
+    &#123;
+        res += dist[i];
+    &#125;
+    cout &lt;&lt; res;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<h4 id="最短路计数"><a class="markdownIt-Anchor" href="#最短路计数"></a> 最短路计数</h4>
 <p>增加一个num数组进行计数</p>
-<div class="sourceCode" id="cb5"><pre
-class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cstring&gt;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;queue&gt;</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="dt">long</span> <span class="dt">long</span> LL<span class="op">;</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> pair<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span> <span class="dt">int</span><span class="op">&gt;</span> PII<span class="op">;</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="fl">2e6</span> <span class="op">+</span> <span class="dv">5</span><span class="op">,</span> mod <span class="op">=</span> <span class="dv">100003</span><span class="op">;</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n<span class="op">,</span> m<span class="op">;</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> h<span class="op">[</span>N<span class="op">],</span> ne<span class="op">[</span>N<span class="op">],</span> w<span class="op">[</span>N<span class="op">],</span> e<span class="op">[</span>N<span class="op">],</span> idx<span class="op">;</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> dist<span class="op">[</span>N<span class="op">],</span> num<span class="op">[</span>N<span class="op">];</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> st<span class="op">[</span>N<span class="op">];</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> add<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">,</span> <span class="dt">int</span> c<span class="op">)</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    e<span class="op">[</span>idx<span class="op">]</span> <span class="op">=</span> b<span class="op">,</span> w<span class="op">[</span>idx<span class="op">]</span> <span class="op">=</span> c<span class="op">,</span> ne<span class="op">[</span>idx<span class="op">]</span> <span class="op">=</span> h<span class="op">[</span>a<span class="op">],</span> h<span class="op">[</span>a<span class="op">]</span> <span class="op">=</span> idx <span class="op">++</span> <span class="op">;</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> dijkstra<span class="op">()</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    memset<span class="op">(</span>dist<span class="op">,</span> <span class="bn">0x3f</span><span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>dist<span class="op">));</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    dist<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    num<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    priority_queue<span class="op">&lt;</span>PII<span class="op">,</span> vector<span class="op">&lt;</span>PII<span class="op">&gt;,</span> greater<span class="op">&lt;</span>PII<span class="op">&gt;</span> <span class="op">&gt;</span> heap<span class="op">;</span></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    heap<span class="op">.</span>push<span class="op">(</span>make_pair<span class="op">(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">));</span></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">(</span>heap<span class="op">.</span>size<span class="op">())</span></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>        PII t <span class="op">=</span> heap<span class="op">.</span>top<span class="op">();</span></span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>        heap<span class="op">.</span>pop<span class="op">();</span></span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> distance <span class="op">=</span> t<span class="op">.</span>first<span class="op">,</span> ver <span class="op">=</span> t<span class="op">.</span>second<span class="op">;</span></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>st<span class="op">[</span>ver<span class="op">])</span> <span class="cf">continue</span><span class="op">;</span></span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>        st<span class="op">[</span>ver<span class="op">]</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> h<span class="op">[</span>ver<span class="op">];</span> i <span class="op">!=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span> i <span class="op">=</span> ne<span class="op">[</span>i<span class="op">])</span></span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>            <span class="dt">int</span> j <span class="op">=</span> e<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span><span class="op">(</span>dist<span class="op">[</span>j<span class="op">]</span> <span class="op">==</span> distance <span class="op">+</span> w<span class="op">[</span>i<span class="op">])</span></span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#123;</span></span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>                num<span class="op">[</span>j<span class="op">]</span> <span class="op">=</span> <span class="op">(</span>num<span class="op">[</span>j<span class="op">]</span> <span class="op">+</span> num<span class="op">[</span>ver<span class="op">])</span> <span class="op">%</span> mod<span class="op">;</span></span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#125;</span></span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span><span class="op">(</span>dist<span class="op">[</span>j<span class="op">]</span> <span class="op">&gt;</span> distance <span class="op">+</span> w<span class="op">[</span>i<span class="op">])</span></span>
-<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#123;</span></span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>                dist<span class="op">[</span>j<span class="op">]</span> <span class="op">=</span> distance <span class="op">+</span> w<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>                num<span class="op">[</span>j<span class="op">]</span> <span class="op">=</span> num<span class="op">[</span>ver<span class="op">];</span></span>
-<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>                heap<span class="op">.</span>push<span class="op">(</span>make_pair<span class="op">(</span>dist<span class="op">[</span>j<span class="op">],</span> j<span class="op">));</span></span>
-<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#125;</span></span>
-<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
-<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
-<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
-<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
-<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
-<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n <span class="op">&gt;&gt;</span> m<span class="op">;</span></span>
-<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>    memset<span class="op">(</span>h<span class="op">,</span> <span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>h<span class="op">));</span></span>
-<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">(</span>m <span class="op">--</span> <span class="op">)</span></span>
-<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
-<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> a<span class="op">,</span> b<span class="op">;</span></span>
-<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> a <span class="op">&gt;&gt;</span> b<span class="op">;</span></span>
-<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>a <span class="op">==</span> b<span class="op">)</span> <span class="cf">continue</span><span class="op">;</span></span>
-<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>        add<span class="op">(</span>a<span class="op">,</span> b<span class="op">,</span> <span class="dv">1</span><span class="op">);</span></span>
-<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>        add<span class="op">(</span>b<span class="op">,</span> a<span class="op">,</span> <span class="dv">1</span><span class="op">);</span></span>
-<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
-<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>    dijkstra<span class="op">();</span></span>
-<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
-<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
-<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>        printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> num<span class="op">[</span>i<span class="op">]);</span></span>
-<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
-<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
-<h3 id="bellman-ford算法">Bellman-ford算法</h3>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;queue&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-keyword">typedef</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> LL;
+<span class="hljs-keyword">typedef</span> pair&lt;<span class="hljs-type">int</span>, <span class="hljs-type">int</span>&gt; PII;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">2e6</span> + <span class="hljs-number">5</span>, mod = <span class="hljs-number">100003</span>;
+<span class="hljs-type">int</span> n, m;
+<span class="hljs-type">int</span> h[N], ne[N], w[N], e[N], idx;
+<span class="hljs-type">int</span> dist[N], num[N];
+<span class="hljs-type">bool</span> st[N];
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b, <span class="hljs-type">int</span> c)</span>
+</span>&#123;
+    e[idx] = b, w[idx] = c, ne[idx] = h[a], h[a] = idx ++ ;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dijkstra</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-built_in">memset</span>(dist, <span class="hljs-number">0x3f</span>, <span class="hljs-built_in">sizeof</span>(dist));
+    dist[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;
+    num[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;
+    priority_queue&lt;PII, vector&lt;PII&gt;, greater&lt;PII&gt; &gt; heap;
+    heap.<span class="hljs-built_in">push</span>(<span class="hljs-built_in">make_pair</span>(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>));
+    <span class="hljs-keyword">while</span>(heap.<span class="hljs-built_in">size</span>())
+    &#123;
+        PII t = heap.<span class="hljs-built_in">top</span>();
+        heap.<span class="hljs-built_in">pop</span>();
+        <span class="hljs-type">int</span> distance = t.first, ver = t.second;
+        <span class="hljs-keyword">if</span>(st[ver]) <span class="hljs-keyword">continue</span>;
+        st[ver] = <span class="hljs-literal">true</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = h[ver]; i != <span class="hljs-number">-1</span>; i = ne[i])
+        &#123;
+            <span class="hljs-type">int</span> j = e[i];
+            <span class="hljs-keyword">if</span>(dist[j] == distance + w[i])
+            &#123;
+                num[j] = (num[j] + num[ver]) % mod;
+            &#125;
+            <span class="hljs-keyword">if</span>(dist[j] &gt; distance + w[i])
+            &#123;
+                dist[j] = distance + w[i];
+                num[j] = num[ver];
+                heap.<span class="hljs-built_in">push</span>(<span class="hljs-built_in">make_pair</span>(dist[j], j));
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    cin &gt;&gt; n &gt;&gt; m;
+    <span class="hljs-built_in">memset</span>(h, <span class="hljs-number">-1</span>, <span class="hljs-built_in">sizeof</span>(h));
+    <span class="hljs-keyword">while</span>(m -- )
+    &#123;
+        <span class="hljs-type">int</span> a, b;
+        cin &gt;&gt; a &gt;&gt; b;
+        <span class="hljs-keyword">if</span>(a == b) <span class="hljs-keyword">continue</span>;
+        <span class="hljs-built_in">add</span>(a, b, <span class="hljs-number">1</span>);
+        <span class="hljs-built_in">add</span>(b, a, <span class="hljs-number">1</span>);
+    &#125;
+    <span class="hljs-built_in">dijkstra</span>();
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+    &#123;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, num[i]);
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<h3 id="bellman-ford算法"><a class="markdownIt-Anchor" href="#bellman-ford算法"></a> Bellman-ford算法</h3>
 <p>适用于有负权边的情况</p>
-<p><span class="math inline">\(O(n \cdot m)\)</span></p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo>⋅</mo><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n \cdot m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span></p>
 <p>如果有负环，或限制最多走k次时可以用，大多数时候用SPFA完全替代</p>
-<div class="sourceCode" id="cb6"><pre
-class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cstring&gt;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="dv">510</span><span class="op">,</span> M <span class="op">=</span> <span class="dv">10010</span><span class="op">;</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n<span class="op">,</span> m<span class="op">,</span> k<span class="op">;</span>  <span class="co">//  n个点，m条边，走不超过k次</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> Edge</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> a<span class="op">,</span> b<span class="op">,</span> c<span class="op">;</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span>edge<span class="op">[</span>M<span class="op">];</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> dist<span class="op">[</span>N<span class="op">],</span> backup<span class="op">[</span>N<span class="op">];</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> Bellman_ford<span class="op">()</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    memset<span class="op">(</span>dist<span class="op">,</span> <span class="bn">0x3f</span><span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>dist<span class="op">));</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    dist<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> k<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>        memcpy<span class="op">(</span>backup<span class="op">,</span> dist<span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>dist<span class="op">));</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> j <span class="op">&lt;=</span> m<span class="op">;</span> j <span class="op">++</span> <span class="op">)</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>            Edge e <span class="op">=</span> edge<span class="op">[</span>j<span class="op">];</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>            dist<span class="op">[</span>e<span class="op">.</span>b<span class="op">]</span> <span class="op">=</span> min<span class="op">(</span>dist<span class="op">[</span>e<span class="op">.</span>b<span class="op">],</span> backup<span class="op">[</span>e<span class="op">.</span>a<span class="op">]</span> <span class="op">+</span> e<span class="op">.</span>c<span class="op">);</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n <span class="op">&gt;&gt;</span> m <span class="op">&gt;&gt;</span> k<span class="op">;</span></span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> m<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> a<span class="op">,</span> b<span class="op">,</span> c<span class="op">;</span></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> a <span class="op">&gt;&gt;</span> b <span class="op">&gt;&gt;</span> c<span class="op">;</span></span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>        edge<span class="op">[</span>i<span class="op">].</span>a <span class="op">=</span> a<span class="op">,</span> edge<span class="op">[</span>i<span class="op">].</span>b <span class="op">=</span> b<span class="op">,</span> edge<span class="op">[</span>i<span class="op">].</span>c <span class="op">=</span> c<span class="op">;</span></span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>    Bellman_ford<span class="op">();</span></span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span><span class="op">(</span>dist<span class="op">[</span>n<span class="op">]</span> <span class="op">&gt;</span> <span class="bn">0x3f3f3f3f</span> <span class="op">/</span> <span class="dv">2</span><span class="op">)</span>  printf<span class="op">(</span><span class="st">&quot;impossible</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> dist<span class="op">[</span>n<span class="op">]);</span></span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
-<h3 id="spfa算法">SPFA算法</h3>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">510</span>, M = <span class="hljs-number">10010</span>;
+
+<span class="hljs-type">int</span> n, m, k;  <span class="hljs-comment">//  n个点，m条边，走不超过k次</span>
+
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">Edge</span>
+&#123;
+    <span class="hljs-type">int</span> a, b, c;
+&#125;edge[M];
+
+<span class="hljs-type">int</span> dist[N], backup[N];
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Bellman_ford</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-built_in">memset</span>(dist, <span class="hljs-number">0x3f</span>, <span class="hljs-built_in">sizeof</span>(dist));
+    dist[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= k; i ++ )
+    &#123;
+        <span class="hljs-built_in">memcpy</span>(backup, dist, <span class="hljs-built_in">sizeof</span>(dist));
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= m; j ++ )
+        &#123;
+            Edge e = edge[j];
+            dist[e.b] = <span class="hljs-built_in">min</span>(dist[e.b], backup[e.a] + e.c);
+        &#125;
+    &#125;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; k;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= m; i ++ )
+    &#123;
+        <span class="hljs-type">int</span> a, b, c;
+        cin &gt;&gt; a &gt;&gt; b &gt;&gt; c;
+        edge[i].a = a, edge[i].b = b, edge[i].c = c;
+    &#125;
+    <span class="hljs-built_in">Bellman_ford</span>();
+    <span class="hljs-keyword">if</span>(dist[n] &gt; <span class="hljs-number">0x3f3f3f3f</span> / <span class="hljs-number">2</span>)  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;impossible\n&quot;</span>);
+    <span class="hljs-keyword">else</span> <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, dist[n]);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<h3 id="spfa算法"><a class="markdownIt-Anchor" href="#spfa算法"></a> SPFA算法</h3>
 <p>利用宽搜BFS进行优化</p>
 <p>适用于有负权边的情况</p>
 <p>如果存在负环则不能用</p>
-<p><span class="math inline">\(O(m)\)</span>，最坏情况<span
-class="math inline">\(O(n\cdot m)\)</span></p>
-<h4 id="朴素版本-1">朴素版本</h4>
-<div class="sourceCode" id="cb7"><pre
-class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cstring&gt;</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;queue&gt;</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="dv">100010</span><span class="op">;</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n<span class="op">,</span> m<span class="op">;</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> e<span class="op">[</span>N<span class="op">],</span> w<span class="op">[</span>N<span class="op">],</span> ne<span class="op">[</span>N<span class="op">],</span> h<span class="op">[</span>N<span class="op">],</span> idx<span class="op">;</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> dist<span class="op">[</span>N<span class="op">];</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> st<span class="op">[</span>N<span class="op">];</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> add<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">,</span> <span class="dt">int</span> c<span class="op">)</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    e<span class="op">[</span>idx<span class="op">]</span> <span class="op">=</span> b<span class="op">,</span> w<span class="op">[</span>idx<span class="op">]</span> <span class="op">=</span> c<span class="op">,</span> ne<span class="op">[</span>idx<span class="op">]</span> <span class="op">=</span> h<span class="op">[</span>a<span class="op">],</span> h<span class="op">[</span>a<span class="op">]</span> <span class="op">=</span> idx <span class="op">++</span> <span class="op">;</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> spfa<span class="op">()</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    memset<span class="op">(</span>dist<span class="op">,</span> <span class="bn">0x3f</span><span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>dist<span class="op">));</span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    dist<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    queue<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> q<span class="op">;</span></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    q<span class="op">.</span>push<span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    st<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">(</span>q<span class="op">.</span>size<span class="op">())</span></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> t <span class="op">=</span> q<span class="op">.</span>front<span class="op">();</span></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>        q<span class="op">.</span>pop<span class="op">();</span></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>        st<span class="op">[</span>t<span class="op">]</span> <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> h<span class="op">[</span>t<span class="op">];</span> i <span class="op">!=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span> i <span class="op">=</span> ne<span class="op">[</span>i<span class="op">])</span>  <span class="co">// i = h[t]忘记写h了易错！！！</span></span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>            <span class="dt">int</span> j <span class="op">=</span> e<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span><span class="op">(</span>dist<span class="op">[</span>j<span class="op">]</span> <span class="op">&gt;</span> dist<span class="op">[</span>t<span class="op">]</span> <span class="op">+</span> w<span class="op">[</span>i<span class="op">])</span></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#123;</span></span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>                dist<span class="op">[</span>j<span class="op">]</span> <span class="op">=</span> dist<span class="op">[</span>t<span class="op">]</span> <span class="op">+</span> w<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span><span class="op">(!</span>st<span class="op">[</span>j<span class="op">])</span></span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>                <span class="op">&#123;</span></span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>                    q<span class="op">.</span>push<span class="op">(</span>j<span class="op">);</span>  <span class="co">//  记得推进队列之中去</span></span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>                    st<span class="op">[</span>j<span class="op">]</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>                <span class="op">&#125;</span></span>
-<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#125;</span></span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
-<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> dist<span class="op">[</span>n<span class="op">];</span></span>
-<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
-<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n <span class="op">&gt;&gt;</span> m<span class="op">;</span></span>
-<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>    memset<span class="op">(</span>h<span class="op">,</span> <span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="kw">sizeof</span> h<span class="op">);</span></span>
-<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">(</span>m <span class="op">--</span> <span class="op">)</span></span>
-<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
-<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> a<span class="op">,</span> b<span class="op">,</span> c<span class="op">;</span></span>
-<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> a <span class="op">&gt;&gt;</span> b <span class="op">&gt;&gt;</span> c<span class="op">;</span></span>
-<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>        add<span class="op">(</span>a<span class="op">,</span> b<span class="op">,</span> c<span class="op">);</span></span>
-<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
-<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> t <span class="op">=</span> spfa<span class="op">();</span></span>
-<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span><span class="op">(</span>t <span class="op">==</span> <span class="bn">0x3f3f3f3f</span><span class="op">)</span>  printf<span class="op">(</span><span class="st">&quot;impossible</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
-<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> t<span class="op">);</span></span>
-<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
-<h4 id="spfa判断负环">SPFA判断负环</h4>
-<div class="sourceCode" id="cb8"><pre
-class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;queue&gt;</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cstring&gt;</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="fl">1e5</span> <span class="op">+</span> <span class="dv">10</span><span class="op">;</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n<span class="op">,</span> m<span class="op">;</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> h<span class="op">[</span>N<span class="op">],</span> e<span class="op">[</span>N<span class="op">],</span> ne<span class="op">[</span>N<span class="op">],</span> w<span class="op">[</span>N<span class="op">],</span> idx<span class="op">;</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> dist<span class="op">[</span>N<span class="op">];</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> cnt<span class="op">[</span>N<span class="op">];</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> st<span class="op">[</span>N<span class="op">];</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> add<span class="op">(</span><span class="dt">int</span> a<span class="op">,</span> <span class="dt">int</span> b<span class="op">,</span> <span class="dt">int</span> c<span class="op">)</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    e<span class="op">[</span>idx<span class="op">]</span> <span class="op">=</span> b<span class="op">,</span> w<span class="op">[</span>idx<span class="op">]</span> <span class="op">=</span> c<span class="op">,</span> ne<span class="op">[</span>idx<span class="op">]</span> <span class="op">=</span> h<span class="op">[</span>a<span class="op">],</span> h<span class="op">[</span>a<span class="op">]</span> <span class="op">=</span> idx <span class="op">++</span> <span class="op">;</span></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> spfa<span class="op">()</span></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    memset<span class="op">(</span>dist<span class="op">,</span> <span class="bn">0x3f</span><span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>dist<span class="op">));</span></span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    memset<span class="op">(</span>cnt<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>cnt<span class="op">));</span></span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    queue <span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> q<span class="op">;</span></span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    dist<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    <span class="co">//  如果题目说存在负环，那么需要循环一次将所有的点都加入队列之中</span></span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    <span class="co">//  如果是求是否存在从1开始的负环，那么只将1加入队列之中就可以了</span></span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>        q<span class="op">.</span>push<span class="op">(</span>i<span class="op">);</span>   </span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>        st<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">(</span>q<span class="op">.</span>size<span class="op">())</span></span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> t <span class="op">=</span> q<span class="op">.</span>front<span class="op">();</span></span>
-<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>        q<span class="op">.</span>pop<span class="op">();</span></span>
-<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>        st<span class="op">[</span>t<span class="op">]</span> <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
-<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> h<span class="op">[</span>t<span class="op">];</span> i <span class="op">!=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span> i <span class="op">=</span> ne<span class="op">[</span>i<span class="op">])</span></span>
-<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
-<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>            <span class="dt">int</span> j <span class="op">=</span> e<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span><span class="op">(</span>dist<span class="op">[</span>j<span class="op">]</span> <span class="op">&gt;</span> dist<span class="op">[</span>t<span class="op">]</span> <span class="op">+</span> w<span class="op">[</span>i<span class="op">])</span></span>
-<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#123;</span></span>
-<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>                dist<span class="op">[</span>j<span class="op">]</span> <span class="op">=</span> dist<span class="op">[</span>t<span class="op">]</span> <span class="op">+</span> w<span class="op">[</span>i<span class="op">];</span></span>
-<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>                cnt<span class="op">[</span>j<span class="op">]</span> <span class="op">=</span> cnt<span class="op">[</span>t<span class="op">]</span> <span class="op">+</span> <span class="dv">1</span><span class="op">;</span> </span>
-<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span><span class="op">(</span>cnt<span class="op">[</span>j<span class="op">]</span> <span class="op">&gt;=</span> n<span class="op">)</span>  <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span><span class="op">(!</span>st<span class="op">[</span>j<span class="op">])</span></span>
-<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>                <span class="op">&#123;</span></span>
-<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>                    q<span class="op">.</span>push<span class="op">(</span>j<span class="op">);</span> </span>
-<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>                    st<span class="op">[</span>j<span class="op">]</span> <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>                <span class="op">&#125;</span></span>
-<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#125;</span></span>
-<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
-<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
-<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
-<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
-<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
-<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
-<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> t<span class="op">;</span></span>
-<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> t<span class="op">;</span></span>
-<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">(</span>t <span class="op">--</span> <span class="op">)</span></span>
-<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
-<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a>        memset<span class="op">(</span>h<span class="op">,</span> <span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>h<span class="op">));</span></span>
-<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a>        memset<span class="op">(</span>e<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>e<span class="op">));</span></span>
-<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a>        memset<span class="op">(</span>ne<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>ne<span class="op">));</span></span>
-<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a>        memset<span class="op">(</span>w<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>w<span class="op">));</span></span>
-<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a>        memset<span class="op">(</span>st<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>st<span class="op">));</span></span>
-<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a>        idx <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> n <span class="op">&gt;&gt;</span> m<span class="op">;</span></span>
-<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span><span class="op">(</span>m <span class="op">--</span> <span class="op">)</span></span>
-<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
-<span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a>            <span class="dt">int</span> a<span class="op">,</span> b<span class="op">,</span> w<span class="op">;</span></span>
-<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a>            cin <span class="op">&gt;&gt;</span> a <span class="op">&gt;&gt;</span> b <span class="op">&gt;&gt;</span> w<span class="op">;</span></span>
-<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span><span class="op">(</span>w <span class="op">&gt;=</span> <span class="dv">0</span><span class="op">)</span></span>
-<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#123;</span></span>
-<span id="cb8-77"><a href="#cb8-77" aria-hidden="true" tabindex="-1"></a>                add<span class="op">(</span>a<span class="op">,</span> b<span class="op">,</span> w<span class="op">);</span></span>
-<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a>                add<span class="op">(</span>b<span class="op">,</span> a<span class="op">,</span> w<span class="op">);</span></span>
-<span id="cb8-79"><a href="#cb8-79" aria-hidden="true" tabindex="-1"></a>            <span class="op">&#125;</span></span>
-<span id="cb8-80"><a href="#cb8-80" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>  add<span class="op">(</span>a<span class="op">,</span> b<span class="op">,</span> w<span class="op">);</span> </span>
-<span id="cb8-81"><a href="#cb8-81" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
-<span id="cb8-82"><a href="#cb8-82" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>spfa<span class="op">())</span>  printf<span class="op">(</span><span class="st">&quot;YES</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
-<span id="cb8-83"><a href="#cb8-83" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> printf<span class="op">(</span><span class="st">&quot;NO</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
-<span id="cb8-84"><a href="#cb8-84" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
-<span id="cb8-85"><a href="#cb8-85" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb8-86"><a href="#cb8-86" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
-<p>用 <span class="math inline">\(cnt[]\)</span> 数组进行判断，如果
-<span class="math inline">\(cnt[j]\)</span> 大于 <span
-class="math inline">\(n\)</span> 说明存在负环使得求最短路时不断循环</p>
-<p>时间复杂度 一般：<span class="math inline">\(O(m)\)</span>
-最坏：<span class="math inline">\(O(nm)\)</span></p>
-<h3 id="多源汇最短路floyd算法">多源汇最短路Floyd算法</h3>
-<p>时间复杂度 <span class="math inline">\(O(n^3)\)</span></p>
-<div class="sourceCode" id="cb9"><pre
-class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;iostream&gt;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;cstring&gt;</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">using</span> <span class="kw">namespace</span> std<span class="op">;</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int</span> N <span class="op">=</span> <span class="dv">300</span><span class="op">;</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> n<span class="op">,</span> m<span class="op">,</span> k<span class="op">;</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> dist<span class="op">[</span>N<span class="op">][</span>N<span class="op">];</span>  <span class="co">//  注意只需要dist数组，无需g数组</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> floyd<span class="op">()</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> k <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> k <span class="op">&lt;=</span> n<span class="op">;</span> k <span class="op">++</span> <span class="op">)</span>  <span class="co">// k写在最前面</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> j <span class="op">&lt;=</span> n<span class="op">;</span> j <span class="op">++</span> <span class="op">)</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>                dist<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> min<span class="op">(</span>dist<span class="op">[</span>i<span class="op">][</span>j<span class="op">],</span> dist<span class="op">[</span>i<span class="op">][</span>k<span class="op">]</span> <span class="op">+</span> dist<span class="op">[</span>k<span class="op">][</span>j<span class="op">]);</span>  </span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 注意是dist[i][k]+dist[k][j]</span></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="op">&#123;</span></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    cin <span class="op">&gt;&gt;</span> n <span class="op">&gt;&gt;</span> m <span class="op">&gt;&gt;</span> k<span class="op">;</span></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&lt;=</span> n<span class="op">;</span> i <span class="op">++</span> <span class="op">)</span></span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span><span class="op">(</span><span class="dt">int</span> j <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> j <span class="op">&lt;=</span> n<span class="op">;</span> j <span class="op">++</span> <span class="op">)</span></span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#123;</span></span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span><span class="op">(</span>i <span class="op">==</span> j<span class="op">)</span>  dist<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>  <span class="co">//  不用memset进行初始化</span></span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>            <span class="co">//  手动初始化使得dist[i][i] = 0</span></span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span> dist<span class="op">[</span>i<span class="op">][</span>j<span class="op">]</span> <span class="op">=</span> <span class="bn">0x3f3f3f3f</span><span class="op">;</span></span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>        <span class="op">&#125;</span></span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">(</span>m <span class="op">--</span> <span class="op">)</span></span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> a<span class="op">,</span> b<span class="op">,</span> c<span class="op">;</span></span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> a <span class="op">&gt;&gt;</span> b <span class="op">&gt;&gt;</span> c<span class="op">;</span></span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>        dist<span class="op">[</span>a<span class="op">][</span>b<span class="op">]</span> <span class="op">=</span> min<span class="op">(</span>dist<span class="op">[</span>a<span class="op">][</span>b<span class="op">],</span> c<span class="op">);</span>  <span class="co">// 重边最小化操作</span></span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    floyd<span class="op">();</span> </span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">(</span>k <span class="op">--</span> <span class="op">)</span></span>
-<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#123;</span></span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> a<span class="op">,</span> b<span class="op">;</span></span>
-<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>        cin <span class="op">&gt;&gt;</span> a <span class="op">&gt;&gt;</span> b<span class="op">;</span></span>
-<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(</span>dist<span class="op">[</span>a<span class="op">][</span>b<span class="op">]</span> <span class="op">&gt;</span> <span class="bn">0x3f3f3f3f</span> <span class="op">/</span> <span class="dv">2</span><span class="op">)</span>  printf<span class="op">(</span><span class="st">&quot;impossible</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
-<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">%d\n</span><span class="st">&quot;</span><span class="op">,</span> dist<span class="op">[</span>a<span class="op">][</span>b<span class="op">]);</span></span>
-<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>    <span class="op">&#125;</span></span>
-<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a><span class="op">&#125;</span></span></code></pre></div>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span>，最坏情况<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mo>⋅</mo><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n\cdot m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span></p>
+<h4 id="朴素版本-2"><a class="markdownIt-Anchor" href="#朴素版本-2"></a> 朴素版本</h4>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;queue&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">100010</span>;
+
+<span class="hljs-type">int</span> n, m;
+<span class="hljs-type">int</span> e[N], w[N], ne[N], h[N], idx;
+<span class="hljs-type">int</span> dist[N];
+<span class="hljs-type">bool</span> st[N];
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b, <span class="hljs-type">int</span> c)</span>
+</span>&#123;
+    e[idx] = b, w[idx] = c, ne[idx] = h[a], h[a] = idx ++ ;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">spfa</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-built_in">memset</span>(dist, <span class="hljs-number">0x3f</span>, <span class="hljs-built_in">sizeof</span>(dist));
+    dist[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;
+
+    queue&lt;<span class="hljs-type">int</span>&gt; q;
+    q.<span class="hljs-built_in">push</span>(<span class="hljs-number">1</span>);
+    st[<span class="hljs-number">1</span>] = <span class="hljs-literal">true</span>;
+
+    <span class="hljs-keyword">while</span>(q.<span class="hljs-built_in">size</span>())
+    &#123;
+        <span class="hljs-type">int</span> t = q.<span class="hljs-built_in">front</span>();
+        q.<span class="hljs-built_in">pop</span>();
+        st[t] = <span class="hljs-literal">false</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = h[t]; i != <span class="hljs-number">-1</span>; i = ne[i])  <span class="hljs-comment">// i = h[t]忘记写h了易错！！！</span>
+        &#123;
+            <span class="hljs-type">int</span> j = e[i];
+            <span class="hljs-keyword">if</span>(dist[j] &gt; dist[t] + w[i])
+            &#123;
+                dist[j] = dist[t] + w[i];
+                <span class="hljs-keyword">if</span>(!st[j])
+                &#123;
+                    q.<span class="hljs-built_in">push</span>(j);  <span class="hljs-comment">//  记得推进队列之中去</span>
+                    st[j] = <span class="hljs-literal">true</span>;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> dist[n];
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    cin &gt;&gt; n &gt;&gt; m;
+    <span class="hljs-built_in">memset</span>(h, <span class="hljs-number">-1</span>, <span class="hljs-keyword">sizeof</span> h);
+    <span class="hljs-keyword">while</span>(m -- )
+    &#123;
+        <span class="hljs-type">int</span> a, b, c;
+        cin &gt;&gt; a &gt;&gt; b &gt;&gt; c;
+        <span class="hljs-built_in">add</span>(a, b, c);
+    &#125;
+    <span class="hljs-type">int</span> t = <span class="hljs-built_in">spfa</span>();
+    <span class="hljs-keyword">if</span>(t == <span class="hljs-number">0x3f3f3f3f</span>)  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;impossible\n&quot;</span>);
+    <span class="hljs-keyword">else</span> <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, t);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+
+</code></pre>
+<h4 id="spfa判断负环"><a class="markdownIt-Anchor" href="#spfa判断负环"></a> SPFA判断负环</h4>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;queue&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">1e5</span> + <span class="hljs-number">10</span>;
+
+<span class="hljs-type">int</span> n, m;
+<span class="hljs-type">int</span> h[N], e[N], ne[N], w[N], idx;
+<span class="hljs-type">int</span> dist[N];
+<span class="hljs-type">int</span> cnt[N];
+<span class="hljs-type">bool</span> st[N];
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> b, <span class="hljs-type">int</span> c)</span>
+</span>&#123;
+    e[idx] = b, w[idx] = c, ne[idx] = h[a], h[a] = idx ++ ;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">spfa</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-built_in">memset</span>(dist, <span class="hljs-number">0x3f</span>, <span class="hljs-built_in">sizeof</span>(dist));
+    <span class="hljs-built_in">memset</span>(cnt, <span class="hljs-number">0</span>, <span class="hljs-built_in">sizeof</span>(cnt));
+    queue &lt;<span class="hljs-type">int</span>&gt; q;
+    dist[<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;
+    <span class="hljs-comment">//  如果题目说存在负环，那么需要循环一次将所有的点都加入队列之中</span>
+    <span class="hljs-comment">//  如果是求是否存在从1开始的负环，那么只将1加入队列之中就可以了</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+    &#123;
+        q.<span class="hljs-built_in">push</span>(i);   
+        st[i] = <span class="hljs-literal">true</span>;
+    &#125;
+    <span class="hljs-keyword">while</span>(q.<span class="hljs-built_in">size</span>())
+    &#123;
+        <span class="hljs-type">int</span> t = q.<span class="hljs-built_in">front</span>();
+        q.<span class="hljs-built_in">pop</span>();
+        st[t] = <span class="hljs-literal">false</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = h[t]; i != <span class="hljs-number">-1</span>; i = ne[i])
+        &#123;
+            <span class="hljs-type">int</span> j = e[i];
+            <span class="hljs-keyword">if</span>(dist[j] &gt; dist[t] + w[i])
+            &#123;
+                dist[j] = dist[t] + w[i];
+                cnt[j] = cnt[t] + <span class="hljs-number">1</span>; 
+                <span class="hljs-keyword">if</span>(cnt[j] &gt;= n)  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+                <span class="hljs-keyword">if</span>(!st[j])
+                &#123;
+                    q.<span class="hljs-built_in">push</span>(j); 
+                    st[j] = <span class="hljs-literal">true</span>;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-type">int</span> t;
+    cin &gt;&gt; t;
+    <span class="hljs-keyword">while</span>(t -- )
+    &#123;
+        <span class="hljs-built_in">memset</span>(h, <span class="hljs-number">-1</span>, <span class="hljs-built_in">sizeof</span>(h));
+        <span class="hljs-built_in">memset</span>(e, <span class="hljs-number">0</span>, <span class="hljs-built_in">sizeof</span>(e));
+        <span class="hljs-built_in">memset</span>(ne, <span class="hljs-number">0</span>, <span class="hljs-built_in">sizeof</span>(ne));
+        <span class="hljs-built_in">memset</span>(w, <span class="hljs-number">0</span>, <span class="hljs-built_in">sizeof</span>(w));
+        <span class="hljs-built_in">memset</span>(st, <span class="hljs-number">0</span>, <span class="hljs-built_in">sizeof</span>(st));
+        idx = <span class="hljs-number">0</span>;
+        cin &gt;&gt; n &gt;&gt; m;
+        <span class="hljs-keyword">while</span>(m -- )
+        &#123;
+            <span class="hljs-type">int</span> a, b, w;
+            cin &gt;&gt; a &gt;&gt; b &gt;&gt; w;
+            <span class="hljs-keyword">if</span>(w &gt;= <span class="hljs-number">0</span>)
+            &#123;
+                <span class="hljs-built_in">add</span>(a, b, w);
+                <span class="hljs-built_in">add</span>(b, a, w);
+            &#125;
+            <span class="hljs-keyword">else</span>  <span class="hljs-built_in">add</span>(a, b, w); 
+        &#125;
+        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">spfa</span>())  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;YES\n&quot;</span>);
+        <span class="hljs-keyword">else</span> <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;NO\n&quot;</span>);
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
+<p>用 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>n</mi><mi>t</mi><mo stretchy="false">[</mo><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">cnt[]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">c</span><span class="mord mathnormal">n</span><span class="mord mathnormal">t</span><span class="mopen">[</span><span class="mclose">]</span></span></span></span> 数组进行判断，如果 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mi>n</mi><mi>t</mi><mo stretchy="false">[</mo><mi>j</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">cnt[j]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">c</span><span class="mord mathnormal">n</span><span class="mord mathnormal">t</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mclose">]</span></span></span></span> 大于 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">n</span></span></span></span> 说明存在负环使得求最短路时不断循环</p>
+<p>时间复杂度 一般：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span> 最坏：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>n</mi><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(nm)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span></p>
+<h3 id="多源汇最短路floyd算法"><a class="markdownIt-Anchor" href="#多源汇最短路floyd算法"></a> 多源汇最短路Floyd算法</h3>
+<p>时间复杂度 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>n</mi><mn>3</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(n^3)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></p>
+<pre class="highlight"><code class="c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstring&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;
+
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> N = <span class="hljs-number">300</span>;
+<span class="hljs-type">int</span> n, m, k;
+<span class="hljs-type">int</span> dist[N][N];  <span class="hljs-comment">//  注意只需要dist数组，无需g数组</span>
+
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">floyd</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k = <span class="hljs-number">1</span>; k &lt;= n; k ++ )  <span class="hljs-comment">// k写在最前面</span>
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= n; j ++ )
+                dist[i][j] = <span class="hljs-built_in">min</span>(dist[i][j], dist[i][k] + dist[k][j]);  
+    <span class="hljs-comment">// 注意是dist[i][k]+dist[k][j]</span>
+&#125;
+
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; k;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">1</span>; i &lt;= n; i ++ )
+    &#123;
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= n; j ++ )
+        &#123;
+            <span class="hljs-keyword">if</span>(i == j)  dist[i][j] = <span class="hljs-number">0</span>;  <span class="hljs-comment">//  不用memset进行初始化</span>
+            <span class="hljs-comment">//  手动初始化使得dist[i][i] = 0</span>
+            <span class="hljs-keyword">else</span> dist[i][j] = <span class="hljs-number">0x3f3f3f3f</span>;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">while</span>(m -- )
+    &#123;
+        <span class="hljs-type">int</span> a, b, c;
+        cin &gt;&gt; a &gt;&gt; b &gt;&gt; c;
+        dist[a][b] = <span class="hljs-built_in">min</span>(dist[a][b], c);  <span class="hljs-comment">// 重边最小化操作</span>
+    &#125;
+    <span class="hljs-built_in">floyd</span>(); 
+    <span class="hljs-keyword">while</span>(k -- )
+    &#123;
+        <span class="hljs-type">int</span> a, b;
+        cin &gt;&gt; a &gt;&gt; b;
+        <span class="hljs-keyword">if</span>(dist[a][b] &gt; <span class="hljs-number">0x3f3f3f3f</span> / <span class="hljs-number">2</span>)  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;impossible\n&quot;</span>);
+        <span class="hljs-keyword">else</span> <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, dist[a][b]);
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
+</code></pre>
 </div></article></div></main><footer><div class="paginator"><a class="prev" href="/2022/04/25/%E6%80%80%E5%BF%B52019/"><i class="fa fa-arrow-left" aria-hidden="true"></i></a><a class="next" href="/2022/05/21/%E6%95%B0%E8%AE%BA1/"><i class="fa fa-arrow-right" aria-hidden="true"></i></a></div><ins class="adsbygoogle adsense-bottom" style="display:block" data-ad-client="ca-pub-6188640546219653" data-ad-slot="6129396565" data-ad-format="auto"></ins><div class="fb-comments-area"><div class="fb-comments" data-href="http://example.com/2022/05/21/最短路/" data-width="700" data-numposts="5"></div></div><div class="copyright"><p>© 2012 - 2023 <a href="https://github.com/stunstunstun" target="_blank">Minhyeok Jung</a>. Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/stunstunstun/hexo-theme-chiangmai" target="_blank">hexo-theme-chiangmai</a>.</p></div></footer></div><script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({});</script><script>window.fbAsyncInit=function(){FB.init({appId:"1258629384258634",cookie:!0,xfbml:!0,version:"v2.8"}),FB.AppEvents.logPageView()},function(e,n,t){var o,c=e.getElementsByTagName(n)[0];e.getElementById(t)||((o=e.createElement(n)).id=t,o.src="//connect.facebook.net/en_US/sdk.js",c.parentNode.insertBefore(o,c))}(document,"script","facebook-jssdk");</script><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create','UA-97419941-1','auto');ga('send','pageview');</script></body></html>
